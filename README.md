@@ -2,6 +2,9 @@
 
 Asistente local Hyrulor para COSMIC Desktop.
 
+Consulta el [mapa de fases](docs/roadmap.md) para conocer la relación entre
+los componentes y el whitepaper.
+
 ## Estructura
 
 - `src/`: daemon Rust, memoria FTS5, inferencia y sandbox.

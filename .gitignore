@@ -1,21 +1,40 @@
-/target/
+
+# Cargo local
+# Hyrulor runtime artifacts
+# Modelos (son muy grandes, no van al repo)
+# Runtime compilado (llama.cpp)
+# Target de Rust
+agente
+/.cargo-local/
+*.db
 *.db-shm
 *.db-wal
-*.db
 .env
-__pycache__/
-*.pyc
-.toolchain/
-models/
-target/
-runtime/llama.cpp/
-runtime/agente
-runtime/goinfer-serve
-runtime/*.gguf
-runtime/*.bin
-integrations/*/.venv/
-integrations/*/target/
-integrations/layerslayer/.git/
-agente
 goinfer-serve
+/hyory.db
+/hyory.db-shm
+/hyory.db-wal
 inference-llama.cpp
+integrations/layerslayer/.git/
+integrations/*/target/
+integrations/*/.venv/
+*.log
+/logs/
+models/
+/models/embeddings/*.gguf
+/models/*.gguf
+!models/.gitkeep
+*.pid
+/.pids/
+*.pyc
+__pycache__/
+runtime/agente
+runtime/*.bin
+runtime/*.gguf
+runtime/goinfer-serve
+runtime/llama.cpp/
+/runtime/llama.cpp/build/
+/runtime/llama.cpp/models/
+/target/
+target/
+.toolchain/

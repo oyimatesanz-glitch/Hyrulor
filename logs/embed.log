@@ -1,0 +1,18 @@
+0.00.036.915 I srv  llama_server: initializing ...
+0.00.036.941 I cmn  common_param: common_params_print_info: verbosity = 3 (adjust with the `-lv N` CLI arg)
+0.00.036.942 W srv  server_prepa: embeddings enabled with n_batch (2048) > n_ubatch (512)
+0.00.036.942 W srv  server_prepa: setting n_batch = n_ubatch = 512 to avoid assertion failure
+0.00.037.441 W srv  server_setup: security: no API key is set and CORS allows all origins (see https://github.com/ggml-org/llama.cpp/pull/25655)
+0.00.039.059 I srv    load_model: loading model '/home/oyi/Proyectos/hyrulor/models/embeddings/Qwen3-Embedding-0.6B-Q8_0.gguf'
+0.00.333.462 W load: control-looking token: 128247 '</s>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.00.484.087 W resolve_fused_ops: layer 0 is assigned to device Vulkan0 but Flash Attention over K/V rows is assigned to device CPU (usually due to missing support)
+0.00.484.090 W resolve_fused_ops: Flash Attention over K/V rows not supported, set to disabled
+0.00.492.361 I cmn          init: llama threadpool init, n_threads = 6
+0.00.492.483 W init: embeddings required but some input tokens were not marked as outputs -> overriding
+0.00.509.404 W init: embeddings required but some input tokens were not marked as outputs -> overriding
+0.00.522.285 I srv    load_model: initializing, n_slots = 4, n_ctx_slot = 2048, kv_unified = 'true'
+0.00.526.621 I srv  server_run_i: model loaded
+0.00.526.628 I srv  server_on_li: listening on http://127.0.0.1:8081
+0.00.871.020 I slot get_availabl: id  0 | task -1 | selected slot by LRU, n_tokens = 0, t_last = -1
+0.00.871.033 I slot launch_slot_: id  0 | task 0 | processing task, is_child = 0
+0.00.942.080 I slot      release: id  0 | task 0 | stop processing: n_tokens = 7, truncated = 0

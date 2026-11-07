@@ -7,7 +7,7 @@ el estado y la evolución del sistema, pero no determinan carpetas físicas.
 
 | Fase | Objetivo | Estado |
 |---|---|---|
-| 0 | Cimientos seguros | Completada |
+| 0 | Cimientos seguros | Operativa; gate tipado archivado |
 | 1 | Agente local y tool-calling | Operativa; validación final de build/tests |
 | 2 | Integración de hardware y COSMIC | Núcleo operativo completado; applet en integración |
 | 3 | Actualización, interfaz y escalado | Pendiente |
@@ -22,14 +22,15 @@ Cargo.lock
 src/main.rs
 src/memory_vault.rs
 src/tool_sandbox.rs
-src/foundation/sandbox/
-src/foundation/puerta_seguridad/
+archive/foundation/sandbox/
+archive/foundation/puerta_seguridad/
 schema.sql
 schema_safe.sql
 ```
 
-Incluye Tokio, SQLite/FTS5, WAL, socket Unix, Bubblewrap, timeouts y
-controles de seguridad.
+Incluye Tokio, SQLite/FTS5, WAL, socket Unix, Bubblewrap y timeouts. Las
+implementaciones antiguas del Safety Gate y del sandbox tipado están
+archivadas en `archive/foundation/` y no forman parte del runtime actual.
 
 ## Fase 1: agente local
 
@@ -42,7 +43,6 @@ src/memory_vault.rs
 src/tool_sandbox.rs
 tools/
 training/
-tests/
 ```
 
 Incluye RAG, tool-calling con `llama-server --jinja`, validación de
@@ -55,13 +55,14 @@ El fine-tuning es opcional y no forma parte del camino mínimo operativo.
 Archivos principales:
 
 ```text
-src/foundation/inicializacion/
-src/foundation/memoria/
+src/tool_sandbox.rs
+tools/
 integrations/cosmic-applet/
 ```
 
-Incluye detección de hardware, integración COSMIC y comunicación con el
-daemon mediante socket Unix.
+Incluye las herramientas reales de batería/GPU/red, integración COSMIC y
+comunicación con el daemon mediante socket Unix. Los módulos de detección y
+memoria históricos están archivados.
 
 ## Fase 3: evolución
 

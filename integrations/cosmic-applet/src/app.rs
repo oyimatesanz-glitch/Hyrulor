@@ -2,12 +2,12 @@ use std::time::Duration;
 
 use cosmic::iced::futures::{self, SinkExt};
 use cosmic::iced::platform_specific::shell::wayland::commands::popup::{destroy_popup, get_popup};
-use cosmic::iced::{time, window::Id, Background, Limits, Subscription};
+use cosmic::iced::{time, window::Id, Limits, Subscription};
 use cosmic::prelude::*;
 use cosmic::widget;
 
 use crate::socket::{self, SocketEvent};
-use crate::ui::{self, ChatEntry, ChatRole, ChatStatus};
+use crate::ui::{self, ChatEntry, ChatStatus};
 
 const APP_ID: &str = "com.github.oyimatesanz-glitch.hyrulor-applet";
 const POPUP_WIDTH: f32 = 420.0;
@@ -72,24 +72,11 @@ impl cosmic::Application for AppModel {
     }
 
     fn view(&self) -> Element<'_, Self::Message> {
-        let monogram_color = match self.status {
-            ChatStatus::Idle => ui::theme::brass(),
-            ChatStatus::Thinking if self.pulse => ui::theme::champagne(),
-            ChatStatus::Thinking => ui::theme::brass_dim(),
-            ChatStatus::Tool => ui::theme::sage(),
-            ChatStatus::Error => ui::theme::oxblood(),
-        };
-
-        let monogram = widget::text("H").size(19).color(monogram_color);
+        let monogram = widget::text("H").size(19);
 
         cosmic::iced::widget::button(monogram)
             .on_press(Message::TogglePopup)
             .padding([3, 7])
-            .style(|_, _| cosmic::iced::widget::button::Style {
-                background: Some(Background::Color(ui::theme::forest_dark())),
-                text_color: ui::theme::brass(),
-                ..Default::default()
-            })
             .into()
     }
 

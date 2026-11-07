@@ -119,7 +119,7 @@ Cada objeto debe terminar en `\n`. En `status=ok`, `data.answer` representa el t
 ## Seguridad y límites
 
 - El cliente no interpreta texto del modelo como comandos. Solo transmite el mensaje `chat` al daemon.
-- Esta applet no implementa el Safety Gate, sandbox, TPM ni autorización de herramientas: esas funciones pertenecen al daemon Hyrulor en `src/foundation/` y `src/tool_sandbox.rs`.
+- Esta applet no implementa el Safety Gate, sandbox, TPM ni autorización de herramientas: esas funciones pertenecen al daemon Hyrulor en `src/tool_sandbox.rs`. Los prototipos tipados históricos se conservan en `archive/foundation/`.
 - La comprobación de socket reduce el riesgo de conectarse a un endpoint suplantado, pero no reemplaza autenticación de protocolo, autorización por acción ni aislamiento del daemon.
 - No configure el socket con permisos `0666`.
 

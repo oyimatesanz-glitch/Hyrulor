@@ -30,9 +30,17 @@ cargo build --release
 ```bash
 cd /home/oyi/Proyectos/hyrulor
 HYORY_SOCKET=/tmp/omni.sock \
-HYORY_LLM_SOCKET=/tmp/llm.sock \
+HYORY_LLM_ADDR=127.0.0.1:8082 \
 HYORY_LLM_MODEL=Qwen2.5-3B-Instruct-Q5_K_M \
 HYORY_DB="$PWD/hyory.db" \
 HYORY_TOOLS="$PWD/tools" \
 ./target/release/hyory
+```
+
+`llama-server` usa HTTP TCP, no sockets Unix:
+
+```bash
+./runtime/llama.cpp/build/bin/llama-server \
+  -m "$PWD/models/Qwen2.5-3B-Instruct-Q5_K_M.gguf" \
+  --host 127.0.0.1 --port 8082 --ctx-size 2048 --n-gpu-layers 99 --jinja
 ```

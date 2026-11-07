@@ -1,6 +1,6 @@
 pub mod theme;
 
-use cosmic::iced::{Alignment, Background, Length};
+use cosmic::iced::{widget::Space, Alignment, Length};
 use cosmic::prelude::*;
 use cosmic::widget;
 
@@ -58,12 +58,10 @@ pub fn view<'a>(
     can_retry: bool,
 ) -> Element<'a, crate::app::Message> {
     let header = widget::row![
-        widget::text("HYRULOR").size(20).color(theme::champagne()),
-        Space::with_width(Length::Fill),
-        widget::text("●").size(10).color(theme::sage()),
-        widget::text("DIGITAL ARISTOCRACY")
-            .size(10)
-            .color(theme::muted()),
+        widget::text("HYRULOR").size(20),
+        Space::new().width(Length::Fill),
+        widget::text("●").size(10),
+        widget::text("DIGITAL ARISTOCRACY").size(10),
     ]
     .align_y(Alignment::Center)
     .spacing(8);
@@ -74,15 +72,10 @@ pub fn view<'a>(
         conversation = conversation.push(
             widget::container(
                 widget::column![
-                    widget::text("A su servicio.")
-                        .size(18)
-                        .color(theme::champagne()),
-                    widget::text("¿En qué puedo asistirle?")
-                        .size(14)
-                        .color(theme::cream()),
+                    widget::text("A su servicio.").size(18),
+                    widget::text("¿En qué puedo asistirle?").size(14),
                     widget::text("La conexión local se establece al enviar su primera consulta.")
-                        .size(11)
-                        .color(theme::muted()),
+                        .size(11),
                 ]
                 .spacing(7),
             )
@@ -93,70 +86,44 @@ pub fn view<'a>(
     }
 
     let quick_actions = widget::row![
-        cosmic::iced::widget::button(widget::text("BATERÍA").size(10).color(theme::cream()))
+        cosmic::iced::widget::button(widget::text("BATERÍA").size(10))
             .on_press(crate::app::Message::QuickQuery(
                 "¿Cuál es el estado de la batería?".to_owned()
             ))
-            .padding([6, 8])
-            .style(|_, _| cosmic::iced::widget::button::Style {
-                background: Some(Background::Color(theme::card())),
-                text_color: theme::cream(),
-                ..Default::default()
-            }),
-        cosmic::iced::widget::button(widget::text("RED").size(10).color(theme::cream()))
+            .padding([6, 8]),
+        cosmic::iced::widget::button(widget::text("RED").size(10))
             .on_press(crate::app::Message::QuickQuery(
                 "Realice un diagnóstico de la conexión de red.".to_owned()
             ))
-            .padding([6, 8])
-            .style(|_, _| cosmic::iced::widget::button::Style {
-                background: Some(Background::Color(theme::card())),
-                text_color: theme::cream(),
-                ..Default::default()
-            }),
-        cosmic::iced::widget::button(widget::text("SISTEMA").size(10).color(theme::cream()))
+            .padding([6, 8]),
+        cosmic::iced::widget::button(widget::text("SISTEMA").size(10))
             .on_press(crate::app::Message::QuickQuery(
                 "Resuma el estado general del sistema.".to_owned()
             ))
-            .padding([6, 8])
-            .style(|_, _| cosmic::iced::widget::button::Style {
-                background: Some(Background::Color(theme::card())),
-                text_color: theme::cream(),
-                ..Default::default()
-            }),
+            .padding([6, 8]),
     ]
     .spacing(6)
     .width(Length::Fill);
 
     for entry in entries {
-        let (label, bg, fg, border, align_right) = match entry.role {
-            ChatRole::Assistant => (
-                "HYRULOR",
-                theme::assistant_bubble(),
-                theme::cream(),
-                theme::brass(),
-                false,
-            ),
-            ChatRole::User => (
-                "USTED",
-                theme::user_bubble(),
-                theme::cream(),
-                theme::sage(),
-                true,
-            ),
+        let (label, bg, border, align_right) = match entry.role {
+            ChatRole::Assistant => ("HYRULOR", theme::assistant_bubble(), theme::brass(), false),
+            ChatRole::User => ("USTED", theme::user_bubble(), theme::sage(), true),
             ChatRole::Tool => (
                 "REGISTRO DE HERRAMIENTA",
                 theme::tool_bubble(),
-                theme::champagne(),
                 theme::brass_dim(),
                 false,
             ),
         };
 
         let bubble_content = widget::column![
-            widget::text(label).size(10).color(theme::brass()),
-            widget::text(entry.body.as_str())
-                .size(if entry.role == ChatRole::Tool { 12 } else { 14 })
-                .color(fg),
+            widget::text(label).size(10),
+            widget::text(entry.body.as_str()).size(if entry.role == ChatRole::Tool {
+                12
+            } else {
+                14
+            }),
         ]
         .spacing(5);
 
@@ -174,10 +141,10 @@ pub fn view<'a>(
 
         if align_right {
             conversation = conversation
-                .push(widget::row![Space::with_width(Length::Fill), bubble].width(Length::Fill));
+                .push(widget::row![Space::new().width(Length::Fill), bubble].width(Length::Fill));
         } else {
             conversation = conversation
-                .push(widget::row![bubble, Space::with_width(Length::Fill)].width(Length::Fill));
+                .push(widget::row![bubble, Space::new().width(Length::Fill)].width(Length::Fill));
         }
     }
 
@@ -193,13 +160,7 @@ pub fn view<'a>(
         ChatStatus::Error => "El daemon de Hyrulor no responde.",
     };
 
-    let status_line = widget::text(status_text)
-        .size(12)
-        .color(if status == ChatStatus::Error {
-            theme::oxblood_light()
-        } else {
-            theme::brass()
-        });
+    let status_line = widget::text(status_text).size(12);
 
     let input = widget::text_input("Escriba su consulta…", input_value)
         .on_input(crate::app::Message::InputChanged)
@@ -208,21 +169,9 @@ pub fn view<'a>(
         .padding([12, 10])
         .width(Length::Fill);
 
-    let send_button =
-        cosmic::iced::widget::button(widget::text("↑").size(18).color(theme::forest()))
-            .on_press(crate::app::Message::Send)
-            .padding([8, 13])
-            .style(|_, status| {
-                let background = match status {
-                    cosmic::iced::widget::button::Status::Hovered => theme::champagne(),
-                    _ => theme::brass(),
-                };
-                cosmic::iced::widget::button::Style {
-                    background: Some(Background::Color(background)),
-                    text_color: theme::forest(),
-                    ..Default::default()
-                }
-            });
+    let send_button = cosmic::iced::widget::button(widget::text("↑").size(18))
+        .on_press(crate::app::Message::Send)
+        .padding([8, 13]);
 
     let composer = widget::row![input, send_button]
         .spacing(8)
@@ -236,23 +185,19 @@ pub fn view<'a>(
     if let Some(error) = socket_error {
         footer = footer.push(
             widget::row![
-                widget::text(error).size(10).color(theme::muted()),
-                Space::with_width(Length::Fill),
-                cosmic::iced::widget::button(
-                    widget::text("Reintentar").size(12).color(theme::forest())
-                )
-                .on_press(crate::app::Message::Retry)
-                .padding([6, 10])
-                .style(|_, _| cosmic::iced::widget::button::Style {
-                    background: Some(Background::Color(theme::brass())),
-                    text_color: theme::forest(),
-                    ..Default::default()
-                }),
+                widget::text(error).size(10),
+                Space::new().width(Length::Fill),
+                cosmic::iced::widget::button(widget::text("Reintentar").size(12))
+                    .on_press(crate::app::Message::Retry)
+                    .padding([6, 10]),
             ]
             .align_y(Alignment::Center),
         );
     } else if can_retry && status == ChatStatus::Error {
-        footer = footer.push(widget::button("Reintentar").on_press(crate::app::Message::Retry));
+        footer = footer.push(
+            cosmic::iced::widget::button(widget::text("Reintentar"))
+                .on_press(crate::app::Message::Retry),
+        );
     }
 
     let body = widget::column![
@@ -262,12 +207,8 @@ pub fn view<'a>(
         widget::container(quick_actions)
             .padding([4, 10])
             .width(Length::Fill),
-        widget::container(
-            widget::text("────────────────────────────────────────")
-                .size(8)
-                .color(theme::brass_dim())
-        )
-        .padding([0, 10]),
+        widget::container(widget::text("────────────────────────────────────────").size(8))
+            .padding([0, 10]),
         widget::container(conversation_scroll)
             .padding([10, 12])
             .width(Length::Fill)

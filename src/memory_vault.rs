@@ -15,6 +15,8 @@ pub enum MemoryError {
     Sqlite(#[from] rusqlite::Error),
     #[error("database mutex is poisoned")]
     Poisoned,
+    #[error("serialization: {0}")]
+    Serialization(#[from] serde_json::Error),
     #[error("blocking task failed: {0}")]
     Join(#[from] JoinError),
     #[error("invalid database path: {0}")]
@@ -101,6 +103,59 @@ impl MemoryVault {
         })
         .await??)
     }
+
+    // --- NUEVAS FUNCIONES PARA RAG VECTORIAL ---
+
+    pub async fn insert_document(
+        &self,
+        content: String,
+        embedding: Vec<f32>,
+    ) -> Result<(), MemoryError> {
+        let db = Arc::clone(&self.db);
+        tokio::task::spawn_blocking(move || {
+            let connection = lock_db(&db)?;
+            let embedding_json = serde_json::to_string(&embedding)?;
+            connection.execute("INSERT INTO docs (content) VALUES (?1)", params![content])?;
+            let document_id = connection.last_insert_rowid();
+            connection.execute(
+                "INSERT INTO docs_vec (id, embedding) VALUES (?1, vec_f32(?2))",
+                params![document_id, embedding_json],
+            )?;
+            Ok::<(), MemoryError>(())
+        })
+        .await??;
+        Ok(())
+    }
+
+    pub async fn search_documents(
+        &self,
+        query_embedding: Vec<f32>,
+        limit: u32,
+    ) -> Result<Vec<String>, MemoryError> {
+        let db = Arc::clone(&self.db);
+        tokio::task::spawn_blocking(move || {
+            let connection = lock_db(&db)?;
+            let embedding_json = serde_json::to_string(&query_embedding)?;
+
+            let mut stmt = connection.prepare(
+                "SELECT d.content
+                 FROM docs_vec AS v
+                 JOIN docs AS d ON d.id = v.id
+                 WHERE v.embedding MATCH vec_f32(?1)
+                   AND v.k = ?2
+                 ORDER BY v.distance",
+            )?;
+
+            let rows = stmt.query_map(params![embedding_json, limit], |row| {
+                let content: String = row.get(0)?;
+                Ok(content)
+            })?;
+
+            rows.collect::<Result<Vec<_>, _>>()
+                .map_err(MemoryError::from)
+        })
+        .await?
+    }
 }
 
 fn lock_db(db: &Db) -> Result<MutexGuard<'_, Connection>, MemoryError> {
@@ -145,7 +200,17 @@ fn initialize_schema(connection: &Connection) -> Result<(), rusqlite::Error> {
              VALUES ('delete', old.id, old.user, old.assistant);
              INSERT INTO conv_fts(rowid, user, assistant)
              VALUES (new.id, new.user, new.assistant);
-         END;",
+         END;
+
+         CREATE TABLE IF NOT EXISTS docs (
+             id INTEGER PRIMARY KEY AUTOINCREMENT,
+             content TEXT NOT NULL
+         );
+
+         CREATE VIRTUAL TABLE IF NOT EXISTS docs_vec USING vec0(
+             id INTEGER PRIMARY KEY,
+             embedding float[1024]
+         );",
     )
 }
 

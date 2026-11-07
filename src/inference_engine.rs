@@ -1,16 +1,16 @@
-use std::{path::PathBuf, time::Duration};
+use std::time::Duration;
 
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use tokio::{
     io::{AsyncReadExt, AsyncWriteExt},
-    net::UnixStream,
+    net::TcpStream,
     time::timeout,
 };
 
 #[derive(Debug, thiserror::Error)]
 pub enum InferenceError {
-    #[error("llm socket connection failed: {0}")]
+    #[error("llm connection failed: {0}")]
     Connect(#[source] std::io::Error),
     #[error("llm request failed: {0}")]
     Io(#[source] std::io::Error),
@@ -75,13 +75,13 @@ struct Choice {
 
 #[derive(Clone)]
 pub struct InferenceEngine {
-    socket_path: PathBuf,
+    address: String,
     model: String,
 }
 
 impl InferenceEngine {
-    pub fn new(socket_path: PathBuf, model: String) -> Self {
-        Self { socket_path, model }
+    pub fn new(address: String, model: String) -> Self {
+        Self { address, model }
     }
 
     pub async fn chat(
@@ -104,10 +104,9 @@ impl InferenceEngine {
             body.len()
         );
 
-        let socket_path = self.socket_path.clone();
-        // Aumentamos el timeout a 120 segundos porque los modelos locales tardan en pensar
+        let address = self.address.clone();
         let result = timeout(Duration::from_secs(120), async move {
-            let mut stream = UnixStream::connect(socket_path)
+            let mut stream = TcpStream::connect(address)
                 .await
                 .map_err(InferenceError::Connect)?;
 
@@ -177,7 +176,12 @@ pub fn tool_definitions() -> Vec<ToolDefinition> {
         function: FunctionDefinition {
             name,
             description,
-            parameters: serde_json::json!({"type": "object", "additionalProperties": false}),
+            parameters: serde_json::json!({
+                "type": "object",
+                "properties": {},
+                "required": [],
+                "additionalProperties": false
+            }),
         },
     })
     .collect()

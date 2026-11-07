@@ -163,10 +163,34 @@ async fn run_agent(query: &str, state: &AppState) -> Result<String, AgentError> 
         let assistant_calls = response.tool_calls.clone();
         messages.push(response);
         for call in assistant_calls {
-            let result = state.sandbox.exec_tool(&call.function.name).await?;
+            if !is_allowed_tool(&call.function.name) {
+                messages.push(tool_message(
+                    call.id,
+                    format!(
+                        "Error: herramienta no permitida: {}. Usa solo las herramientas declaradas.",
+                        call.function.name
+                    ),
+                ));
+                continue;
+            }
+
+            if serde_json::from_str::<serde_json::Map<String, Value>>(&call.function.arguments)
+                .is_err()
+            {
+                messages.push(tool_message(
+                    call.id,
+                    "Error: los argumentos deben ser un objeto JSON válido.".to_string(),
+                ));
+                continue;
+            }
+
+            let output = match state.sandbox.exec_tool(&call.function.name).await {
+                Ok(result) => result.output,
+                Err(error) => format!("Error del sandbox: {error}"),
+            };
             messages.push(ChatMessage {
                 role: "tool".to_string(),
-                content: Some(result.output),
+                content: Some(output),
                 tool_calls: Vec::new(),
                 tool_call_id: Some(call.id),
             });
@@ -174,4 +198,39 @@ async fn run_agent(query: &str, state: &AppState) -> Result<String, AgentError> 
     }
 
     Err(AgentError::EmptyAnswer)
+}
+
+fn is_allowed_tool(name: &str) -> bool {
+    matches!(name, "battery_status" | "gpu_diag" | "net_privacy")
+}
+
+fn tool_message(tool_call_id: String, content: String) -> ChatMessage {
+    ChatMessage {
+        role: "tool".to_string(),
+        content: Some(content),
+        tool_calls: Vec::new(),
+        tool_call_id: Some(tool_call_id),
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::is_allowed_tool;
+    use serde_json::Map;
+
+    #[test]
+    fn allows_only_declared_tools() {
+        assert!(is_allowed_tool("battery_status"));
+        assert!(is_allowed_tool("gpu_diag"));
+        assert!(is_allowed_tool("net_privacy"));
+        assert!(!is_allowed_tool("rm_rf_root"));
+    }
+
+    #[test]
+    fn accepts_only_json_objects_as_tool_arguments() {
+        assert!(serde_json::from_str::<Map<String, serde_json::Value>>("{}").is_ok());
+        assert!(serde_json::from_str::<Map<String, serde_json::Value>>("{\"level\":80}").is_ok());
+        assert!(serde_json::from_str::<Map<String, serde_json::Value>>("nivel 80").is_err());
+        assert!(serde_json::from_str::<Map<String, serde_json::Value>>("[]").is_err());
+    }
 }

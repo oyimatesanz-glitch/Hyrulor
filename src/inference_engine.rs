@@ -97,7 +97,7 @@ impl InferenceEngine {
             "tool_choice": if force_tool { "required" } else { "auto" },
             "temperature": 0.1,
         }))?;
-        
+
         let request = format!(
             "POST /v1/chat/completions HTTP/1.1\r\nHost: localhost\r\n\
              Content-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n",
@@ -110,13 +110,19 @@ impl InferenceEngine {
             let mut stream = UnixStream::connect(socket_path)
                 .await
                 .map_err(InferenceError::Connect)?;
-            
-            stream.write_all(request.as_bytes()).await.map_err(InferenceError::Io)?;
+
+            stream
+                .write_all(request.as_bytes())
+                .await
+                .map_err(InferenceError::Io)?;
             stream.write_all(&body).await.map_err(InferenceError::Io)?;
-            
+
             let mut response = Vec::new();
-            stream.read_to_end(&mut response).await.map_err(InferenceError::Io)?;
-            
+            stream
+                .read_to_end(&mut response)
+                .await
+                .map_err(InferenceError::Io)?;
+
             Ok::<Vec<u8>, InferenceError>(response)
         })
         .await

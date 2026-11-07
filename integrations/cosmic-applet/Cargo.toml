@@ -1,44 +1,35 @@
 [package]
-name = "hyrulor-applet"
-version = "0.1.0"
-edition = "2024"
-license = "MPL-2.0"
-description = "COSMIC applet for the Hyrulor local AI assistant"
-repository = "https://github.com/oyimatesanz-glitch/hyrulor-applet"
+name = "hyrulor-cosmic-applet"
+version = "0.3.0"
+edition = "2021"
+rust-version = "1.93"
+license = "MIT"
+description = "Native COSMIC panel applet for Hyrulor"
+default-run = "hyrulor-cosmic-applet"
 
-[build-dependencies]
-xdgen = "0.1"
+[[bin]]
+name = "hyrulor-cosmic-applet"
+path = "src/main.rs"
+
+[[bin]]
+name = "hyrulor-mock-daemon"
+path = "src/bin/mock_daemon.rs"
 
 [dependencies]
-i18n-embed-fl = "0.10"
-rust-embed = "8.11"
-tokio = { version = "1.52.0", features = ["full"] }
+# COSMIC applet runtime. Keep Cargo.lock in source control to pin its exact Git revision.
+libcosmic = { git = "https://github.com/pop-os/libcosmic.git", default-features = false, features = ["applet"] }
+futures = "=0.3.34"
+libc = "=0.2.191"
+serde = { version = "=1.0.229", features = ["derive"] }
+serde_json = "=1.0.154"
+tokio = { version = "=1.54.1", features = ["macros", "rt-multi-thread", "net", "io-util", "time", "sync"] }
 
-[dependencies.i18n-embed]
-version = "0.16"
-features = ["fluent-system", "desktop-requester"]
+[profile.release]
+opt-level = 3
+lto = "fat"
+codegen-units = 1
+panic = "abort"
+strip = true
 
-[dependencies.libcosmic]
-git = "https://github.com/pop-os/libcosmic.git"
-# See https://github.com/pop-os/libcosmic/blob/master/Cargo.toml for available features.
-features = [
-    # Applet support
-    "applet",
-    "applet-token",
-    # Uses cosmic-settings-daemon to watch for config file changes
-    "dbus-config",
-    # Support creating additional application windows.
-    "multi-window",
-    # Uses tokio as the executor for the runtime
-    "tokio",
-    # Add Wayland support to winit
-    "wayland",
-    # Windowing support for X11, Windows, Mac, & Redox
-    "winit",
-]
-
-# Uncomment to test a locally-cloned libcosmic
-# [patch.'https://github.com/pop-os/libcosmic']
-# libcosmic = { path = "../libcosmic" }
-# cosmic-config = { path = "../libcosmic/cosmic-config" }
-# cosmic-theme = { path = "../libcosmic/cosmic-theme" }
+[profile.release.package."*"]
+opt-level = 3

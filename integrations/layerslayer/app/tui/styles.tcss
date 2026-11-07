@@ -1,0 +1,52 @@
+/* dockerDorker Core Stylesheet */
+/* Widget-specific styles are in their respective submodules */
+
+/* Screen uses vertical layout by default - widgets stack top to bottom */
+
+/* Header styling - built-in widget with dock:top */
+/* No additional styling needed - Header has its own internal CSS */
+
+/* Main content area - horizontal split for left/right panels */
+#main-content {
+    height: 2fr;
+}
+
+/* Left panel - 50% width with scrolling for results */
+#left-panel {
+    width: 1fr;
+    height: 100%;
+    background: $surface;
+    border: solid $secondary;
+    overflow-y: auto;
+}
+
+#left-panel TabbedContent {
+    height: 1fr;
+}
+
+#search-results-tab {
+    height: 1fr;
+}
+
+/* Right panel - 50% width */
+#right-panel {
+    width: 1fr;
+    height: 100%;
+    background: $surface;
+    border: solid $secondary;
+}
+
+/* DataTable header styling - accent color instead of surface (shared) */
+DataTable > .datatable--header {
+    background: $secondary;
+}
+
+/* Footer styling - uses built-in dock:bottom */
+Footer {
+    dock: bottom;
+}
+
+/* FS Simulator Tab height */
+#fs-simulator-tab {
+    height: 1fr;
+}

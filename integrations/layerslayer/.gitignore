@@ -1,0 +1,32 @@
+# Virtual environment
+venv/
+.venv/
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# IDE settings
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# OS junk files
+.DS_Store
+Thumbs.db
+
+# Authentication files
+token.txt
+token_pull.txt
+
+# Log files
+*.log
+logs/
+# Always ignore the contents of the downloads/ directory
+downloads/
+app/loot/
+app/data/*.db
+
+app/config.py

@@ -1,0 +1,7 @@
+requests
+tqdm
+fastapi
+uvicorn
+fastapi_swagger_dark
+textual
+httpx

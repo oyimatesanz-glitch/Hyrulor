@@ -1,0 +1,17 @@
+{
+	"mcpServers": {
+		"sqlite": {
+			"command": "uvx",
+			"args": [
+				"mcp-server-sqlite",
+				"--db-path",
+				"C:/Users/jbras/GitHub/lsng/app/data/lsng.db"
+			],
+			"disabledTools": [
+				"create_table"
+			],
+			"disabled": true,
+			"alwaysAllow": []
+		}
+	}
+}

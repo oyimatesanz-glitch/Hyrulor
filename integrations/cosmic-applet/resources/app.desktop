@@ -1,0 +1,14 @@
+[Desktop Entry]
+Name=Hyrulor Applet
+Comment=COSMIC applet for the Hyrulor local AI assistant
+Type=Application
+Icon=com.github.oyimatesanz-glitch.hyrulor-applet
+Exec=hyrulor-applet %F
+Terminal=false
+StartupNotify=true
+Categories=COSMIC
+Keywords=COSMIC
+NoDisplay=true
+X-CosmicApplet=true
+X-CosmicHoverPopup=Auto
+MimeType=

@@ -181,45 +181,84 @@ enum AgentError {
 }
 
 async fn run_agent(query: &str, state: &AppState) -> Result<String, AgentError> {
-    let memories = state.vault.search(query.to_string(), 2).await?;
-    let mut context_parts = Vec::new();
+    // FASE 1: Intentar RAG primero
+    let rag_docs = match state.embedding_client.get_embedding(query).await {
+        Ok(emb) => state
+            .vault
+            .search_documents(emb, 3)
+            .await
+            .unwrap_or_default(),
+        Err(e) => {
+            eprintln!("⚠️ Error embedding: {}", e);
+            Vec::new()
+        }
+    };
 
-    if !memories.is_empty() {
-        context_parts.push(format!(
-            "Memoria de conversaciones:\n{}",
+    if !rag_docs.is_empty() {
+        eprintln!("🔍 RAG activado: {} fragmentos", rag_docs.len());
+        let context = rag_docs.join(
+            "
+
+---
+
+",
+        );
+        let messages = vec![
+            ChatMessage {
+                role: "system".to_string(),
+                content: Some(format!(
+                    "Eres Hyrulor, experto en código. Responde ÚNICAMENTE con el siguiente código.  Si no está en el código, di: 'No tengo esa información en el código indexado.'
+
+== CÓDIGO ==
+{}
+== FIN ==",
+                    context
+                )),
+                tool_calls: Vec::new(),
+                tool_call_id: None,
+            },
+            ChatMessage {
+                role: "user".to_string(),
+                content: Some(query.to_string()),
+                tool_calls: Vec::new(),
+                tool_call_id: None,
+            },
+        ];
+        let response = state.inference.chat(&messages, &[], false).await?;
+        let answer = response.content.unwrap_or_default().trim().to_string();
+        if answer.is_empty() {
+            return Err(AgentError::EmptyAnswer);
+        }
+        let _ = state
+            .vault
+            .save_conversation(query.to_string(), answer.clone())
+            .await;
+        return Ok(answer);
+    }
+
+    eprintln!("🔧 Modo herramientas (sin RAG)");
+
+    // FASE 2: Flujo normal con herramientas
+    let memories = state
+        .vault
+        .search(query.to_string(), 2)
+        .await
+        .unwrap_or_default();
+    let memory_context = if memories.is_empty() {
+        String::new()
+    } else {
+        format!(
+            "Memoria:
+{}",
             serde_json::to_string(&memories).unwrap_or_default()
-        ));
-    }
+        )
+    };
 
-    // RAG VECTORIAL (Búsqueda semántica en archivos)
-    match state.embedding_client.get_embedding(query).await {
-        Ok(query_embedding) => match state.vault.search_documents(query_embedding, 2).await {
-            Ok(docs) if !docs.is_empty() => {
-                eprintln!("🔍 RAG recuperó {} fragmentos", docs.len());
-                context_parts.push(format!(
-                    "Fragmentos de código/documentos relevantes:\n{}",
-                    docs.join("\n---\n")
-                ));
-            }
-            Err(e) => eprintln!("⚠️ Error buscando docs: {}", e),
-            _ => {}
-        },
-        Err(e) => eprintln!("⚠️ Error generando embedding de query: {}", e),
-    }
-
-    let memory_context = context_parts.join("\n\n");
-    let hay_rag = !context_parts.is_empty();
     let mut messages = vec![
         ChatMessage {
             role: "system".to_string(),
             content: Some(format!(
-                "You are Hyory, a local Linux assistant. 
-\
-                 PRIORITY RULE: If the context below contains code or documents (marked as 'Fragmentos de código/documentos relevantes'), you MUST use that information to answer. Do NOT call tools like battery_status or gpu_diag unless the user explicitly asks about hardware.
-\
-                 If the user asks about code (like main.rs), read the context and describe what the code does.
-\
-                 Retrieved memory (conversations): {memory_context}"
+                "You are Hyory, a local Linux assistant. Execute tools immediately. Memory: {memory_context}"
             )),
             tool_calls: Vec::new(),
             tool_call_id: None,
@@ -231,12 +270,7 @@ async fn run_agent(query: &str, state: &AppState) -> Result<String, AgentError> 
             tool_call_id: None,
         },
     ];
-    let tools = if hay_rag {
-        Vec::new()
-    } else {
-        tool_definitions()
-    };
-    let mut tool_calls_seen = 0;
+    let tools = tool_definitions();
 
     for round in 0..5 {
         let force_tool = round == 0;
@@ -246,46 +280,23 @@ async fn run_agent(query: &str, state: &AppState) -> Result<String, AgentError> 
             if answer.is_empty() {
                 return Err(AgentError::EmptyAnswer);
             }
-            state
+            let _ = state
                 .vault
                 .save_conversation(query.to_string(), answer.clone())
-                .await?;
+                .await;
             return Ok(answer);
         }
 
         let assistant_calls = response.tool_calls.clone();
         messages.push(response);
         for call in assistant_calls {
-            tool_calls_seen += 1;
-            if tool_calls_seen > MAX_TOOL_CALLS_PER_REQUEST {
-                messages.push(tool_message(
-                    call.id,
-                    format!(
-                        "Error: se alcanzó el límite de {MAX_TOOL_CALLS_PER_REQUEST} llamadas de herramienta."
-                    ),
-                ));
-                continue;
-            }
-
             if !is_allowed_tool(&call.function.name) {
                 messages.push(tool_message(
                     call.id,
-                    format!(
-                        "Error: herramienta no permitida: {}. Usa solo las herramientas declaradas.",
-                        call.function.name
-                    ),
+                    format!("Error: herramienta no permitida: {}.", call.function.name),
                 ));
                 continue;
             }
-
-            if let Err(error) = validate_tool_arguments(&call.function.arguments) {
-                messages.push(tool_message(
-                    call.id,
-                    format!("Error: argumentos de herramienta inválidos: {error}"),
-                ));
-                continue;
-            }
-
             let output = match state.sandbox.exec_tool(&call.function.name).await {
                 Ok(result) => result.output,
                 Err(error) => format!("Error del sandbox: {error}"),

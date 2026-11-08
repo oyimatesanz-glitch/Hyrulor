@@ -1,0 +1,1602 @@
+{
+  "skill_001_backup": {
+    "description": "Habilidad compuesta para backup. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_180_docker",
+      "tool_080_df",
+      "tool_004_free"
+    ]
+  },
+  "skill_002_data": {
+    "description": "Habilidad compuesta para data. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_151_df",
+      "tool_064_ip",
+      "tool_182_grep"
+    ]
+  },
+  "skill_003_monitoring": {
+    "description": "Habilidad compuesta para monitoring. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_198_ping",
+      "tool_196_ping",
+      "tool_016_df"
+    ]
+  },
+  "skill_004_deploy": {
+    "description": "Habilidad compuesta para deploy. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_128_journalctl",
+      "tool_013_find",
+      "tool_171_ip"
+    ]
+  },
+  "skill_005_security": {
+    "description": "Habilidad compuesta para security. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_109_journalctl",
+      "tool_153_ping",
+      "tool_114_git"
+    ]
+  },
+  "skill_006_deploy": {
+    "description": "Habilidad compuesta para deploy. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_129_du",
+      "tool_037_cargo",
+      "tool_173_git"
+    ]
+  },
+  "skill_007_data": {
+    "description": "Habilidad compuesta para data. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_032_ufw",
+      "tool_135_find",
+      "tool_193_find"
+    ]
+  },
+  "skill_008_data": {
+    "description": "Habilidad compuesta para data. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_103_cargo",
+      "tool_002_systemctl",
+      "tool_190_git"
+    ]
+  },
+  "skill_009_data": {
+    "description": "Habilidad compuesta para data. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_046_journalctl",
+      "tool_041_docker",
+      "tool_098_du"
+    ]
+  },
+  "skill_010_backup": {
+    "description": "Habilidad compuesta para backup. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_007_cat",
+      "tool_196_ping",
+      "tool_043_cargo"
+    ]
+  },
+  "skill_011_system": {
+    "description": "Habilidad compuesta para system. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_022_cat",
+      "tool_130_ls",
+      "tool_095_ss"
+    ]
+  },
+  "skill_012_system": {
+    "description": "Habilidad compuesta para system. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_165_find",
+      "tool_122_free",
+      "tool_049_find"
+    ]
+  },
+  "skill_013_security": {
+    "description": "Habilidad compuesta para security. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_025_ps",
+      "tool_104_wc",
+      "tool_175_cat"
+    ]
+  },
+  "skill_014_files": {
+    "description": "Habilidad compuesta para files. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_010_docker",
+      "tool_158_df",
+      "tool_156_ip"
+    ]
+  },
+  "skill_015_deploy": {
+    "description": "Habilidad compuesta para deploy. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_154_grep",
+      "tool_003_uname",
+      "tool_167_journalctl"
+    ]
+  },
+  "skill_016_dev": {
+    "description": "Habilidad compuesta para dev. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_018_ip",
+      "tool_161_grep",
+      "tool_163_free"
+    ]
+  },
+  "skill_017_system": {
+    "description": "Habilidad compuesta para system. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_148_ps",
+      "tool_012_curl",
+      "tool_170_ls"
+    ]
+  },
+  "skill_018_security": {
+    "description": "Habilidad compuesta para security. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_050_ps",
+      "tool_030_systemctl",
+      "tool_143_ip"
+    ]
+  },
+  "skill_019_deploy": {
+    "description": "Habilidad compuesta para deploy. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_059_git",
+      "tool_108_free",
+      "tool_001_cat"
+    ]
+  },
+  "skill_020_monitoring": {
+    "description": "Habilidad compuesta para monitoring. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_075_docker",
+      "tool_171_ip",
+      "tool_022_cat"
+    ]
+  },
+  "skill_021_backup": {
+    "description": "Habilidad compuesta para backup. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_128_journalctl",
+      "tool_117_cargo",
+      "tool_122_free"
+    ]
+  },
+  "skill_022_ai": {
+    "description": "Habilidad compuesta para ai. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_060_find",
+      "tool_116_find",
+      "tool_103_cargo"
+    ]
+  },
+  "skill_023_ai": {
+    "description": "Habilidad compuesta para ai. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_097_free",
+      "tool_188_ls",
+      "tool_192_cat"
+    ]
+  },
+  "skill_024_data": {
+    "description": "Habilidad compuesta para data. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_153_ping",
+      "tool_047_systemctl",
+      "tool_023_ip"
+    ]
+  },
+  "skill_025_ai": {
+    "description": "Habilidad compuesta para ai. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_181_find",
+      "tool_135_find",
+      "tool_151_df"
+    ]
+  },
+  "skill_026_deploy": {
+    "description": "Habilidad compuesta para deploy. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_194_cat",
+      "tool_080_df",
+      "tool_051_find"
+    ]
+  },
+  "skill_027_monitoring": {
+    "description": "Habilidad compuesta para monitoring. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_131_ss",
+      "tool_192_cat",
+      "tool_001_cat"
+    ]
+  },
+  "skill_028_dev": {
+    "description": "Habilidad compuesta para dev. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_195_journalctl",
+      "tool_195_journalctl",
+      "tool_135_find"
+    ]
+  },
+  "skill_029_data": {
+    "description": "Habilidad compuesta para data. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_035_ip",
+      "tool_098_du",
+      "tool_043_cargo"
+    ]
+  },
+  "skill_030_system": {
+    "description": "Habilidad compuesta para system. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_066_ufw",
+      "tool_099_cargo",
+      "tool_020_ps"
+    ]
+  },
+  "skill_031_network": {
+    "description": "Habilidad compuesta para network. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_145_uname",
+      "tool_109_journalctl",
+      "tool_193_find"
+    ]
+  },
+  "skill_032_network": {
+    "description": "Habilidad compuesta para network. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_049_find",
+      "tool_087_journalctl",
+      "tool_056_ss"
+    ]
+  },
+  "skill_033_security": {
+    "description": "Habilidad compuesta para security. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_020_ps",
+      "tool_161_grep",
+      "tool_026_wc"
+    ]
+  },
+  "skill_034_system": {
+    "description": "Habilidad compuesta para system. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_097_free",
+      "tool_055_ufw",
+      "tool_154_grep"
+    ]
+  },
+  "skill_035_backup": {
+    "description": "Habilidad compuesta para backup. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_016_df",
+      "tool_021_df",
+      "tool_040_cargo"
+    ]
+  },
+  "skill_036_monitoring": {
+    "description": "Habilidad compuesta para monitoring. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_198_ping",
+      "tool_047_systemctl",
+      "tool_086_systemctl"
+    ]
+  },
+  "skill_037_security": {
+    "description": "Habilidad compuesta para security. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_106_ls",
+      "tool_055_ufw",
+      "tool_097_free"
+    ]
+  },
+  "skill_038_deploy": {
+    "description": "Habilidad compuesta para deploy. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_185_grep",
+      "tool_124_du",
+      "tool_122_free"
+    ]
+  },
+  "skill_039_ai": {
+    "description": "Habilidad compuesta para ai. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_176_cargo",
+      "tool_059_git",
+      "tool_067_cat"
+    ]
+  },
+  "skill_040_data": {
+    "description": "Habilidad compuesta para data. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_148_ps",
+      "tool_115_ip",
+      "tool_037_cargo"
+    ]
+  },
+  "skill_041_security": {
+    "description": "Habilidad compuesta para security. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_044_cargo",
+      "tool_057_ping",
+      "tool_186_cat"
+    ]
+  },
+  "skill_042_data": {
+    "description": "Habilidad compuesta para data. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_052_git",
+      "tool_040_cargo",
+      "tool_028_uname"
+    ]
+  },
+  "skill_043_security": {
+    "description": "Habilidad compuesta para security. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_041_docker",
+      "tool_135_find",
+      "tool_142_ufw"
+    ]
+  },
+  "skill_044_files": {
+    "description": "Habilidad compuesta para files. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_025_ps",
+      "tool_188_ls",
+      "tool_027_grep"
+    ]
+  },
+  "skill_045_dev": {
+    "description": "Habilidad compuesta para dev. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_186_cat",
+      "tool_053_df",
+      "tool_055_ufw"
+    ]
+  },
+  "skill_046_data": {
+    "description": "Habilidad compuesta para data. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_074_df",
+      "tool_135_find",
+      "tool_112_ps"
+    ]
+  },
+  "skill_047_files": {
+    "description": "Habilidad compuesta para files. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_138_systemctl",
+      "tool_116_find",
+      "tool_058_git"
+    ]
+  },
+  "skill_048_monitoring": {
+    "description": "Habilidad compuesta para monitoring. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_139_git",
+      "tool_026_wc",
+      "tool_140_ufw"
+    ]
+  },
+  "skill_049_system": {
+    "description": "Habilidad compuesta para system. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_044_cargo",
+      "tool_057_ping",
+      "tool_195_journalctl"
+    ]
+  },
+  "skill_050_monitoring": {
+    "description": "Habilidad compuesta para monitoring. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_120_free",
+      "tool_066_ufw",
+      "tool_178_cat"
+    ]
+  },
+  "skill_051_security": {
+    "description": "Habilidad compuesta para security. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_187_cargo",
+      "tool_107_wc",
+      "tool_044_cargo"
+    ]
+  },
+  "skill_052_security": {
+    "description": "Habilidad compuesta para security. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_112_ps",
+      "tool_039_du",
+      "tool_189_wc"
+    ]
+  },
+  "skill_053_system": {
+    "description": "Habilidad compuesta para system. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_079_journalctl",
+      "tool_055_ufw",
+      "tool_072_find"
+    ]
+  },
+  "skill_054_data": {
+    "description": "Habilidad compuesta para data. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_066_ufw",
+      "tool_148_ps",
+      "tool_013_find"
+    ]
+  },
+  "skill_055_system": {
+    "description": "Habilidad compuesta para system. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_083_docker",
+      "tool_106_ls",
+      "tool_009_systemctl"
+    ]
+  },
+  "skill_056_deploy": {
+    "description": "Habilidad compuesta para deploy. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_020_ps",
+      "tool_156_ip",
+      "tool_098_du"
+    ]
+  },
+  "skill_057_deploy": {
+    "description": "Habilidad compuesta para deploy. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_120_free",
+      "tool_139_git",
+      "tool_072_find"
+    ]
+  },
+  "skill_058_monitoring": {
+    "description": "Habilidad compuesta para monitoring. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_099_cargo",
+      "tool_074_df",
+      "tool_180_docker"
+    ]
+  },
+  "skill_059_security": {
+    "description": "Habilidad compuesta para security. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_142_ufw",
+      "tool_193_find",
+      "tool_066_ufw"
+    ]
+  },
+  "skill_060_security": {
+    "description": "Habilidad compuesta para security. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_088_docker",
+      "tool_094_wc",
+      "tool_043_cargo"
+    ]
+  },
+  "skill_061_backup": {
+    "description": "Habilidad compuesta para backup. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_051_find",
+      "tool_158_df",
+      "tool_003_uname"
+    ]
+  },
+  "skill_062_deploy": {
+    "description": "Habilidad compuesta para deploy. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_045_grep",
+      "tool_045_grep",
+      "tool_139_git"
+    ]
+  },
+  "skill_063_deploy": {
+    "description": "Habilidad compuesta para deploy. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_121_free",
+      "tool_052_git",
+      "tool_155_git"
+    ]
+  },
+  "skill_064_network": {
+    "description": "Habilidad compuesta para network. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_152_ss",
+      "tool_074_df",
+      "tool_008_git"
+    ]
+  },
+  "skill_065_data": {
+    "description": "Habilidad compuesta para data. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_178_cat",
+      "tool_059_git",
+      "tool_005_systemctl"
+    ]
+  },
+  "skill_066_security": {
+    "description": "Habilidad compuesta para security. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_189_wc",
+      "tool_126_find",
+      "tool_186_cat"
+    ]
+  },
+  "skill_067_monitoring": {
+    "description": "Habilidad compuesta para monitoring. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_014_ls",
+      "tool_095_ss",
+      "tool_089_ping"
+    ]
+  },
+  "skill_068_system": {
+    "description": "Habilidad compuesta para system. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_014_ls",
+      "tool_133_find",
+      "tool_025_ps"
+    ]
+  },
+  "skill_069_system": {
+    "description": "Habilidad compuesta para system. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_092_ls",
+      "tool_142_ufw",
+      "tool_118_cargo"
+    ]
+  },
+  "skill_070_monitoring": {
+    "description": "Habilidad compuesta para monitoring. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_056_ss",
+      "tool_124_du",
+      "tool_023_ip"
+    ]
+  },
+  "skill_071_ai": {
+    "description": "Habilidad compuesta para ai. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_084_ufw",
+      "tool_035_ip",
+      "tool_098_du"
+    ]
+  },
+  "skill_072_files": {
+    "description": "Habilidad compuesta para files. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_100_find",
+      "tool_082_systemctl",
+      "tool_150_df"
+    ]
+  },
+  "skill_073_monitoring": {
+    "description": "Habilidad compuesta para monitoring. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_092_ls",
+      "tool_169_cat",
+      "tool_015_curl"
+    ]
+  },
+  "skill_074_data": {
+    "description": "Habilidad compuesta para data. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_025_ps",
+      "tool_160_ip",
+      "tool_071_systemctl"
+    ]
+  },
+  "skill_075_files": {
+    "description": "Habilidad compuesta para files. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_162_du",
+      "tool_021_df",
+      "tool_132_ip"
+    ]
+  },
+  "skill_076_backup": {
+    "description": "Habilidad compuesta para backup. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_022_cat",
+      "tool_061_ping",
+      "tool_049_find"
+    ]
+  },
+  "skill_077_monitoring": {
+    "description": "Habilidad compuesta para monitoring. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_083_docker",
+      "tool_195_journalctl",
+      "tool_106_ls"
+    ]
+  },
+  "skill_078_ai": {
+    "description": "Habilidad compuesta para ai. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_030_systemctl",
+      "tool_109_journalctl",
+      "tool_194_cat"
+    ]
+  },
+  "skill_079_deploy": {
+    "description": "Habilidad compuesta para deploy. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_054_ls",
+      "tool_092_ls",
+      "tool_103_cargo"
+    ]
+  },
+  "skill_080_ai": {
+    "description": "Habilidad compuesta para ai. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_078_docker",
+      "tool_164_ls",
+      "tool_154_grep"
+    ]
+  },
+  "skill_081_backup": {
+    "description": "Habilidad compuesta para backup. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_106_ls",
+      "tool_005_systemctl",
+      "tool_040_cargo"
+    ]
+  },
+  "skill_082_security": {
+    "description": "Habilidad compuesta para security. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_168_grep",
+      "tool_142_ufw",
+      "tool_041_docker"
+    ]
+  },
+  "skill_083_network": {
+    "description": "Habilidad compuesta para network. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_083_docker",
+      "tool_061_ping",
+      "tool_042_wc"
+    ]
+  },
+  "skill_084_files": {
+    "description": "Habilidad compuesta para files. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_147_journalctl",
+      "tool_052_git",
+      "tool_124_du"
+    ]
+  },
+  "skill_085_security": {
+    "description": "Habilidad compuesta para security. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_183_du",
+      "tool_067_cat",
+      "tool_017_docker"
+    ]
+  },
+  "skill_086_deploy": {
+    "description": "Habilidad compuesta para deploy. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_067_cat",
+      "tool_095_ss",
+      "tool_113_find"
+    ]
+  },
+  "skill_087_backup": {
+    "description": "Habilidad compuesta para backup. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_145_uname",
+      "tool_076_git",
+      "tool_034_ss"
+    ]
+  },
+  "skill_088_network": {
+    "description": "Habilidad compuesta para network. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_081_ip",
+      "tool_004_free",
+      "tool_090_free"
+    ]
+  },
+  "skill_089_data": {
+    "description": "Habilidad compuesta para data. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_159_docker",
+      "tool_002_systemctl",
+      "tool_040_cargo"
+    ]
+  },
+  "skill_090_data": {
+    "description": "Habilidad compuesta para data. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_153_ping",
+      "tool_154_grep",
+      "tool_131_ss"
+    ]
+  },
+  "skill_091_ai": {
+    "description": "Habilidad compuesta para ai. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_007_cat",
+      "tool_085_wc",
+      "tool_085_wc"
+    ]
+  },
+  "skill_092_dev": {
+    "description": "Habilidad compuesta para dev. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_103_cargo",
+      "tool_120_free",
+      "tool_045_grep"
+    ]
+  },
+  "skill_093_deploy": {
+    "description": "Habilidad compuesta para deploy. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_184_cat",
+      "tool_142_ufw",
+      "tool_183_du"
+    ]
+  },
+  "skill_094_dev": {
+    "description": "Habilidad compuesta para dev. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_166_uname",
+      "tool_187_cargo",
+      "tool_059_git"
+    ]
+  },
+  "skill_095_monitoring": {
+    "description": "Habilidad compuesta para monitoring. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_049_find",
+      "tool_068_cat",
+      "tool_168_grep"
+    ]
+  },
+  "skill_096_files": {
+    "description": "Habilidad compuesta para files. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_032_ufw",
+      "tool_034_ss",
+      "tool_139_git"
+    ]
+  },
+  "skill_097_files": {
+    "description": "Habilidad compuesta para files. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_146_journalctl",
+      "tool_177_journalctl",
+      "tool_043_cargo"
+    ]
+  },
+  "skill_098_monitoring": {
+    "description": "Habilidad compuesta para monitoring. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_115_ip",
+      "tool_018_ip",
+      "tool_142_ufw"
+    ]
+  },
+  "skill_099_deploy": {
+    "description": "Habilidad compuesta para deploy. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_160_ip",
+      "tool_038_grep",
+      "tool_051_find"
+    ]
+  },
+  "skill_100_data": {
+    "description": "Habilidad compuesta para data. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_145_uname",
+      "tool_119_ss",
+      "tool_007_cat"
+    ]
+  },
+  "skill_101_network": {
+    "description": "Habilidad compuesta para network. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_142_ufw",
+      "tool_065_curl",
+      "tool_148_ps"
+    ]
+  },
+  "skill_102_network": {
+    "description": "Habilidad compuesta para network. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_043_cargo",
+      "tool_141_uname",
+      "tool_110_docker"
+    ]
+  },
+  "skill_103_files": {
+    "description": "Habilidad compuesta para files. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_165_find",
+      "tool_200_ping",
+      "tool_066_ufw"
+    ]
+  },
+  "skill_104_files": {
+    "description": "Habilidad compuesta para files. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_053_df",
+      "tool_158_df",
+      "tool_165_find"
+    ]
+  },
+  "skill_105_network": {
+    "description": "Habilidad compuesta para network. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_085_wc",
+      "tool_043_cargo",
+      "tool_102_free"
+    ]
+  },
+  "skill_106_backup": {
+    "description": "Habilidad compuesta para backup. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_154_grep",
+      "tool_102_free",
+      "tool_162_du"
+    ]
+  },
+  "skill_107_system": {
+    "description": "Habilidad compuesta para system. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_015_curl",
+      "tool_171_ip",
+      "tool_058_git"
+    ]
+  },
+  "skill_108_system": {
+    "description": "Habilidad compuesta para system. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_076_git",
+      "tool_183_du",
+      "tool_006_du"
+    ]
+  },
+  "skill_109_network": {
+    "description": "Habilidad compuesta para network. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_083_docker",
+      "tool_171_ip",
+      "tool_008_git"
+    ]
+  },
+  "skill_110_network": {
+    "description": "Habilidad compuesta para network. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_158_df",
+      "tool_172_grep",
+      "tool_050_ps"
+    ]
+  },
+  "skill_111_network": {
+    "description": "Habilidad compuesta para network. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_169_cat",
+      "tool_165_find",
+      "tool_051_find"
+    ]
+  },
+  "skill_112_backup": {
+    "description": "Habilidad compuesta para backup. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_033_cargo",
+      "tool_143_ip",
+      "tool_066_ufw"
+    ]
+  },
+  "skill_113_ai": {
+    "description": "Habilidad compuesta para ai. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_091_wc",
+      "tool_068_cat",
+      "tool_172_grep"
+    ]
+  },
+  "skill_114_data": {
+    "description": "Habilidad compuesta para data. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_022_cat",
+      "tool_169_cat",
+      "tool_196_ping"
+    ]
+  },
+  "skill_115_monitoring": {
+    "description": "Habilidad compuesta para monitoring. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_027_grep",
+      "tool_149_uname",
+      "tool_059_git"
+    ]
+  },
+  "skill_116_ai": {
+    "description": "Habilidad compuesta para ai. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_171_ip",
+      "tool_022_cat",
+      "tool_021_df"
+    ]
+  },
+  "skill_117_security": {
+    "description": "Habilidad compuesta para security. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_043_cargo",
+      "tool_164_ls",
+      "tool_048_ip"
+    ]
+  },
+  "skill_118_data": {
+    "description": "Habilidad compuesta para data. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_034_ss",
+      "tool_064_ip",
+      "tool_075_docker"
+    ]
+  },
+  "skill_119_data": {
+    "description": "Habilidad compuesta para data. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_094_wc",
+      "tool_177_journalctl",
+      "tool_105_journalctl"
+    ]
+  },
+  "skill_120_security": {
+    "description": "Habilidad compuesta para security. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_195_journalctl",
+      "tool_176_cargo",
+      "tool_045_grep"
+    ]
+  },
+  "skill_121_system": {
+    "description": "Habilidad compuesta para system. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_090_free",
+      "tool_016_df",
+      "tool_108_free"
+    ]
+  },
+  "skill_122_files": {
+    "description": "Habilidad compuesta para files. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_196_ping",
+      "tool_183_du",
+      "tool_187_cargo"
+    ]
+  },
+  "skill_123_files": {
+    "description": "Habilidad compuesta para files. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_149_uname",
+      "tool_161_grep",
+      "tool_163_free"
+    ]
+  },
+  "skill_124_system": {
+    "description": "Habilidad compuesta para system. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_146_journalctl",
+      "tool_048_ip",
+      "tool_019_ps"
+    ]
+  },
+  "skill_125_ai": {
+    "description": "Habilidad compuesta para ai. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_188_ls",
+      "tool_012_curl",
+      "tool_144_grep"
+    ]
+  },
+  "skill_126_files": {
+    "description": "Habilidad compuesta para files. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_031_journalctl",
+      "tool_108_free",
+      "tool_123_ss"
+    ]
+  },
+  "skill_127_monitoring": {
+    "description": "Habilidad compuesta para monitoring. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_157_ping",
+      "tool_095_ss",
+      "tool_145_uname"
+    ]
+  },
+  "skill_128_ai": {
+    "description": "Habilidad compuesta para ai. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_149_uname",
+      "tool_164_ls",
+      "tool_169_cat"
+    ]
+  },
+  "skill_129_security": {
+    "description": "Habilidad compuesta para security. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_144_grep",
+      "tool_053_df",
+      "tool_129_du"
+    ]
+  },
+  "skill_130_files": {
+    "description": "Habilidad compuesta para files. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_129_du",
+      "tool_047_systemctl",
+      "tool_164_ls"
+    ]
+  },
+  "skill_131_ai": {
+    "description": "Habilidad compuesta para ai. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_119_ss",
+      "tool_119_ss",
+      "tool_062_df"
+    ]
+  },
+  "skill_132_dev": {
+    "description": "Habilidad compuesta para dev. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_077_ls",
+      "tool_016_df",
+      "tool_181_find"
+    ]
+  },
+  "skill_133_network": {
+    "description": "Habilidad compuesta para network. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_185_grep",
+      "tool_038_grep",
+      "tool_177_journalctl"
+    ]
+  },
+  "skill_134_ai": {
+    "description": "Habilidad compuesta para ai. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_043_cargo",
+      "tool_119_ss",
+      "tool_119_ss"
+    ]
+  },
+  "skill_135_network": {
+    "description": "Habilidad compuesta para network. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_131_ss",
+      "tool_070_git",
+      "tool_176_cargo"
+    ]
+  },
+  "skill_136_backup": {
+    "description": "Habilidad compuesta para backup. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_043_cargo",
+      "tool_052_git",
+      "tool_087_journalctl"
+    ]
+  },
+  "skill_137_dev": {
+    "description": "Habilidad compuesta para dev. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_198_ping",
+      "tool_169_cat",
+      "tool_019_ps"
+    ]
+  },
+  "skill_138_ai": {
+    "description": "Habilidad compuesta para ai. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_132_ip",
+      "tool_001_cat",
+      "tool_181_find"
+    ]
+  },
+  "skill_139_security": {
+    "description": "Habilidad compuesta para security. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_133_find",
+      "tool_031_journalctl",
+      "tool_188_ls"
+    ]
+  },
+  "skill_140_backup": {
+    "description": "Habilidad compuesta para backup. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_127_ip",
+      "tool_042_wc",
+      "tool_051_find"
+    ]
+  },
+  "skill_141_ai": {
+    "description": "Habilidad compuesta para ai. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_115_ip",
+      "tool_099_cargo",
+      "tool_167_journalctl"
+    ]
+  },
+  "skill_142_backup": {
+    "description": "Habilidad compuesta para backup. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_191_ufw",
+      "tool_089_ping",
+      "tool_122_free"
+    ]
+  },
+  "skill_143_security": {
+    "description": "Habilidad compuesta para security. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_021_df",
+      "tool_090_free",
+      "tool_192_cat"
+    ]
+  },
+  "skill_144_network": {
+    "description": "Habilidad compuesta para network. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_142_ufw",
+      "tool_052_git",
+      "tool_037_cargo"
+    ]
+  },
+  "skill_145_monitoring": {
+    "description": "Habilidad compuesta para monitoring. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_112_ps",
+      "tool_139_git",
+      "tool_086_systemctl"
+    ]
+  },
+  "skill_146_network": {
+    "description": "Habilidad compuesta para network. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_079_journalctl",
+      "tool_099_cargo",
+      "tool_020_ps"
+    ]
+  },
+  "skill_147_dev": {
+    "description": "Habilidad compuesta para dev. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_135_find",
+      "tool_127_ip",
+      "tool_076_git"
+    ]
+  },
+  "skill_148_files": {
+    "description": "Habilidad compuesta para files. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_145_uname",
+      "tool_100_find",
+      "tool_110_docker"
+    ]
+  },
+  "skill_149_system": {
+    "description": "Habilidad compuesta para system. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_123_ss",
+      "tool_127_ip",
+      "tool_085_wc"
+    ]
+  },
+  "skill_150_security": {
+    "description": "Habilidad compuesta para security. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_134_curl",
+      "tool_171_ip",
+      "tool_024_ufw"
+    ]
+  },
+  "skill_151_system": {
+    "description": "Habilidad compuesta para system. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_070_git",
+      "tool_158_df",
+      "tool_170_ls"
+    ]
+  },
+  "skill_152_network": {
+    "description": "Habilidad compuesta para network. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_116_find",
+      "tool_197_systemctl",
+      "tool_118_cargo"
+    ]
+  },
+  "skill_153_security": {
+    "description": "Habilidad compuesta para security. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_089_ping",
+      "tool_131_ss",
+      "tool_077_ls"
+    ]
+  },
+  "skill_154_security": {
+    "description": "Habilidad compuesta para security. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_153_ping",
+      "tool_013_find",
+      "tool_186_cat"
+    ]
+  },
+  "skill_155_backup": {
+    "description": "Habilidad compuesta para backup. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_119_ss",
+      "tool_114_git",
+      "tool_136_ufw"
+    ]
+  },
+  "skill_156_backup": {
+    "description": "Habilidad compuesta para backup. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_185_grep",
+      "tool_134_curl",
+      "tool_099_cargo"
+    ]
+  },
+  "skill_157_network": {
+    "description": "Habilidad compuesta para network. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_153_ping",
+      "tool_004_free",
+      "tool_169_cat"
+    ]
+  },
+  "skill_158_deploy": {
+    "description": "Habilidad compuesta para deploy. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_030_systemctl",
+      "tool_159_docker",
+      "tool_124_du"
+    ]
+  },
+  "skill_159_backup": {
+    "description": "Habilidad compuesta para backup. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_131_ss",
+      "tool_132_ip",
+      "tool_092_ls"
+    ]
+  },
+  "skill_160_system": {
+    "description": "Habilidad compuesta para system. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_052_git",
+      "tool_109_journalctl",
+      "tool_002_systemctl"
+    ]
+  },
+  "skill_161_deploy": {
+    "description": "Habilidad compuesta para deploy. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_130_ls",
+      "tool_011_journalctl",
+      "tool_117_cargo"
+    ]
+  },
+  "skill_162_backup": {
+    "description": "Habilidad compuesta para backup. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_130_ls",
+      "tool_049_find",
+      "tool_193_find"
+    ]
+  },
+  "skill_163_data": {
+    "description": "Habilidad compuesta para data. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_094_wc",
+      "tool_110_docker",
+      "tool_026_wc"
+    ]
+  },
+  "skill_164_network": {
+    "description": "Habilidad compuesta para network. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_010_docker",
+      "tool_197_systemctl",
+      "tool_102_free"
+    ]
+  },
+  "skill_165_dev": {
+    "description": "Habilidad compuesta para dev. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_181_find",
+      "tool_151_df",
+      "tool_005_systemctl"
+    ]
+  },
+  "skill_166_backup": {
+    "description": "Habilidad compuesta para backup. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_064_ip",
+      "tool_098_du",
+      "tool_160_ip"
+    ]
+  },
+  "skill_167_data": {
+    "description": "Habilidad compuesta para data. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_174_find",
+      "tool_063_curl",
+      "tool_021_df"
+    ]
+  },
+  "skill_168_files": {
+    "description": "Habilidad compuesta para files. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_121_free",
+      "tool_053_df",
+      "tool_174_find"
+    ]
+  },
+  "skill_169_monitoring": {
+    "description": "Habilidad compuesta para monitoring. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_144_grep",
+      "tool_193_find",
+      "tool_146_journalctl"
+    ]
+  },
+  "skill_170_network": {
+    "description": "Habilidad compuesta para network. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_086_systemctl",
+      "tool_090_free",
+      "tool_085_wc"
+    ]
+  },
+  "skill_171_ai": {
+    "description": "Habilidad compuesta para ai. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_049_find",
+      "tool_147_journalctl",
+      "tool_014_ls"
+    ]
+  },
+  "skill_172_security": {
+    "description": "Habilidad compuesta para security. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_018_ip",
+      "tool_187_cargo",
+      "tool_113_find"
+    ]
+  },
+  "skill_173_dev": {
+    "description": "Habilidad compuesta para dev. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_060_find",
+      "tool_113_find",
+      "tool_110_docker"
+    ]
+  },
+  "skill_174_monitoring": {
+    "description": "Habilidad compuesta para monitoring. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_192_cat",
+      "tool_049_find",
+      "tool_055_ufw"
+    ]
+  },
+  "skill_175_ai": {
+    "description": "Habilidad compuesta para ai. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_182_grep",
+      "tool_121_free",
+      "tool_024_ufw"
+    ]
+  },
+  "skill_176_monitoring": {
+    "description": "Habilidad compuesta para monitoring. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_176_cargo",
+      "tool_096_uname",
+      "tool_188_ls"
+    ]
+  },
+  "skill_177_data": {
+    "description": "Habilidad compuesta para data. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_112_ps",
+      "tool_018_ip",
+      "tool_047_systemctl"
+    ]
+  },
+  "skill_178_deploy": {
+    "description": "Habilidad compuesta para deploy. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_188_ls",
+      "tool_114_git",
+      "tool_047_systemctl"
+    ]
+  },
+  "skill_179_security": {
+    "description": "Habilidad compuesta para security. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_016_df",
+      "tool_032_ufw",
+      "tool_181_find"
+    ]
+  },
+  "skill_180_monitoring": {
+    "description": "Habilidad compuesta para monitoring. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_034_ss",
+      "tool_006_du",
+      "tool_070_git"
+    ]
+  },
+  "skill_181_data": {
+    "description": "Habilidad compuesta para data. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_096_uname",
+      "tool_165_find",
+      "tool_014_ls"
+    ]
+  },
+  "skill_182_security": {
+    "description": "Habilidad compuesta para security. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_110_docker",
+      "tool_090_free",
+      "tool_114_git"
+    ]
+  },
+  "skill_183_backup": {
+    "description": "Habilidad compuesta para backup. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_149_uname",
+      "tool_037_cargo",
+      "tool_014_ls"
+    ]
+  },
+  "skill_184_system": {
+    "description": "Habilidad compuesta para system. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_072_find",
+      "tool_178_cat",
+      "tool_145_uname"
+    ]
+  },
+  "skill_185_data": {
+    "description": "Habilidad compuesta para data. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_087_journalctl",
+      "tool_038_grep",
+      "tool_084_ufw"
+    ]
+  },
+  "skill_186_deploy": {
+    "description": "Habilidad compuesta para deploy. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_111_find",
+      "tool_199_systemctl",
+      "tool_176_cargo"
+    ]
+  },
+  "skill_187_data": {
+    "description": "Habilidad compuesta para data. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_048_ip",
+      "tool_093_journalctl",
+      "tool_138_systemctl"
+    ]
+  },
+  "skill_188_deploy": {
+    "description": "Habilidad compuesta para deploy. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_066_ufw",
+      "tool_003_uname",
+      "tool_124_du"
+    ]
+  },
+  "skill_189_dev": {
+    "description": "Habilidad compuesta para dev. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_015_curl",
+      "tool_003_uname",
+      "tool_169_cat"
+    ]
+  },
+  "skill_190_ai": {
+    "description": "Habilidad compuesta para ai. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_079_journalctl",
+      "tool_003_uname",
+      "tool_191_ufw"
+    ]
+  },
+  "skill_191_deploy": {
+    "description": "Habilidad compuesta para deploy. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_120_free",
+      "tool_008_git",
+      "tool_075_docker"
+    ]
+  },
+  "skill_192_files": {
+    "description": "Habilidad compuesta para files. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_129_du",
+      "tool_119_ss",
+      "tool_123_ss"
+    ]
+  },
+  "skill_193_network": {
+    "description": "Habilidad compuesta para network. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_120_free",
+      "tool_115_ip",
+      "tool_043_cargo"
+    ]
+  },
+  "skill_194_ai": {
+    "description": "Habilidad compuesta para ai. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_082_systemctl",
+      "tool_147_journalctl",
+      "tool_109_journalctl"
+    ]
+  },
+  "skill_195_ai": {
+    "description": "Habilidad compuesta para ai. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_077_ls",
+      "tool_069_git",
+      "tool_066_ufw"
+    ]
+  },
+  "skill_196_data": {
+    "description": "Habilidad compuesta para data. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_122_free",
+      "tool_168_grep",
+      "tool_130_ls"
+    ]
+  },
+  "skill_197_ai": {
+    "description": "Habilidad compuesta para ai. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_152_ss",
+      "tool_185_grep",
+      "tool_036_ls"
+    ]
+  },
+  "skill_198_monitoring": {
+    "description": "Habilidad compuesta para monitoring. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_156_ip",
+      "tool_158_df",
+      "tool_098_du"
+    ]
+  },
+  "skill_199_files": {
+    "description": "Habilidad compuesta para files. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_095_ss",
+      "tool_194_cat",
+      "tool_006_du"
+    ]
+  },
+  "skill_200_dev": {
+    "description": "Habilidad compuesta para dev. Ejecuta una secuencia automatizada de diagn\u00f3stico.",
+    "steps": [
+      "tool_066_ufw",
+      "tool_142_ufw",
+      "tool_113_find"
+    ]
+  }
+}

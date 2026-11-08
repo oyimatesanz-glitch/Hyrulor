@@ -1,7 +1,7 @@
 use serde::Deserialize;
 use tokio::{
     io::{AsyncReadExt, AsyncWriteExt},
-    net::TcpStream,
+    net::UnixStream,
 };
 
 #[derive(Debug, thiserror::Error)]
@@ -48,7 +48,7 @@ impl EmbeddingClient {
             body.len()
         );
 
-        let mut stream = TcpStream::connect(&self.address).await?;
+        let mut stream = UnixStream::connect(&self.address).await?;
         stream.write_all(request.as_bytes()).await?;
         stream.write_all(&body).await?;
 

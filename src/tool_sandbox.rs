@@ -53,6 +53,9 @@ impl ToolSandbox {
         Ok(Self {
             tools_dir,
             tools: HashMap::from([
+                ("check_disk_space", "check_disk_space.sh"),
+                ("check_memory", "check_memory.sh"),
+                ("list_processes", "list_processes.sh"),
                 ("battery_status", "battery_tool.sh"),
                 ("gpu_diag", "gpu_diag.sh"),
                 ("net_privacy", "net_privacy.sh"),
@@ -60,22 +63,23 @@ impl ToolSandbox {
         })
     }
 
-    pub async fn exec_tool(&self, name: &str) -> Result<ToolResult, ToolError> {
+    pub async fn exec_tool(&self, name: &str, args: &str) -> Result<ToolResult, ToolError> {
         let script_name = self
             .tools
             .get(name)
             .ok_or_else(|| ToolError::UnknownTool(name.to_string()))?;
         let script = self.tools_dir.join(script_name);
         ensure_child_path(&self.tools_dir, &script)?;
-        self.exec_with_timeout(name, script_name).await
+        self.exec_with_timeout(name, script_name, args).await
     }
 
     async fn exec_with_timeout(
         &self,
         name: &str,
         script_name: &str,
+        args: &str,
     ) -> Result<ToolResult, ToolError> {
-        let mut command = self.build_command(name, script_name)?;
+        let mut command = self.build_command(name, script_name, args)?;
         command.stdout(std::process::Stdio::piped());
         command.stderr(std::process::Stdio::piped());
         let child = command.spawn().map_err(|error| {
@@ -113,17 +117,24 @@ impl ToolSandbox {
         })
     }
 
-    fn build_command(&self, name: &str, script_name: &str) -> Result<Command, ToolError> {
+    fn build_command(
+        &self,
+        name: &str,
+        script_name: &str,
+        args: &str,
+    ) -> Result<Command, ToolError> {
         let mut command = Command::new("bwrap");
         command.args([
             "--ro-bind",
             "/usr",
             "/usr",
-            "--ro-bind",
+            // /bin y /lib son symlinks a /usr/* en la mayoría de distros.
+            // Crear los symlinks evita fallos al bindear el symlink original.
+            "--symlink",
+            "usr/bin",
             "/bin",
-            "/bin",
-            "--ro-bind",
-            "/lib",
+            "--symlink",
+            "usr/lib",
             "/lib",
             "--ro-bind",
             "/etc",
@@ -137,12 +148,28 @@ impl ToolSandbox {
             "--ro-bind",
         ]);
         command.arg(&self.tools_dir).arg("/tools");
-        if Path::new("/lib64").is_dir() {
-            command.args(["--ro-bind", "/lib64", "/lib64"]);
+        if Path::new("/usr/lib64").is_dir() {
+            command.args(["--symlink", "usr/lib64", "/lib64"]);
         }
-        command.args([
-            "--unshare-all",
+        let mut unshare_args = vec![
+            "--unshare-user",
+            "--unshare-uts",
+            "--unshare-ipc",
             "--die-with-parent",
+        ];
+        // `ps` necesita ver el PID namespace del host para listar procesos reales.
+        if name != "list_processes" {
+            unshare_args.push("--unshare-pid");
+        }
+        let is_network_tool = matches!(
+            name,
+            "ping_host" | "curl_url" | "dns_lookup" | "public_ip" | "check_website"
+        );
+        if !is_network_tool {
+            unshare_args.push("--unshare-net");
+        }
+        command.args(unshare_args);
+        command.args([
             "--new-session",
             "--cap-drop",
             "ALL",
@@ -156,7 +183,10 @@ impl ToolSandbox {
         if (name == "battery_status" || name == "gpu_diag") && Path::new("/sys").is_dir() {
             command.args(["--ro-bind", "/sys", "/sys"]);
         }
-        command.arg("/bin/sh").arg(format!("/tools/{script_name}"));
+        command
+            .arg("/bin/sh")
+            .arg(format!("/tools/{script_name}"))
+            .arg(args);
         command.kill_on_drop(true);
 
         #[cfg(unix)]

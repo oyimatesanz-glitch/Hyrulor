@@ -1,0 +1,26 @@
+{
+  "check_disk_space": {
+    "description": "Obtiene el espacio libre en el disco duro (df -h).",
+    "command": "df -h"
+  },
+  "check_memory": {
+    "description": "Obtiene el uso de memoria RAM (free -h).",
+    "command": "free -h"
+  },
+  "list_processes": {
+    "description": "Lista los procesos que m\u00e1s CPU consumen (ps aux).",
+    "command": "ps aux --sort=-%cpu | head -n 10"
+  },
+  "ping_host": {
+    "description": "Hace ping a un host para probar conexi\u00f3n (ping).",
+    "command": "ping -c 2"
+  },
+  "check_uptime": {
+    "description": "Muestra el tiempo que lleva encendido el sistema (uptime).",
+    "command": "uptime"
+  },
+  "system_info": {
+    "description": "Muestra informaci\u00f3n del kernel y arquitectura (uname).",
+    "command": "uname -a"
+  }
+}

@@ -11,7 +11,6 @@ use crate::inference_engine::{tool_definitions, ChatMessage, InferenceEngine};
 use crate::{memory_vault::MemoryVault, tool_sandbox::ToolSandbox};
 
 const MAX_REQUEST_BYTES: usize = 8192;
-const MAX_TOOL_CALLS_PER_REQUEST: usize = 3;
 
 pub struct AppState {
     pub vault: MemoryVault,
@@ -100,7 +99,7 @@ async fn dispatch(request: Request, state: &AppState) -> Response {
                 },
             }
         }
-        Request::Tool { name } => match state.sandbox.exec_tool(&name).await {
+        Request::Tool { name } => match state.sandbox.exec_tool(&name, "{}").await {
             Ok(result) => Response::Ok {
                 data: match serde_json::to_value(result) {
                     Ok(value) => value,
@@ -181,39 +180,22 @@ enum AgentError {
 }
 
 async fn run_agent(query: &str, state: &AppState) -> Result<String, AgentError> {
-    // FASE 1: Intentar RAG primero
-    let rag_docs = match state.embedding_client.get_embedding(query).await {
-        Ok(emb) => state
-            .vault
-            .search_documents(emb, 3)
-            .await
-            .unwrap_or_default(),
-        Err(e) => {
-            eprintln!("⚠️ Error embedding: {}", e);
-            Vec::new()
-        }
-    };
+    let q_lower = query.to_lowercase();
 
-    if !rag_docs.is_empty() {
-        eprintln!("🔍 RAG activado: {} fragmentos", rag_docs.len());
-        let context = rag_docs.join(
-            "
+    // 1. CLASIFICADOR DE INTENCIÓN
+    let es_charla_casual = q_lower.starts_with("hola")
+        || q_lower.starts_with("buenos")
+        || q_lower.starts_with("qué tal")
+        || q_lower.contains("cómo estás")
+        || q_lower.contains("funcionando bien");
 
----
-
-",
-        );
+    // BYPASS DE CORTESÍA: Si es un saludo, cero herramientas y respuesta directa.
+    if es_charla_casual {
+        eprintln!("👋 Modo charla casual (Cero herramientas)");
         let messages = vec![
             ChatMessage {
                 role: "system".to_string(),
-                content: Some(format!(
-                    "Eres Hyrulor, experto en código. Responde ÚNICAMENTE con el siguiente código.  Si no está en el código, di: 'No tengo esa información en el código indexado.'
-
-== CÓDIGO ==
-{}
-== FIN ==",
-                    context
-                )),
+                content: Some("Eres Hyrulor, un asistente de IA local. Responde de forma amigable, breve y natural al saludo del usuario.".to_string()),
                 tool_calls: Vec::new(),
                 tool_call_id: None,
             },
@@ -225,20 +207,71 @@ async fn run_agent(query: &str, state: &AppState) -> Result<String, AgentError> 
             },
         ];
         let response = state.inference.chat(&messages, &[], false).await?;
-        let answer = response.content.unwrap_or_default().trim().to_string();
-        if answer.is_empty() {
-            return Err(AgentError::EmptyAnswer);
-        }
-        let _ = state
-            .vault
-            .save_conversation(query.to_string(), answer.clone())
-            .await;
-        return Ok(answer);
+        return Ok(response.content.unwrap_or_default().trim().to_string());
     }
 
-    eprintln!("🔧 Modo herramientas (sin RAG)");
+    let es_pregunta_codigo = q_lower.contains("main")
+        || q_lower.contains("fn ")
+        || q_lower.contains("código")
+        || q_lower.contains("archivo")
+        || q_lower.contains("rust")
+        || q_lower.contains("función");
 
-    // FASE 2: Flujo normal con herramientas
+    // 2. FASE RAG (Solo si pregunta de código)
+    if es_pregunta_codigo {
+        let rag_docs = match state.embedding_client.get_embedding(query).await {
+            Ok(emb) => state
+                .vault
+                .search_documents(emb, 3)
+                .await
+                .unwrap_or_default(),
+            Err(_) => Vec::new(),
+        };
+
+        if !rag_docs.is_empty() {
+            eprintln!("🔍 RAG activado: {} fragmentos", rag_docs.len());
+            let context = rag_docs.join(
+                "
+
+---
+
+",
+            );
+            let messages = vec![
+                ChatMessage {
+                    role: "system".to_string(),
+                    content: Some(format!(
+                        "Eres Hyrulor, experto en código. Responde la pregunta usando ÚNICAMENTE este código.
+
+== CÓDIGO ==
+{}
+== FIN ==",
+                        context
+                    )),
+                    tool_calls: Vec::new(),
+                    tool_call_id: None,
+                },
+                ChatMessage {
+                    role: "user".to_string(),
+                    content: Some(query.to_string()),
+                    tool_calls: Vec::new(),
+                    tool_call_id: None,
+                },
+            ];
+            let response = state.inference.chat(&messages, &[], false).await?;
+            let answer = response.content.unwrap_or_default().trim().to_string();
+            if !answer.is_empty() {
+                let _ = state
+                    .vault
+                    .save_conversation(query.to_string(), answer.clone())
+                    .await;
+                return Ok(answer);
+            }
+        }
+    }
+
+    // 3. FASE HERRAMIENTAS / CHARLA (Flujo normal)
+    eprintln!("🔧 Modo herramientas (sin RAG)");
     let memories = state
         .vault
         .search(query.to_string(), 2)
@@ -254,11 +287,13 @@ async fn run_agent(query: &str, state: &AppState) -> Result<String, AgentError> 
         )
     };
 
+    let tools = tool_definitions();
+
     let mut messages = vec![
         ChatMessage {
             role: "system".to_string(),
             content: Some(format!(
-                "You are Hyory, a local Linux assistant. Execute tools immediately. Memory: {memory_context}"
+                "You are Hyory, a local Linux assistant. CRITICAL RULE: If the user asks about hardware, system status, or disk space, you MUST call the relevant tool to get the real data. NEVER tell the user to run a command themselves. Execute the tool and give them the result. Memory: {memory_context}"
             )),
             tool_calls: Vec::new(),
             tool_call_id: None,
@@ -270,11 +305,11 @@ async fn run_agent(query: &str, state: &AppState) -> Result<String, AgentError> 
             tool_call_id: None,
         },
     ];
-    let tools = tool_definitions();
 
     for round in 0..5 {
         let force_tool = round == 0;
         let response = state.inference.chat(&messages, &tools, force_tool).await?;
+
         if response.tool_calls.is_empty() {
             let answer = response.content.unwrap_or_default().trim().to_string();
             if answer.is_empty() {
@@ -297,7 +332,11 @@ async fn run_agent(query: &str, state: &AppState) -> Result<String, AgentError> 
                 ));
                 continue;
             }
-            let output = match state.sandbox.exec_tool(&call.function.name).await {
+            let output = match state
+                .sandbox
+                .exec_tool(&call.function.name, &call.function.arguments)
+                .await
+            {
                 Ok(result) => result.output,
                 Err(error) => format!("Error del sandbox: {error}"),
             };
@@ -314,9 +353,13 @@ async fn run_agent(query: &str, state: &AppState) -> Result<String, AgentError> 
 }
 
 fn is_allowed_tool(name: &str) -> bool {
-    matches!(name, "battery_status" | "gpu_diag" | "net_privacy")
+    matches!(
+        name,
+        "check_disk_space" | "check_memory" | "list_processes" | "battery_status" | "gpu_diag"
+    )
 }
 
+#[allow(dead_code)]
 fn validate_tool_arguments(arguments: &str) -> Result<(), &'static str> {
     let value: Value = serde_json::from_str(arguments).map_err(|_| "deben ser un objeto JSON")?;
     let object = value.as_object().ok_or("deben ser un objeto JSON")?;
@@ -342,9 +385,12 @@ mod tests {
 
     #[test]
     fn allows_only_declared_tools() {
+        assert!(is_allowed_tool("check_disk_space"));
+        assert!(is_allowed_tool("check_memory"));
+        assert!(is_allowed_tool("list_processes"));
         assert!(is_allowed_tool("battery_status"));
         assert!(is_allowed_tool("gpu_diag"));
-        assert!(is_allowed_tool("net_privacy"));
+        assert!(!is_allowed_tool("net_privacy"));
         assert!(!is_allowed_tool("rm_rf_root"));
     }
 

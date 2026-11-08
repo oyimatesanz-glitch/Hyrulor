@@ -1,0 +1,1002 @@
+{
+  "spec_001_hack": {
+    "description": "Especialidad enfocada en hack.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.75
+  },
+  "spec_002_security": {
+    "description": "Especialidad enfocada en security.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.14
+  },
+  "spec_003_security": {
+    "description": "Especialidad enfocada en security.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.21
+  },
+  "spec_004_vision": {
+    "description": "Especialidad enfocada en vision.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.24
+  },
+  "spec_005_design": {
+    "description": "Especialidad enfocada en design.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.67
+  },
+  "spec_006_hack": {
+    "description": "Especialidad enfocada en hack.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.5
+  },
+  "spec_007_logic": {
+    "description": "Especialidad enfocada en logic.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.38
+  },
+  "spec_008_vision": {
+    "description": "Especialidad enfocada en vision.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.34
+  },
+  "spec_009_hack": {
+    "description": "Especialidad enfocada en hack.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.52
+  },
+  "spec_010_security": {
+    "description": "Especialidad enfocada en security.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.61
+  },
+  "spec_011_math": {
+    "description": "Especialidad enfocada en math.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.26
+  },
+  "spec_012_logic": {
+    "description": "Especialidad enfocada en logic.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.77
+  },
+  "spec_013_design": {
+    "description": "Especialidad enfocada en design.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.28
+  },
+  "spec_014_hardware": {
+    "description": "Especialidad enfocada en hardware.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.66
+  },
+  "spec_015_vision": {
+    "description": "Especialidad enfocada en vision.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.76
+  },
+  "spec_016_security": {
+    "description": "Especialidad enfocada en security.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.27
+  },
+  "spec_017_math": {
+    "description": "Especialidad enfocada en math.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.5
+  },
+  "spec_018_vision": {
+    "description": "Especialidad enfocada en vision.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.29
+  },
+  "spec_019_vision": {
+    "description": "Especialidad enfocada en vision.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.36
+  },
+  "spec_020_math": {
+    "description": "Especialidad enfocada en math.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.38
+  },
+  "spec_021_logic": {
+    "description": "Especialidad enfocada en logic.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.42
+  },
+  "spec_022_hardware": {
+    "description": "Especialidad enfocada en hardware.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.2
+  },
+  "spec_023_hardware": {
+    "description": "Especialidad enfocada en hardware.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.13
+  },
+  "spec_024_web": {
+    "description": "Especialidad enfocada en web.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.55
+  },
+  "spec_025_hack": {
+    "description": "Especialidad enfocada en hack.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.51
+  },
+  "spec_026_web": {
+    "description": "Especialidad enfocada en web.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.41
+  },
+  "spec_027_web": {
+    "description": "Especialidad enfocada en web.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.74
+  },
+  "spec_028_design": {
+    "description": "Especialidad enfocada en design.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.36
+  },
+  "spec_029_code": {
+    "description": "Especialidad enfocada en code.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.14
+  },
+  "spec_030_voice": {
+    "description": "Especialidad enfocada en voice.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.29
+  },
+  "spec_031_code": {
+    "description": "Especialidad enfocada en code.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.25
+  },
+  "spec_032_web": {
+    "description": "Especialidad enfocada en web.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.78
+  },
+  "spec_033_code": {
+    "description": "Especialidad enfocada en code.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.73
+  },
+  "spec_034_math": {
+    "description": "Especialidad enfocada en math.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.41
+  },
+  "spec_035_security": {
+    "description": "Especialidad enfocada en security.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.42
+  },
+  "spec_036_code": {
+    "description": "Especialidad enfocada en code.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.4
+  },
+  "spec_037_hack": {
+    "description": "Especialidad enfocada en hack.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.15
+  },
+  "spec_038_hardware": {
+    "description": "Especialidad enfocada en hardware.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.15
+  },
+  "spec_039_logic": {
+    "description": "Especialidad enfocada en logic.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.2
+  },
+  "spec_040_hack": {
+    "description": "Especialidad enfocada en hack.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.28
+  },
+  "spec_041_math": {
+    "description": "Especialidad enfocada en math.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.78
+  },
+  "spec_042_hack": {
+    "description": "Especialidad enfocada en hack.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.3
+  },
+  "spec_043_math": {
+    "description": "Especialidad enfocada en math.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.67
+  },
+  "spec_044_vision": {
+    "description": "Especialidad enfocada en vision.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.5
+  },
+  "spec_045_hack": {
+    "description": "Especialidad enfocada en hack.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.75
+  },
+  "spec_046_security": {
+    "description": "Especialidad enfocada en security.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.35
+  },
+  "spec_047_math": {
+    "description": "Especialidad enfocada en math.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.63
+  },
+  "spec_048_design": {
+    "description": "Especialidad enfocada en design.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.49
+  },
+  "spec_049_logic": {
+    "description": "Especialidad enfocada en logic.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.41
+  },
+  "spec_050_hardware": {
+    "description": "Especialidad enfocada en hardware.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.73
+  },
+  "spec_051_web": {
+    "description": "Especialidad enfocada en web.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.4
+  },
+  "spec_052_logic": {
+    "description": "Especialidad enfocada en logic.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.68
+  },
+  "spec_053_logic": {
+    "description": "Especialidad enfocada en logic.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.44
+  },
+  "spec_054_web": {
+    "description": "Especialidad enfocada en web.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.48
+  },
+  "spec_055_hardware": {
+    "description": "Especialidad enfocada en hardware.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.2
+  },
+  "spec_056_code": {
+    "description": "Especialidad enfocada en code.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.22
+  },
+  "spec_057_hack": {
+    "description": "Especialidad enfocada en hack.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.31
+  },
+  "spec_058_web": {
+    "description": "Especialidad enfocada en web.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.48
+  },
+  "spec_059_security": {
+    "description": "Especialidad enfocada en security.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.35
+  },
+  "spec_060_web": {
+    "description": "Especialidad enfocada en web.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.57
+  },
+  "spec_061_voice": {
+    "description": "Especialidad enfocada en voice.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.38
+  },
+  "spec_062_hardware": {
+    "description": "Especialidad enfocada en hardware.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.68
+  },
+  "spec_063_security": {
+    "description": "Especialidad enfocada en security.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.52
+  },
+  "spec_064_math": {
+    "description": "Especialidad enfocada en math.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.34
+  },
+  "spec_065_web": {
+    "description": "Especialidad enfocada en web.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.2
+  },
+  "spec_066_voice": {
+    "description": "Especialidad enfocada en voice.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.65
+  },
+  "spec_067_hack": {
+    "description": "Especialidad enfocada en hack.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.26
+  },
+  "spec_068_security": {
+    "description": "Especialidad enfocada en security.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.42
+  },
+  "spec_069_vision": {
+    "description": "Especialidad enfocada en vision.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.64
+  },
+  "spec_070_design": {
+    "description": "Especialidad enfocada en design.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.58
+  },
+  "spec_071_security": {
+    "description": "Especialidad enfocada en security.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.79
+  },
+  "spec_072_math": {
+    "description": "Especialidad enfocada en math.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.35
+  },
+  "spec_073_security": {
+    "description": "Especialidad enfocada en security.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.58
+  },
+  "spec_074_hack": {
+    "description": "Especialidad enfocada en hack.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.61
+  },
+  "spec_075_security": {
+    "description": "Especialidad enfocada en security.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.29
+  },
+  "spec_076_web": {
+    "description": "Especialidad enfocada en web.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.56
+  },
+  "spec_077_vision": {
+    "description": "Especialidad enfocada en vision.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.4
+  },
+  "spec_078_hack": {
+    "description": "Especialidad enfocada en hack.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.49
+  },
+  "spec_079_security": {
+    "description": "Especialidad enfocada en security.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.36
+  },
+  "spec_080_design": {
+    "description": "Especialidad enfocada en design.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.4
+  },
+  "spec_081_design": {
+    "description": "Especialidad enfocada en design.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.16
+  },
+  "spec_082_logic": {
+    "description": "Especialidad enfocada en logic.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.8
+  },
+  "spec_083_vision": {
+    "description": "Especialidad enfocada en vision.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.24
+  },
+  "spec_084_hardware": {
+    "description": "Especialidad enfocada en hardware.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.29
+  },
+  "spec_085_security": {
+    "description": "Especialidad enfocada en security.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.23
+  },
+  "spec_086_logic": {
+    "description": "Especialidad enfocada en logic.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.56
+  },
+  "spec_087_hardware": {
+    "description": "Especialidad enfocada en hardware.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.34
+  },
+  "spec_088_vision": {
+    "description": "Especialidad enfocada en vision.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.71
+  },
+  "spec_089_security": {
+    "description": "Especialidad enfocada en security.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.73
+  },
+  "spec_090_code": {
+    "description": "Especialidad enfocada en code.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.39
+  },
+  "spec_091_code": {
+    "description": "Especialidad enfocada en code.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.52
+  },
+  "spec_092_vision": {
+    "description": "Especialidad enfocada en vision.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.67
+  },
+  "spec_093_code": {
+    "description": "Especialidad enfocada en code.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.4
+  },
+  "spec_094_design": {
+    "description": "Especialidad enfocada en design.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.13
+  },
+  "spec_095_voice": {
+    "description": "Especialidad enfocada en voice.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.26
+  },
+  "spec_096_voice": {
+    "description": "Especialidad enfocada en voice.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.51
+  },
+  "spec_097_logic": {
+    "description": "Especialidad enfocada en logic.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.74
+  },
+  "spec_098_voice": {
+    "description": "Especialidad enfocada en voice.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.77
+  },
+  "spec_099_web": {
+    "description": "Especialidad enfocada en web.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.49
+  },
+  "spec_100_math": {
+    "description": "Especialidad enfocada en math.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.54
+  },
+  "spec_101_hardware": {
+    "description": "Especialidad enfocada en hardware.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.3
+  },
+  "spec_102_hardware": {
+    "description": "Especialidad enfocada en hardware.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.2
+  },
+  "spec_103_web": {
+    "description": "Especialidad enfocada en web.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.69
+  },
+  "spec_104_hardware": {
+    "description": "Especialidad enfocada en hardware.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.54
+  },
+  "spec_105_code": {
+    "description": "Especialidad enfocada en code.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.32
+  },
+  "spec_106_hardware": {
+    "description": "Especialidad enfocada en hardware.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.46
+  },
+  "spec_107_voice": {
+    "description": "Especialidad enfocada en voice.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.6
+  },
+  "spec_108_hardware": {
+    "description": "Especialidad enfocada en hardware.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.46
+  },
+  "spec_109_voice": {
+    "description": "Especialidad enfocada en voice.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.12
+  },
+  "spec_110_web": {
+    "description": "Especialidad enfocada en web.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.76
+  },
+  "spec_111_voice": {
+    "description": "Especialidad enfocada en voice.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.55
+  },
+  "spec_112_math": {
+    "description": "Especialidad enfocada en math.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.31
+  },
+  "spec_113_code": {
+    "description": "Especialidad enfocada en code.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.55
+  },
+  "spec_114_math": {
+    "description": "Especialidad enfocada en math.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.21
+  },
+  "spec_115_hack": {
+    "description": "Especialidad enfocada en hack.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.13
+  },
+  "spec_116_logic": {
+    "description": "Especialidad enfocada en logic.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.5
+  },
+  "spec_117_web": {
+    "description": "Especialidad enfocada en web.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.43
+  },
+  "spec_118_hardware": {
+    "description": "Especialidad enfocada en hardware.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.22
+  },
+  "spec_119_logic": {
+    "description": "Especialidad enfocada en logic.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.31
+  },
+  "spec_120_hardware": {
+    "description": "Especialidad enfocada en hardware.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.44
+  },
+  "spec_121_voice": {
+    "description": "Especialidad enfocada en voice.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.28
+  },
+  "spec_122_web": {
+    "description": "Especialidad enfocada en web.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.77
+  },
+  "spec_123_hack": {
+    "description": "Especialidad enfocada en hack.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.51
+  },
+  "spec_124_hardware": {
+    "description": "Especialidad enfocada en hardware.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.1
+  },
+  "spec_125_logic": {
+    "description": "Especialidad enfocada en logic.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.74
+  },
+  "spec_126_hack": {
+    "description": "Especialidad enfocada en hack.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.37
+  },
+  "spec_127_voice": {
+    "description": "Especialidad enfocada en voice.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.33
+  },
+  "spec_128_math": {
+    "description": "Especialidad enfocada en math.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.24
+  },
+  "spec_129_math": {
+    "description": "Especialidad enfocada en math.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.21
+  },
+  "spec_130_vision": {
+    "description": "Especialidad enfocada en vision.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.69
+  },
+  "spec_131_design": {
+    "description": "Especialidad enfocada en design.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.42
+  },
+  "spec_132_design": {
+    "description": "Especialidad enfocada en design.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.38
+  },
+  "spec_133_hardware": {
+    "description": "Especialidad enfocada en hardware.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.35
+  },
+  "spec_134_hardware": {
+    "description": "Especialidad enfocada en hardware.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.19
+  },
+  "spec_135_hack": {
+    "description": "Especialidad enfocada en hack.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.39
+  },
+  "spec_136_web": {
+    "description": "Especialidad enfocada en web.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.37
+  },
+  "spec_137_hardware": {
+    "description": "Especialidad enfocada en hardware.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.15
+  },
+  "spec_138_hardware": {
+    "description": "Especialidad enfocada en hardware.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.72
+  },
+  "spec_139_voice": {
+    "description": "Especialidad enfocada en voice.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.18
+  },
+  "spec_140_voice": {
+    "description": "Especialidad enfocada en voice.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.27
+  },
+  "spec_141_hack": {
+    "description": "Especialidad enfocada en hack.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.76
+  },
+  "spec_142_hack": {
+    "description": "Especialidad enfocada en hack.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.72
+  },
+  "spec_143_math": {
+    "description": "Especialidad enfocada en math.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.36
+  },
+  "spec_144_voice": {
+    "description": "Especialidad enfocada en voice.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.6
+  },
+  "spec_145_code": {
+    "description": "Especialidad enfocada en code.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.35
+  },
+  "spec_146_math": {
+    "description": "Especialidad enfocada en math.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.79
+  },
+  "spec_147_web": {
+    "description": "Especialidad enfocada en web.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.8
+  },
+  "spec_148_math": {
+    "description": "Especialidad enfocada en math.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.5
+  },
+  "spec_149_logic": {
+    "description": "Especialidad enfocada en logic.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.7
+  },
+  "spec_150_math": {
+    "description": "Especialidad enfocada en math.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.56
+  },
+  "spec_151_hack": {
+    "description": "Especialidad enfocada en hack.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.2
+  },
+  "spec_152_math": {
+    "description": "Especialidad enfocada en math.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.61
+  },
+  "spec_153_hardware": {
+    "description": "Especialidad enfocada en hardware.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.78
+  },
+  "spec_154_code": {
+    "description": "Especialidad enfocada en code.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.76
+  },
+  "spec_155_design": {
+    "description": "Especialidad enfocada en design.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.24
+  },
+  "spec_156_vision": {
+    "description": "Especialidad enfocada en vision.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.15
+  },
+  "spec_157_security": {
+    "description": "Especialidad enfocada en security.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.72
+  },
+  "spec_158_code": {
+    "description": "Especialidad enfocada en code.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.69
+  },
+  "spec_159_security": {
+    "description": "Especialidad enfocada en security.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.25
+  },
+  "spec_160_hardware": {
+    "description": "Especialidad enfocada en hardware.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.62
+  },
+  "spec_161_math": {
+    "description": "Especialidad enfocada en math.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.52
+  },
+  "spec_162_code": {
+    "description": "Especialidad enfocada en code.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.25
+  },
+  "spec_163_math": {
+    "description": "Especialidad enfocada en math.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.61
+  },
+  "spec_164_voice": {
+    "description": "Especialidad enfocada en voice.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.16
+  },
+  "spec_165_math": {
+    "description": "Especialidad enfocada en math.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.39
+  },
+  "spec_166_voice": {
+    "description": "Especialidad enfocada en voice.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.37
+  },
+  "spec_167_web": {
+    "description": "Especialidad enfocada en web.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.45
+  },
+  "spec_168_security": {
+    "description": "Especialidad enfocada en security.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.25
+  },
+  "spec_169_vision": {
+    "description": "Especialidad enfocada en vision.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.17
+  },
+  "spec_170_security": {
+    "description": "Especialidad enfocada en security.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.23
+  },
+  "spec_171_voice": {
+    "description": "Especialidad enfocada en voice.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.67
+  },
+  "spec_172_design": {
+    "description": "Especialidad enfocada en design.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.13
+  },
+  "spec_173_web": {
+    "description": "Especialidad enfocada en web.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.26
+  },
+  "spec_174_math": {
+    "description": "Especialidad enfocada en math.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.24
+  },
+  "spec_175_voice": {
+    "description": "Especialidad enfocada en voice.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.29
+  },
+  "spec_176_vision": {
+    "description": "Especialidad enfocada en vision.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.34
+  },
+  "spec_177_security": {
+    "description": "Especialidad enfocada en security.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.34
+  },
+  "spec_178_logic": {
+    "description": "Especialidad enfocada en logic.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.68
+  },
+  "spec_179_hack": {
+    "description": "Especialidad enfocada en hack.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.64
+  },
+  "spec_180_hardware": {
+    "description": "Especialidad enfocada en hardware.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.55
+  },
+  "spec_181_hack": {
+    "description": "Especialidad enfocada en hack.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.19
+  },
+  "spec_182_hack": {
+    "description": "Especialidad enfocada en hack.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.47
+  },
+  "spec_183_vision": {
+    "description": "Especialidad enfocada en vision.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.77
+  },
+  "spec_184_design": {
+    "description": "Especialidad enfocada en design.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.15
+  },
+  "spec_185_vision": {
+    "description": "Especialidad enfocada en vision.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.62
+  },
+  "spec_186_security": {
+    "description": "Especialidad enfocada en security.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.3
+  },
+  "spec_187_math": {
+    "description": "Especialidad enfocada en math.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.2
+  },
+  "spec_188_web": {
+    "description": "Especialidad enfocada en web.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.68
+  },
+  "spec_189_web": {
+    "description": "Especialidad enfocada en web.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.71
+  },
+  "spec_190_vision": {
+    "description": "Especialidad enfocada en vision.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.26
+  },
+  "spec_191_web": {
+    "description": "Especialidad enfocada en web.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.63
+  },
+  "spec_192_design": {
+    "description": "Especialidad enfocada en design.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.4
+  },
+  "spec_193_math": {
+    "description": "Especialidad enfocada en math.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.19
+  },
+  "spec_194_voice": {
+    "description": "Especialidad enfocada en voice.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.21
+  },
+  "spec_195_hack": {
+    "description": "Especialidad enfocada en hack.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.45
+  },
+  "spec_196_vision": {
+    "description": "Especialidad enfocada en vision.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.72
+  },
+  "spec_197_code": {
+    "description": "Especialidad enfocada en code.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.7
+  },
+  "spec_198_voice": {
+    "description": "Especialidad enfocada en voice.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.42
+  },
+  "spec_199_logic": {
+    "description": "Especialidad enfocada en logic.",
+    "model_route": "Qwen2.5-Coder-7B",
+    "temperature": 0.3
+  },
+  "spec_200_logic": {
+    "description": "Especialidad enfocada en logic.",
+    "model_route": "Qwen2.5-3B",
+    "temperature": 0.38
+  }
+}

@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use tokio::{
     io::{AsyncReadExt, AsyncWriteExt},
-    net::TcpStream,
+    net::UnixStream,
     time::timeout,
 };
 
@@ -106,7 +106,7 @@ impl InferenceEngine {
 
         let address = self.address.clone();
         let result = timeout(Duration::from_secs(120), async move {
-            let mut stream = TcpStream::connect(address)
+            let mut stream = UnixStream::connect(address)
                 .await
                 .map_err(InferenceError::Connect)?;
 
@@ -165,26 +165,48 @@ fn parse_response(response: &[u8]) -> Result<ChatMessage, InferenceError> {
 }
 
 pub fn tool_definitions() -> Vec<ToolDefinition> {
-    [
-        ("battery_status", "Read battery state and health."),
-        ("gpu_diag", "Inspect available graphics hardware."),
-        ("net_privacy", "Inspect local network privacy status."),
-    ]
-    .into_iter()
-    .map(|(name, description)| ToolDefinition {
-        kind: "function",
-        function: FunctionDefinition {
-            name,
-            description,
-            parameters: serde_json::json!({
-                "type": "object",
-                "properties": {},
-                "required": [],
-                "additionalProperties": false
-            }),
+    vec![
+        ToolDefinition {
+            kind: "function",
+            function: FunctionDefinition {
+                name: "check_disk_space",
+                description: "Get the free and used disk space of the system.",
+                parameters: serde_json::json!({"type": "object", "properties": {}}),
+            },
         },
-    })
-    .collect()
+        ToolDefinition {
+            kind: "function",
+            function: FunctionDefinition {
+                name: "check_memory",
+                description: "Get the RAM memory usage of the system.",
+                parameters: serde_json::json!({"type": "object", "properties": {}}),
+            },
+        },
+        ToolDefinition {
+            kind: "function",
+            function: FunctionDefinition {
+                name: "list_processes",
+                description: "List the top CPU consuming processes.",
+                parameters: serde_json::json!({"type": "object", "properties": {}}),
+            },
+        },
+        ToolDefinition {
+            kind: "function",
+            function: FunctionDefinition {
+                name: "battery_status",
+                description: "Get the battery level and health.",
+                parameters: serde_json::json!({"type": "object", "properties": {}}),
+            },
+        },
+        ToolDefinition {
+            kind: "function",
+            function: FunctionDefinition {
+                name: "gpu_diag",
+                description: "Get GPU information and diagnostics.",
+                parameters: serde_json::json!({"type": "object", "properties": {}}),
+            },
+        },
+    ]
 }
 
 #[cfg(test)]

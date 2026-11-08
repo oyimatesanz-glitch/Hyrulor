@@ -1,0 +1,802 @@
+{
+  "tool_001_cat": {
+    "description": "Ejecuta el comando de sistema: cat -t",
+    "command": "cat -t"
+  },
+  "tool_002_systemctl": {
+    "description": "Ejecuta el comando de sistema: systemctl -r",
+    "command": "systemctl -r"
+  },
+  "tool_003_uname": {
+    "description": "Ejecuta el comando de sistema: uname -h",
+    "command": "uname -h"
+  },
+  "tool_004_free": {
+    "description": "Ejecuta el comando de sistema: free -n 10",
+    "command": "free -n 10"
+  },
+  "tool_005_systemctl": {
+    "description": "Ejecuta el comando de sistema: systemctl -l",
+    "command": "systemctl -l"
+  },
+  "tool_006_du": {
+    "description": "Ejecuta el comando de sistema: du -a",
+    "command": "du -a"
+  },
+  "tool_007_cat": {
+    "description": "Ejecuta el comando de sistema: cat -a",
+    "command": "cat -a"
+  },
+  "tool_008_git": {
+    "description": "Ejecuta el comando de sistema: git -v",
+    "command": "git -v"
+  },
+  "tool_009_systemctl": {
+    "description": "Ejecuta el comando de sistema: systemctl -n 10",
+    "command": "systemctl -n 10"
+  },
+  "tool_010_docker": {
+    "description": "Ejecuta el comando de sistema: docker -t",
+    "command": "docker -t"
+  },
+  "tool_011_journalctl": {
+    "description": "Ejecuta el comando de sistema: journalctl",
+    "command": "journalctl"
+  },
+  "tool_012_curl": {
+    "description": "Ejecuta el comando de sistema: curl --verbose",
+    "command": "curl --verbose"
+  },
+  "tool_013_find": {
+    "description": "Ejecuta el comando de sistema: find --verbose",
+    "command": "find --verbose"
+  },
+  "tool_014_ls": {
+    "description": "Ejecuta el comando de sistema: ls -h",
+    "command": "ls -h"
+  },
+  "tool_015_curl": {
+    "description": "Ejecuta el comando de sistema: curl --verbose",
+    "command": "curl --verbose"
+  },
+  "tool_016_df": {
+    "description": "Ejecuta el comando de sistema: df -h",
+    "command": "df -h"
+  },
+  "tool_017_docker": {
+    "description": "Ejecuta el comando de sistema: docker -n 10",
+    "command": "docker -n 10"
+  },
+  "tool_018_ip": {
+    "description": "Ejecuta el comando de sistema: ip",
+    "command": "ip"
+  },
+  "tool_019_ps": {
+    "description": "Ejecuta el comando de sistema: ps -v",
+    "command": "ps -v"
+  },
+  "tool_020_ps": {
+    "description": "Ejecuta el comando de sistema: ps -l",
+    "command": "ps -l"
+  },
+  "tool_021_df": {
+    "description": "Ejecuta el comando de sistema: df -a",
+    "command": "df -a"
+  },
+  "tool_022_cat": {
+    "description": "Ejecuta el comando de sistema: cat -r",
+    "command": "cat -r"
+  },
+  "tool_023_ip": {
+    "description": "Ejecuta el comando de sistema: ip --verbose",
+    "command": "ip --verbose"
+  },
+  "tool_024_ufw": {
+    "description": "Ejecuta el comando de sistema: ufw -a",
+    "command": "ufw -a"
+  },
+  "tool_025_ps": {
+    "description": "Ejecuta el comando de sistema: ps --all",
+    "command": "ps --all"
+  },
+  "tool_026_wc": {
+    "description": "Ejecuta el comando de sistema: wc --all",
+    "command": "wc --all"
+  },
+  "tool_027_grep": {
+    "description": "Ejecuta el comando de sistema: grep -v",
+    "command": "grep -v"
+  },
+  "tool_028_uname": {
+    "description": "Ejecuta el comando de sistema: uname",
+    "command": "uname"
+  },
+  "tool_029_grep": {
+    "description": "Ejecuta el comando de sistema: grep -l",
+    "command": "grep -l"
+  },
+  "tool_030_systemctl": {
+    "description": "Ejecuta el comando de sistema: systemctl -t",
+    "command": "systemctl -t"
+  },
+  "tool_031_journalctl": {
+    "description": "Ejecuta el comando de sistema: journalctl -t",
+    "command": "journalctl -t"
+  },
+  "tool_032_ufw": {
+    "description": "Ejecuta el comando de sistema: ufw --verbose",
+    "command": "ufw --verbose"
+  },
+  "tool_033_cargo": {
+    "description": "Ejecuta el comando de sistema: cargo",
+    "command": "cargo"
+  },
+  "tool_034_ss": {
+    "description": "Ejecuta el comando de sistema: ss -h",
+    "command": "ss -h"
+  },
+  "tool_035_ip": {
+    "description": "Ejecuta el comando de sistema: ip -h",
+    "command": "ip -h"
+  },
+  "tool_036_ls": {
+    "description": "Ejecuta el comando de sistema: ls -l",
+    "command": "ls -l"
+  },
+  "tool_037_cargo": {
+    "description": "Ejecuta el comando de sistema: cargo --verbose",
+    "command": "cargo --verbose"
+  },
+  "tool_038_grep": {
+    "description": "Ejecuta el comando de sistema: grep",
+    "command": "grep"
+  },
+  "tool_039_du": {
+    "description": "Ejecuta el comando de sistema: du -v",
+    "command": "du -v"
+  },
+  "tool_040_cargo": {
+    "description": "Ejecuta el comando de sistema: cargo -h",
+    "command": "cargo -h"
+  },
+  "tool_041_docker": {
+    "description": "Ejecuta el comando de sistema: docker",
+    "command": "docker"
+  },
+  "tool_042_wc": {
+    "description": "Ejecuta el comando de sistema: wc --verbose",
+    "command": "wc --verbose"
+  },
+  "tool_043_cargo": {
+    "description": "Ejecuta el comando de sistema: cargo -v",
+    "command": "cargo -v"
+  },
+  "tool_044_cargo": {
+    "description": "Ejecuta el comando de sistema: cargo -l",
+    "command": "cargo -l"
+  },
+  "tool_045_grep": {
+    "description": "Ejecuta el comando de sistema: grep",
+    "command": "grep"
+  },
+  "tool_046_journalctl": {
+    "description": "Ejecuta el comando de sistema: journalctl --all",
+    "command": "journalctl --all"
+  },
+  "tool_047_systemctl": {
+    "description": "Ejecuta el comando de sistema: systemctl -v",
+    "command": "systemctl -v"
+  },
+  "tool_048_ip": {
+    "description": "Ejecuta el comando de sistema: ip -t",
+    "command": "ip -t"
+  },
+  "tool_049_find": {
+    "description": "Ejecuta el comando de sistema: find -h",
+    "command": "find -h"
+  },
+  "tool_050_ps": {
+    "description": "Ejecuta el comando de sistema: ps --verbose",
+    "command": "ps --verbose"
+  },
+  "tool_051_find": {
+    "description": "Ejecuta el comando de sistema: find -r",
+    "command": "find -r"
+  },
+  "tool_052_git": {
+    "description": "Ejecuta el comando de sistema: git -h",
+    "command": "git -h"
+  },
+  "tool_053_df": {
+    "description": "Ejecuta el comando de sistema: df -a",
+    "command": "df -a"
+  },
+  "tool_054_ls": {
+    "description": "Ejecuta el comando de sistema: ls -v",
+    "command": "ls -v"
+  },
+  "tool_055_ufw": {
+    "description": "Ejecuta el comando de sistema: ufw -r",
+    "command": "ufw -r"
+  },
+  "tool_056_ss": {
+    "description": "Ejecuta el comando de sistema: ss",
+    "command": "ss"
+  },
+  "tool_057_ping": {
+    "description": "Ejecuta el comando de sistema: ping",
+    "command": "ping"
+  },
+  "tool_058_git": {
+    "description": "Ejecuta el comando de sistema: git -l",
+    "command": "git -l"
+  },
+  "tool_059_git": {
+    "description": "Ejecuta el comando de sistema: git -v",
+    "command": "git -v"
+  },
+  "tool_060_find": {
+    "description": "Ejecuta el comando de sistema: find -v",
+    "command": "find -v"
+  },
+  "tool_061_ping": {
+    "description": "Ejecuta el comando de sistema: ping --verbose",
+    "command": "ping --verbose"
+  },
+  "tool_062_df": {
+    "description": "Ejecuta el comando de sistema: df -v",
+    "command": "df -v"
+  },
+  "tool_063_curl": {
+    "description": "Ejecuta el comando de sistema: curl -r",
+    "command": "curl -r"
+  },
+  "tool_064_ip": {
+    "description": "Ejecuta el comando de sistema: ip -t",
+    "command": "ip -t"
+  },
+  "tool_065_curl": {
+    "description": "Ejecuta el comando de sistema: curl -a",
+    "command": "curl -a"
+  },
+  "tool_066_ufw": {
+    "description": "Ejecuta el comando de sistema: ufw -a",
+    "command": "ufw -a"
+  },
+  "tool_067_cat": {
+    "description": "Ejecuta el comando de sistema: cat -a",
+    "command": "cat -a"
+  },
+  "tool_068_cat": {
+    "description": "Ejecuta el comando de sistema: cat -h",
+    "command": "cat -h"
+  },
+  "tool_069_git": {
+    "description": "Ejecuta el comando de sistema: git --verbose",
+    "command": "git --verbose"
+  },
+  "tool_070_git": {
+    "description": "Ejecuta el comando de sistema: git -t",
+    "command": "git -t"
+  },
+  "tool_071_systemctl": {
+    "description": "Ejecuta el comando de sistema: systemctl --all",
+    "command": "systemctl --all"
+  },
+  "tool_072_find": {
+    "description": "Ejecuta el comando de sistema: find -h",
+    "command": "find -h"
+  },
+  "tool_073_ls": {
+    "description": "Ejecuta el comando de sistema: ls -l",
+    "command": "ls -l"
+  },
+  "tool_074_df": {
+    "description": "Ejecuta el comando de sistema: df -r",
+    "command": "df -r"
+  },
+  "tool_075_docker": {
+    "description": "Ejecuta el comando de sistema: docker -l",
+    "command": "docker -l"
+  },
+  "tool_076_git": {
+    "description": "Ejecuta el comando de sistema: git",
+    "command": "git"
+  },
+  "tool_077_ls": {
+    "description": "Ejecuta el comando de sistema: ls -t",
+    "command": "ls -t"
+  },
+  "tool_078_docker": {
+    "description": "Ejecuta el comando de sistema: docker -r",
+    "command": "docker -r"
+  },
+  "tool_079_journalctl": {
+    "description": "Ejecuta el comando de sistema: journalctl -h",
+    "command": "journalctl -h"
+  },
+  "tool_080_df": {
+    "description": "Ejecuta el comando de sistema: df -t",
+    "command": "df -t"
+  },
+  "tool_081_ip": {
+    "description": "Ejecuta el comando de sistema: ip -t",
+    "command": "ip -t"
+  },
+  "tool_082_systemctl": {
+    "description": "Ejecuta el comando de sistema: systemctl -n 10",
+    "command": "systemctl -n 10"
+  },
+  "tool_083_docker": {
+    "description": "Ejecuta el comando de sistema: docker --verbose",
+    "command": "docker --verbose"
+  },
+  "tool_084_ufw": {
+    "description": "Ejecuta el comando de sistema: ufw -r",
+    "command": "ufw -r"
+  },
+  "tool_085_wc": {
+    "description": "Ejecuta el comando de sistema: wc --verbose",
+    "command": "wc --verbose"
+  },
+  "tool_086_systemctl": {
+    "description": "Ejecuta el comando de sistema: systemctl -r",
+    "command": "systemctl -r"
+  },
+  "tool_087_journalctl": {
+    "description": "Ejecuta el comando de sistema: journalctl -l",
+    "command": "journalctl -l"
+  },
+  "tool_088_docker": {
+    "description": "Ejecuta el comando de sistema: docker -v",
+    "command": "docker -v"
+  },
+  "tool_089_ping": {
+    "description": "Ejecuta el comando de sistema: ping",
+    "command": "ping"
+  },
+  "tool_090_free": {
+    "description": "Ejecuta el comando de sistema: free --all",
+    "command": "free --all"
+  },
+  "tool_091_wc": {
+    "description": "Ejecuta el comando de sistema: wc",
+    "command": "wc"
+  },
+  "tool_092_ls": {
+    "description": "Ejecuta el comando de sistema: ls -r",
+    "command": "ls -r"
+  },
+  "tool_093_journalctl": {
+    "description": "Ejecuta el comando de sistema: journalctl --verbose",
+    "command": "journalctl --verbose"
+  },
+  "tool_094_wc": {
+    "description": "Ejecuta el comando de sistema: wc -l",
+    "command": "wc -l"
+  },
+  "tool_095_ss": {
+    "description": "Ejecuta el comando de sistema: ss -a",
+    "command": "ss -a"
+  },
+  "tool_096_uname": {
+    "description": "Ejecuta el comando de sistema: uname -l",
+    "command": "uname -l"
+  },
+  "tool_097_free": {
+    "description": "Ejecuta el comando de sistema: free --all",
+    "command": "free --all"
+  },
+  "tool_098_du": {
+    "description": "Ejecuta el comando de sistema: du --verbose",
+    "command": "du --verbose"
+  },
+  "tool_099_cargo": {
+    "description": "Ejecuta el comando de sistema: cargo -h",
+    "command": "cargo -h"
+  },
+  "tool_100_find": {
+    "description": "Ejecuta el comando de sistema: find -t",
+    "command": "find -t"
+  },
+  "tool_101_docker": {
+    "description": "Ejecuta el comando de sistema: docker -h",
+    "command": "docker -h"
+  },
+  "tool_102_free": {
+    "description": "Ejecuta el comando de sistema: free",
+    "command": "free"
+  },
+  "tool_103_cargo": {
+    "description": "Ejecuta el comando de sistema: cargo -l",
+    "command": "cargo -l"
+  },
+  "tool_104_wc": {
+    "description": "Ejecuta el comando de sistema: wc",
+    "command": "wc"
+  },
+  "tool_105_journalctl": {
+    "description": "Ejecuta el comando de sistema: journalctl --verbose",
+    "command": "journalctl --verbose"
+  },
+  "tool_106_ls": {
+    "description": "Ejecuta el comando de sistema: ls --all",
+    "command": "ls --all"
+  },
+  "tool_107_wc": {
+    "description": "Ejecuta el comando de sistema: wc -h",
+    "command": "wc -h"
+  },
+  "tool_108_free": {
+    "description": "Ejecuta el comando de sistema: free -r",
+    "command": "free -r"
+  },
+  "tool_109_journalctl": {
+    "description": "Ejecuta el comando de sistema: journalctl -r",
+    "command": "journalctl -r"
+  },
+  "tool_110_docker": {
+    "description": "Ejecuta el comando de sistema: docker -n 10",
+    "command": "docker -n 10"
+  },
+  "tool_111_find": {
+    "description": "Ejecuta el comando de sistema: find -r",
+    "command": "find -r"
+  },
+  "tool_112_ps": {
+    "description": "Ejecuta el comando de sistema: ps --all",
+    "command": "ps --all"
+  },
+  "tool_113_find": {
+    "description": "Ejecuta el comando de sistema: find -a",
+    "command": "find -a"
+  },
+  "tool_114_git": {
+    "description": "Ejecuta el comando de sistema: git -h",
+    "command": "git -h"
+  },
+  "tool_115_ip": {
+    "description": "Ejecuta el comando de sistema: ip -a",
+    "command": "ip -a"
+  },
+  "tool_116_find": {
+    "description": "Ejecuta el comando de sistema: find -r",
+    "command": "find -r"
+  },
+  "tool_117_cargo": {
+    "description": "Ejecuta el comando de sistema: cargo --verbose",
+    "command": "cargo --verbose"
+  },
+  "tool_118_cargo": {
+    "description": "Ejecuta el comando de sistema: cargo -n 10",
+    "command": "cargo -n 10"
+  },
+  "tool_119_ss": {
+    "description": "Ejecuta el comando de sistema: ss -a",
+    "command": "ss -a"
+  },
+  "tool_120_free": {
+    "description": "Ejecuta el comando de sistema: free -v",
+    "command": "free -v"
+  },
+  "tool_121_free": {
+    "description": "Ejecuta el comando de sistema: free",
+    "command": "free"
+  },
+  "tool_122_free": {
+    "description": "Ejecuta el comando de sistema: free",
+    "command": "free"
+  },
+  "tool_123_ss": {
+    "description": "Ejecuta el comando de sistema: ss -h",
+    "command": "ss -h"
+  },
+  "tool_124_du": {
+    "description": "Ejecuta el comando de sistema: du -a",
+    "command": "du -a"
+  },
+  "tool_125_journalctl": {
+    "description": "Ejecuta el comando de sistema: journalctl --all",
+    "command": "journalctl --all"
+  },
+  "tool_126_find": {
+    "description": "Ejecuta el comando de sistema: find -a",
+    "command": "find -a"
+  },
+  "tool_127_ip": {
+    "description": "Ejecuta el comando de sistema: ip -a",
+    "command": "ip -a"
+  },
+  "tool_128_journalctl": {
+    "description": "Ejecuta el comando de sistema: journalctl",
+    "command": "journalctl"
+  },
+  "tool_129_du": {
+    "description": "Ejecuta el comando de sistema: du -h",
+    "command": "du -h"
+  },
+  "tool_130_ls": {
+    "description": "Ejecuta el comando de sistema: ls --all",
+    "command": "ls --all"
+  },
+  "tool_131_ss": {
+    "description": "Ejecuta el comando de sistema: ss -h",
+    "command": "ss -h"
+  },
+  "tool_132_ip": {
+    "description": "Ejecuta el comando de sistema: ip",
+    "command": "ip"
+  },
+  "tool_133_find": {
+    "description": "Ejecuta el comando de sistema: find",
+    "command": "find"
+  },
+  "tool_134_curl": {
+    "description": "Ejecuta el comando de sistema: curl -t",
+    "command": "curl -t"
+  },
+  "tool_135_find": {
+    "description": "Ejecuta el comando de sistema: find -n 10",
+    "command": "find -n 10"
+  },
+  "tool_136_ufw": {
+    "description": "Ejecuta el comando de sistema: ufw --verbose",
+    "command": "ufw --verbose"
+  },
+  "tool_137_uname": {
+    "description": "Ejecuta el comando de sistema: uname --all",
+    "command": "uname --all"
+  },
+  "tool_138_systemctl": {
+    "description": "Ejecuta el comando de sistema: systemctl -h",
+    "command": "systemctl -h"
+  },
+  "tool_139_git": {
+    "description": "Ejecuta el comando de sistema: git --all",
+    "command": "git --all"
+  },
+  "tool_140_ufw": {
+    "description": "Ejecuta el comando de sistema: ufw --all",
+    "command": "ufw --all"
+  },
+  "tool_141_uname": {
+    "description": "Ejecuta el comando de sistema: uname -n 10",
+    "command": "uname -n 10"
+  },
+  "tool_142_ufw": {
+    "description": "Ejecuta el comando de sistema: ufw -t",
+    "command": "ufw -t"
+  },
+  "tool_143_ip": {
+    "description": "Ejecuta el comando de sistema: ip -t",
+    "command": "ip -t"
+  },
+  "tool_144_grep": {
+    "description": "Ejecuta el comando de sistema: grep --verbose",
+    "command": "grep --verbose"
+  },
+  "tool_145_uname": {
+    "description": "Ejecuta el comando de sistema: uname -h",
+    "command": "uname -h"
+  },
+  "tool_146_journalctl": {
+    "description": "Ejecuta el comando de sistema: journalctl",
+    "command": "journalctl"
+  },
+  "tool_147_journalctl": {
+    "description": "Ejecuta el comando de sistema: journalctl -r",
+    "command": "journalctl -r"
+  },
+  "tool_148_ps": {
+    "description": "Ejecuta el comando de sistema: ps -r",
+    "command": "ps -r"
+  },
+  "tool_149_uname": {
+    "description": "Ejecuta el comando de sistema: uname -r",
+    "command": "uname -r"
+  },
+  "tool_150_df": {
+    "description": "Ejecuta el comando de sistema: df -n 10",
+    "command": "df -n 10"
+  },
+  "tool_151_df": {
+    "description": "Ejecuta el comando de sistema: df -r",
+    "command": "df -r"
+  },
+  "tool_152_ss": {
+    "description": "Ejecuta el comando de sistema: ss -l",
+    "command": "ss -l"
+  },
+  "tool_153_ping": {
+    "description": "Ejecuta el comando de sistema: ping -h",
+    "command": "ping -h"
+  },
+  "tool_154_grep": {
+    "description": "Ejecuta el comando de sistema: grep --all",
+    "command": "grep --all"
+  },
+  "tool_155_git": {
+    "description": "Ejecuta el comando de sistema: git -r",
+    "command": "git -r"
+  },
+  "tool_156_ip": {
+    "description": "Ejecuta el comando de sistema: ip -t",
+    "command": "ip -t"
+  },
+  "tool_157_ping": {
+    "description": "Ejecuta el comando de sistema: ping",
+    "command": "ping"
+  },
+  "tool_158_df": {
+    "description": "Ejecuta el comando de sistema: df --all",
+    "command": "df --all"
+  },
+  "tool_159_docker": {
+    "description": "Ejecuta el comando de sistema: docker -a",
+    "command": "docker -a"
+  },
+  "tool_160_ip": {
+    "description": "Ejecuta el comando de sistema: ip -t",
+    "command": "ip -t"
+  },
+  "tool_161_grep": {
+    "description": "Ejecuta el comando de sistema: grep -a",
+    "command": "grep -a"
+  },
+  "tool_162_du": {
+    "description": "Ejecuta el comando de sistema: du -v",
+    "command": "du -v"
+  },
+  "tool_163_free": {
+    "description": "Ejecuta el comando de sistema: free",
+    "command": "free"
+  },
+  "tool_164_ls": {
+    "description": "Ejecuta el comando de sistema: ls -h",
+    "command": "ls -h"
+  },
+  "tool_165_find": {
+    "description": "Ejecuta el comando de sistema: find -a",
+    "command": "find -a"
+  },
+  "tool_166_uname": {
+    "description": "Ejecuta el comando de sistema: uname -r",
+    "command": "uname -r"
+  },
+  "tool_167_journalctl": {
+    "description": "Ejecuta el comando de sistema: journalctl -l",
+    "command": "journalctl -l"
+  },
+  "tool_168_grep": {
+    "description": "Ejecuta el comando de sistema: grep --verbose",
+    "command": "grep --verbose"
+  },
+  "tool_169_cat": {
+    "description": "Ejecuta el comando de sistema: cat -l",
+    "command": "cat -l"
+  },
+  "tool_170_ls": {
+    "description": "Ejecuta el comando de sistema: ls --verbose",
+    "command": "ls --verbose"
+  },
+  "tool_171_ip": {
+    "description": "Ejecuta el comando de sistema: ip -a",
+    "command": "ip -a"
+  },
+  "tool_172_grep": {
+    "description": "Ejecuta el comando de sistema: grep -a",
+    "command": "grep -a"
+  },
+  "tool_173_git": {
+    "description": "Ejecuta el comando de sistema: git -h",
+    "command": "git -h"
+  },
+  "tool_174_find": {
+    "description": "Ejecuta el comando de sistema: find -l",
+    "command": "find -l"
+  },
+  "tool_175_cat": {
+    "description": "Ejecuta el comando de sistema: cat -v",
+    "command": "cat -v"
+  },
+  "tool_176_cargo": {
+    "description": "Ejecuta el comando de sistema: cargo --verbose",
+    "command": "cargo --verbose"
+  },
+  "tool_177_journalctl": {
+    "description": "Ejecuta el comando de sistema: journalctl -v",
+    "command": "journalctl -v"
+  },
+  "tool_178_cat": {
+    "description": "Ejecuta el comando de sistema: cat --all",
+    "command": "cat --all"
+  },
+  "tool_179_wc": {
+    "description": "Ejecuta el comando de sistema: wc -l",
+    "command": "wc -l"
+  },
+  "tool_180_docker": {
+    "description": "Ejecuta el comando de sistema: docker -t",
+    "command": "docker -t"
+  },
+  "tool_181_find": {
+    "description": "Ejecuta el comando de sistema: find -h",
+    "command": "find -h"
+  },
+  "tool_182_grep": {
+    "description": "Ejecuta el comando de sistema: grep -a",
+    "command": "grep -a"
+  },
+  "tool_183_du": {
+    "description": "Ejecuta el comando de sistema: du -t",
+    "command": "du -t"
+  },
+  "tool_184_cat": {
+    "description": "Ejecuta el comando de sistema: cat --verbose",
+    "command": "cat --verbose"
+  },
+  "tool_185_grep": {
+    "description": "Ejecuta el comando de sistema: grep -t",
+    "command": "grep -t"
+  },
+  "tool_186_cat": {
+    "description": "Ejecuta el comando de sistema: cat -l",
+    "command": "cat -l"
+  },
+  "tool_187_cargo": {
+    "description": "Ejecuta el comando de sistema: cargo --verbose",
+    "command": "cargo --verbose"
+  },
+  "tool_188_ls": {
+    "description": "Ejecuta el comando de sistema: ls -v",
+    "command": "ls -v"
+  },
+  "tool_189_wc": {
+    "description": "Ejecuta el comando de sistema: wc --all",
+    "command": "wc --all"
+  },
+  "tool_190_git": {
+    "description": "Ejecuta el comando de sistema: git -t",
+    "command": "git -t"
+  },
+  "tool_191_ufw": {
+    "description": "Ejecuta el comando de sistema: ufw -n 10",
+    "command": "ufw -n 10"
+  },
+  "tool_192_cat": {
+    "description": "Ejecuta el comando de sistema: cat -n 10",
+    "command": "cat -n 10"
+  },
+  "tool_193_find": {
+    "description": "Ejecuta el comando de sistema: find -r",
+    "command": "find -r"
+  },
+  "tool_194_cat": {
+    "description": "Ejecuta el comando de sistema: cat -v",
+    "command": "cat -v"
+  },
+  "tool_195_journalctl": {
+    "description": "Ejecuta el comando de sistema: journalctl --verbose",
+    "command": "journalctl --verbose"
+  },
+  "tool_196_ping": {
+    "description": "Ejecuta el comando de sistema: ping --all",
+    "command": "ping --all"
+  },
+  "tool_197_systemctl": {
+    "description": "Ejecuta el comando de sistema: systemctl --verbose",
+    "command": "systemctl --verbose"
+  },
+  "tool_198_ping": {
+    "description": "Ejecuta el comando de sistema: ping -h",
+    "command": "ping -h"
+  },
+  "tool_199_systemctl": {
+    "description": "Ejecuta el comando de sistema: systemctl -t",
+    "command": "systemctl -t"
+  },
+  "tool_200_ping": {
+    "description": "Ejecuta el comando de sistema: ping -v",
+    "command": "ping -v"
+  }
+}

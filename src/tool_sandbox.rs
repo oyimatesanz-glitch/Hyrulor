@@ -64,6 +64,7 @@ impl ToolSandbox {
                 ("system_info", "system_info.sh"),
                 ("date_time", "date_time.sh"),
                 ("ping_host", "ping_host.sh"),
+                ("offensive_security_action", "offensive_security_action.sh"),
             ]),
         })
     }

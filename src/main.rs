@@ -1,13 +1,17 @@
+mod audit;
 mod embedding_client;
+mod guard_client;
 mod inference_engine;
 mod memory_vault;
 mod protocol;
 mod tool_sandbox;
+mod vision_client;
+mod voice;
 
 use std::{
     env,
     os::unix::fs::{FileTypeExt, PermissionsExt},
-    path::PathBuf,
+    path::{Path, PathBuf},
     sync::Arc,
 };
 
@@ -23,6 +27,8 @@ enum AppError {
     Memory(#[from] memory_vault::MemoryError),
     #[error("tool sandbox: {0}")]
     Sandbox(#[from] tool_sandbox::ToolError),
+    #[error("audit log: {0}")]
+    Audit(#[from] audit::AuditError),
     #[error("io: {0}")]
     Io(#[from] std::io::Error),
     #[error("refusing to replace a non-socket path: {0}")]
@@ -78,19 +84,63 @@ async fn main() -> Result<(), AppError> {
     let embedding_addr = env::var("HYORY_EMBEDDING_ADDR")
         .or_else(|_| env::var("HYORY_EMBEDDING_SOCKET"))
         .unwrap_or_else(|_| "127.0.0.1:8081".to_string());
-    let embedding_client = embedding_client::EmbeddingClient::new(embedding_addr);
+    let reranker_socket = env::var_os("HYORY_RERANKER_SOCKET").map(PathBuf::from);
+    let embedding_client = embedding_client::EmbeddingClient::new(embedding_addr.into())
+        .with_reranker(reranker_socket);
 
-    let state = Arc::new(AppState {
+    let guard_socket =
+        env::var("HYORY_GUARD_SOCKET").unwrap_or_else(|_| default_run_socket("guard.sock"));
+    let guard = guard_client::GuardClient::new(InferenceEngine::new(
+        guard_socket,
+        "Qwen3Guard".to_string(),
+    ));
+
+    let audit_dir = env::var_os("HYORY_AUDIT_DIR")
+        .map(PathBuf::from)
+        .unwrap_or_else(|| PathBuf::from("audit"));
+    let audit = audit::AuditLog::open(audit_dir)?;
+
+    let mode_file = env::var_os("HYORY_MODE_FILE")
+        .map(PathBuf::from)
+        .unwrap_or_else(|| PathBuf::from("hyory.mode"));
+    let secure_mode = read_mode(&mode_file).unwrap_or_else(|| env_flag("HYORY_SECURE_MODE"));
+
+    let vision = env::var_os("HYORY_VISION_SOCKET")
+        .map(PathBuf::from)
+        .filter(|socket| socket.exists())
+        .map(|socket| {
+            let model = env::var("HYORY_VISION_MODEL")
+                .unwrap_or_else(|_| "Qwen2.5-VL-3B-Instruct".to_string());
+            vision_client::VisionClient::new(socket, model)
+        });
+    let voice = voice::VoiceEngine::from_env();
+    info!(
+        vision = vision.is_some(),
+        voice = voice.is_some(),
+        "special senses"
+    );
+
+    let state = Arc::new(AppState::new(
         vault,
         sandbox,
         inference,
         coder,
         embedding_client,
-    });
+        guard,
+        audit,
+        vision,
+        voice,
+        secure_mode,
+        mode_file,
+    ));
     let listener = UnixListener::bind(&socket_path)?;
     tokio::fs::set_permissions(&socket_path, std::fs::Permissions::from_mode(0o600)).await?;
 
-    info!(socket = %socket_path.display(), "Hyory daemon listening");
+    info!(
+        socket = %socket_path.display(),
+        secure_mode,
+        "Hyory daemon listening"
+    );
 
     let accept_loop = async {
         loop {
@@ -115,4 +165,32 @@ async fn main() -> Result<(), AppError> {
         error!(%err, "failed to remove daemon socket");
     }
     Ok(())
+}
+
+fn read_mode(path: &Path) -> Option<bool> {
+    std::fs::read_to_string(path)
+        .ok()
+        .map(|value| value.trim().eq_ignore_ascii_case("secure"))
+}
+
+fn env_flag(name: &str) -> bool {
+    matches!(
+        env::var(name)
+            .unwrap_or_default()
+            .trim()
+            .to_ascii_lowercase()
+            .as_str(),
+        "1" | "true" | "yes" | "on" | "secure"
+    )
+}
+
+fn default_run_socket(name: &str) -> String {
+    match env::var_os("HOME") {
+        Some(home) => PathBuf::from(home)
+            .join(".hyrulor_run")
+            .join(name)
+            .to_string_lossy()
+            .into_owned(),
+        None => format!("/tmp/{name}"),
+    }
 }

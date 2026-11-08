@@ -249,6 +249,23 @@ pub fn tool_definitions() -> Vec<ToolDefinition> {
                 parameters: serde_json::json!({"type": "object", "properties": {"host": {"type": "string"}}, "required": ["host"]}),
             },
         },
+        ToolDefinition {
+            kind: "function",
+            function: FunctionDefinition {
+                name: "offensive_security_action",
+                description: "Request explicit human authorization before any offensive security action (scan, exploit, pentest, attack). \
+                              NEVER execute it directly: the daemon returns an authorization form and runs the action in a sandbox only after the human approves.",
+                parameters: serde_json::json!({
+                    "type": "object",
+                    "properties": {
+                        "action": {"type": "string", "description": "e.g. port_scan, exploit_validation, credential_audit"},
+                        "target": {"type": "string", "description": "IP, domain or host proposed by the user"},
+                        "reason": {"type": "string", "description": "Why this action is needed"}
+                    },
+                    "required": ["action", "target"]
+                }),
+            },
+        },
     ]
 }
 

@@ -25,20 +25,62 @@ Hyrulor opera bajo una **arquitectura de enjambre de modelos** (Mixture of Exper
 2. **Capa de Inferencia (llama.cpp + Vulkan):** 
    * *Motor Principal:* `Qwen3.5-4B-Instruct` (Q4_K_M, contexto 8K, acelerado por hardware vía Vulkan).
    * *Motor de Memoria:* `Qwen3-Embedding-0.6B` (generación de vectores para RAG).
+   * *Reranker:* `Qwen3-Reranker-0.6B` (`/v1/rerank`) reordena los fragmentos por relevancia real antes de pasarlos al Coder.
+   * *Guardián:* `Qwen3Guard-Gen-0.6B` clasifica peticiones y respuestas (`Safety: Safe|Controversial|Unsafe`).
+   * *Visión:* `Qwen2.5-VL-3B-Instruct` + `mmproj` en `vision.sock` (imágenes locales, sin subirlas a ningún sitio).
+   * *Voz:* `whisper.cpp` (ASR, modelo `small`) y `Piper` (TTS, voz `es_ES-davefx-medium`).
 3. **Arquitectura de Dos Fases:** 
    * *Fase RAG:* Si la pregunta coincide con el código indexado, el modelo responde **sin** acceso a herramientas del sistema (evitando alucinaciones de hardware).
    * *Fase Herramientas:* Si la pregunta es sobre el hardware/sistema, el modelo utiliza el *Tool-Calling* estricto.
 4. **Sandbox de Seguridad:** Toda ejecución de comandos (disco, memoria, procesos, batería y GPU) se ejecuta aislada mediante `bubblewrap`, con permisos mínimos y sin acceso a la red externa.
 5. **Memoria Híbrida (SQLite):** Combinación de `FTS5` (búsqueda por texto exacto en conversaciones) y `sqlite-vec` (búsqueda semántica en archivos locales).
+6. **Seguridad Ofensiva con Autorización Humana:** Cualquier acción ofensiva pasa por la herramienta `offensive_security_action` y exige aprobación humana. En **modo seguro** se muestra un formulario completo (objetivo, alcance, justificación, inicio, fin y código de autorización); fuera de él solo se pregunta «¿Seguro que quieres hacer esto?» (`y`/`n`). Todo queda auditado y cifrado con **GPG AES-256** en `audit/events/*.gpg`.
 
 ---
 
 ## 🚀 Características Principales (Implementadas)
 
 *   **Inferencia 100% Local:** Sin dependencias de la nube ni fuga de datos.
-*   **Control Unificado:** Script `hyrulor.sh` para gestionar el ciclo de vida de los 8 servicios (start/stop/chat/logs) y cliente interactivo `repl`, sin necesidad de múltiples terminales.
+*   **Control Unificado:** Script `hyrulor.sh` para gestionar el ciclo de vida de los 9 servicios (start/stop/chat/logs) y cliente interactivo `repl`, sin necesidad de múltiples terminales.
 *   **Indexación RAG (Chunking):** Lectura, fragmentación y almacenamiento de archivos locales en una base de datos vectorial para consultas posteriores.
-*   **Seguridad de Ejecución:** El *Safety Gate* en Rust valida que el LLM solo invoque herramientas permitidas y valida los argumentos JSON antes de tocar el sistema.
+*   **Reranking Real:** El RAG recupera 8 candidatos y el Reranker elige los 3 mejores antes de responder con el Coder 7B.
+*   **Guardián de Contenido:** `Qwen3Guard` revisa cada petición y cada respuesta. Fuera del modo seguro, una respuesta `Unsafe` se bloquea.
+*   **Visión Local:** analiza imágenes (PNG/JPEG/GIF/WebP/BMP, hasta 25 MiB) con `Qwen2.5-VL` y transcribe su texto.
+*   **Voz Local:** dictado por micrófono con Whisper y respuestas habladas con Piper, sin servicios en la nube.
+*   **Auditoría Cifrada:** Cada evento sensible se cifra de forma individual con GPG AES-256 y una clave local `0600`; el directorio es `0700`.
+*   **Seguridad de Ejecución:** El *Safety Gate* en Rust valida que el LLM solo invoque herramientas permitidas y valida los argumentos JSON antes de tocar el sistema. Las acciones ofensivas nunca se ejecutan sin autorización humana explícita.
+
+---
+
+## 🛡️ Modelo de Seguridad
+
+### Modo simple vs. modo seguro
+
+| | Modo simple (por defecto) | Modo seguro |
+|---|---|---|
+| Acción ofensiva | «¿Seguro que quieres hacer esto?» `y`/`n` | Formulario completo |
+| Campos | Ninguno | `target`, `scope`, `justification`, `start_time`, `end_time`, `authorization_code` |
+| Código de autorización | No | Sí, generado con `/dev/urandom` y válido 15 min |
+| Ejecución | Sandbox dry-run | Sandbox dry-run |
+| Auditoría | Cifrada | Cifrada |
+
+El modo se controla con `./hyrulor.sh secure on|off` (o `/secure on` dentro del REPL) y se persiste en `~/.hyrulor_run/mode` con permisos `0600`.
+
+### Flujo de una acción ofensiva
+
+1. El modelo invoca `offensive_security_action` (nunca ejecuta nada directamente).
+2. El daemon crea una solicitud pendiente y devuelve `requires_auth`.
+3. El cliente muestra el formulario (seguro) o la pregunta `y/n` (simple).
+4. Al aprobar, el daemon valida el código y ejecuta la herramienta dentro de `bubblewrap`:
+   `--unshare-user/uts/ipc/pid/net`, `--cap-drop ALL`, `--clearenv`, sin red.
+5. Cada paso (`auth_requested`, `auth_approved`, `action_start`, `action_result`, `action_end`) se cifra con GPG AES-256 en `audit/events/*.gpg`.
+6. `./hyrulor.sh audit [n]` descifra los últimos `n` eventos usando la clave local `audit/audit.key` (permisos `0600`).
+
+> **Importante:** `audit/audit.key` es la única llave para leer la auditoría. Haz copia de seguridad. Si se pierde, los eventos cifrados no se pueden recuperar.
+
+### Limitación conocida
+
+La base de datos SQLite (`hyory.db`) todavía **no está cifrada en reposo**: `sqlcipher` no está disponible en este sistema. Lo que sí está cifrado es la auditoría y el formulario de autorización. El siguiente paso recomendado es migrar a SQLCipher (o mover `hyory.db` a un volumen LUKS) antes de considerar el almacenamiento «todo cifrado».
 
 ---
 
@@ -49,7 +91,10 @@ Hyrulor opera bajo una **arquitectura de enjambre de modelos** (Mixture of Exper
 *   [x] **Fase 2 (Parcial):** Memoria Vectorial (`sqlite-vec`) y arquitectura dual-fase.
 *   [x] **Fase 3 (Parcial):** Integración con el escritorio COSMIC (Applet Rust).
 *   [ ] **Fase 1 (Completar):** Despliegue de las **50 herramientas** (Sistema, Red, Código, Productividad, Seguridad).
-*   [ ] **Fase 2 (Completar):** Auto-indexación, *Reranking*, y Memoria Procedimental.
+*   [x] **Fase 2 (Reranking):** `Qwen3-Reranker` integrado en el RAG.
+*   [x] **Fase 2 (Visión):** `Qwen2.5-VL-3B-Instruct` para análisis de imágenes.
+*   [x] **Fase 2 (Voz):** Whisper.cpp para ASR y Piper para TTS en español.
+*   [ ] **Fase 2 (Completar):** Auto-indexación y Memoria Procedimental.
 *   [ ] **Fase 4:** Motor de Omnisciencia (ingesta autónoma de conocimiento).
 
 ---
@@ -81,8 +126,52 @@ Requisitos: `Rust`, `llama.cpp` compilado con Vulkan, modelos GGUF en `/models`.
 # 3. Ver estado de los servicios
 ./hyrulor.sh status
 
-# 4. Detener los servicios
-./hyrulor.sh stop# Hyrulor
+# 4. Modo seguro y auditoría
+./hyrulor.sh secure on          # formulario completo para acciones ofensivas
+./hyrulor.sh secure off         # solo confirmación simple (y/n)
+./hyrulor.sh mode               # consulta el modo actual
+./hyrulor.sh audit 20           # descifra los últimos 20 eventos auditados
+
+# 5. Visión y voz
+./hyrulor.sh chat --imagen /ruta/foto.png "Describe la imagen"
+./hyrulor.sh chat --voz /ruta/audio.wav        # transcribe y responde
+./hyrulor.sh chat --escuchar 5                 # graba 5 s del micrófono
+./hyrulor.sh chat --hablar "Hola, soy Hyrulor" # TTS con Piper
+
+# Dentro del REPL: /imagen, /voz, /escuchar, /hablar
+
+# 6. Detener los servicios
+./hyrulor.sh stop
+```
+
+### Visión y voz
+
+*   **Imagen:** `/imagen <ruta> [pregunta]`. El daemon detecta el MIME real, limita a 25 MiB, pasa el prompt por el Guard y audita la petición.
+*   **Dictado:** `/escuchar [segundos]` graba con `arecord`, transcribe con Whisper (`-l es`) y envía el texto al agente.
+*   **Audio pregrabado:** `/voz <archivo.wav>` transcribe un archivo y continúa la conversación.
+*   **Respuesta hablada:** `/hablar <texto>` genera el WAV con Piper y lo reproduce con `pw-play`, `paplay` o `aplay`.
+*   Todos los modelos son locales: `models/vision/`, `models/whisper/` y `models/piper/`.
+
+### Applet COSMIC (Fase 3)
+
+La applet nativa vive en `integrations/cosmic-applet/` y habla con el mismo socket que el cliente de terminal:
+
+*   **Chat** con historial y renderizado incremental.
+*   **Autorización humana:** en modo seguro muestra el formulario completo; en modo simple muestra `SÍ/NO`. La applet solo presenta la decisión: el daemon valida el código, ejecuta en Bubblewrap y audita.
+*   **Indicador y cambio de modo** (`🔐 SEGURO` / `🔓 SIMPLE`) desde la cabecera.
+*   **Comandos:** `/imagen`, `/voz`, `/escuchar`, `/hablar`.
+*   Validación del socket (propietario, tipo y permisos `0600`) y límites de 1 MiB por frame / 4 MiB por respuesta.
+
+```bash
+cd integrations/cosmic-applet
+cargo test --all-targets
+cargo build --release --bin hyrulor-cosmic-applet
+./install.sh   # instalación de usuario; luego añade Hyrulor al panel COSMIC
+```
+
+El daemon simulado (`cargo run --release --bin hyrulor-mock-daemon`) permite probar el chat, los modos y el formulario sin arrancar los modelos.
+
+# Hyrulor
 
 Asistente local Hyrulor para COSMIC Desktop.
 

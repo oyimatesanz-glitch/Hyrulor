@@ -4,7 +4,8 @@ use std::path::{Path, PathBuf};
 use std::time::Duration;
 
 use futures::SinkExt;
-use serde::{Deserialize, Serialize};
+use serde::Deserialize;
+use serde_json::{json, Value};
 use tokio::io::{AsyncBufRead, AsyncBufReadExt, AsyncWriteExt, BufReader};
 use tokio::net::UnixStream;
 use tokio::time::{sleep, timeout};
@@ -12,40 +13,38 @@ use tokio::time::{sleep, timeout};
 const DEFAULT_SOCKET: &str = "/tmp/omni.sock";
 const MAX_CONNECT_ATTEMPTS: usize = 7;
 const MAX_BACKOFF: Duration = Duration::from_secs(30);
-const RESPONSE_TIMEOUT: Duration = Duration::from_secs(90);
+const RESPONSE_TIMEOUT: Duration = Duration::from_secs(360);
 const MAX_FRAME_BYTES: usize = 1_048_576;
 const MAX_RESPONSE_BYTES: usize = 4 * 1_048_576;
+
+/// Human authorization request returned by the daemon when a tool needs consent.
+#[derive(Debug, Clone)]
+pub struct AuthRequest {
+    pub mode: String,
+    pub request_id: String,
+    pub form: Value,
+}
 
 #[derive(Debug, Clone)]
 pub enum SocketEvent {
     ToolCall(String),
     Chunk(String),
     Finished(String),
+    RequiresAuth(AuthRequest),
+    Transcribed(String),
+    Spoken(Option<String>),
     Failed(String),
 }
 
-#[derive(Serialize)]
-struct RpcRequest<'a> {
-    request: &'static str,
-    query: &'a str,
-}
-
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Default)]
 #[serde(default)]
 struct RpcResponse {
     status: String,
     data: Option<RpcData>,
     message: Option<String>,
-}
-
-impl Default for RpcResponse {
-    fn default() -> Self {
-        Self {
-            status: String::new(),
-            data: None,
-            message: None,
-        }
-    }
+    mode: Option<String>,
+    request_id: Option<String>,
+    form: Option<Value>,
 }
 
 #[derive(Debug, Deserialize, Default)]
@@ -56,12 +55,42 @@ struct RpcData {
     chunk: Option<String>,
     tool: Option<String>,
     label: Option<String>,
+    text: Option<String>,
+    audio: Option<String>,
+    played: Option<bool>,
+    mode: Option<String>,
 }
 
-/// Sends a JSON-RPC-style line and forwards every streaming frame to the UI.
-/// The daemon is expected to create a user-owned Unix socket with mode 0600.
+/// Sends a chat request and forwards every frame to the UI.
 pub async fn request_stream(
     query: String,
+    sender: &mut futures::channel::mpsc::Sender<SocketEvent>,
+) -> Result<(), String> {
+    request_value(json!({ "request": "chat", "query": query }), sender).await
+}
+
+/// Approves or cancels a pending authorization request.
+pub async fn authorize_stream(
+    request_id: String,
+    approved: bool,
+    form: Option<Value>,
+    sender: &mut futures::channel::mpsc::Sender<SocketEvent>,
+) -> Result<(), String> {
+    request_value(
+        json!({
+            "request": "authorize",
+            "id": request_id,
+            "approved": approved,
+            "form": form,
+        }),
+        sender,
+    )
+    .await
+}
+
+/// Sends a raw JSON request (used by image/voice/transcription commands).
+pub async fn request_value(
+    request: Value,
     sender: &mut futures::channel::mpsc::Sender<SocketEvent>,
 ) -> Result<(), String> {
     let path = socket_path();
@@ -69,10 +98,6 @@ pub async fn request_stream(
         .await
         .map_err(|error| format!("No se pudo abrir {}: {error}", path.display()))?;
 
-    let request = RpcRequest {
-        request: "chat",
-        query: &query,
-    };
     let mut payload = serde_json::to_vec(&request)
         .map_err(|error| format!("No se pudo serializar la petición: {error}"))?;
     payload.push(b'\n');
@@ -117,6 +142,16 @@ pub async fn request_stream(
                 .unwrap_or_else(|| "El daemon rechazó la petición.".to_owned()));
         }
 
+        if status == "requires_auth" {
+            let auth = AuthRequest {
+                mode: frame.mode.unwrap_or_else(|| "simple".to_owned()),
+                request_id: frame.request_id.unwrap_or_default(),
+                form: frame.form.unwrap_or(Value::Null),
+            };
+            let _ = sender.send(SocketEvent::RequiresAuth(auth)).await;
+            return Ok(());
+        }
+
         if status == "tool" || status == "tool_call" || status == "executing" {
             let label = data
                 .tool
@@ -138,6 +173,16 @@ pub async fn request_stream(
         }
 
         if status == "ok" || status == "done" || status == "complete" {
+            // Speech-to-text and text-to-speech responses have their own shapes.
+            if let Some(text) = data.text {
+                let _ = sender.send(SocketEvent::Transcribed(text)).await;
+                return Ok(());
+            }
+            if data.played.is_some() || data.audio.is_some() {
+                let _ = sender.send(SocketEvent::Spoken(data.audio)).await;
+                return Ok(());
+            }
+
             let answer = data.answer.unwrap_or(accumulated);
             if answer.len() > MAX_RESPONSE_BYTES {
                 return Err("La respuesta supera el límite total de 4 MiB.".to_owned());
@@ -161,6 +206,60 @@ pub async fn request_stream(
             let _ = sender.send(SocketEvent::Chunk(answer)).await;
         }
     }
+}
+
+/// Reads the current security mode from the daemon.
+pub async fn secure_mode() -> Result<bool, String> {
+    let data = request_once(json!({ "request": "get_mode" })).await?;
+    Ok(data.mode.as_deref() == Some("secure"))
+}
+
+/// Changes the security mode and returns the resulting state.
+pub async fn set_secure_mode(secure: bool) -> Result<bool, String> {
+    let data = request_once(json!({ "request": "set_mode", "secure": secure })).await?;
+    Ok(data.mode.as_deref() == Some("secure"))
+}
+
+async fn request_once(request: Value) -> Result<RpcData, String> {
+    let path = socket_path();
+    let mut stream = connect_with_backoff(&path)
+        .await
+        .map_err(|error| format!("No se pudo abrir {}: {error}", path.display()))?;
+
+    let mut payload = serde_json::to_vec(&request)
+        .map_err(|error| format!("No se pudo serializar la petición: {error}"))?;
+    payload.push(b'\n');
+    stream
+        .write_all(&payload)
+        .await
+        .map_err(|error| format!("No se pudo enviar la petición: {error}"))?;
+    stream
+        .flush()
+        .await
+        .map_err(|error| format!("No se pudo vaciar el socket: {error}"))?;
+
+    let mut reader = BufReader::new(stream);
+    let line = timeout(
+        RESPONSE_TIMEOUT,
+        read_bounded_line(&mut reader, MAX_FRAME_BYTES),
+    )
+    .await
+    .map_err(|_| "El daemon ha superado el tiempo máximo de respuesta.".to_owned())?
+    .map_err(|error| format!("Error leyendo la respuesta del daemon: {error}"))?
+    .ok_or_else(|| "El daemon cerró el socket antes de responder.".to_owned())?;
+
+    let frame: RpcResponse = serde_json::from_str(line.trim_end())
+        .map_err(|error| format!("El daemon envió JSON no válido: {error}"))?;
+
+    if frame.status.eq_ignore_ascii_case("error") {
+        return Err(frame
+            .message
+            .unwrap_or_else(|| "El daemon rechazó la petición.".to_owned()));
+    }
+
+    frame
+        .data
+        .ok_or_else(|| "La respuesta del daemon no contiene datos.".to_owned())
 }
 
 fn socket_path() -> PathBuf {
@@ -269,7 +368,7 @@ where
 
 #[cfg(test)]
 mod tests {
-    use super::read_bounded_line;
+    use super::{read_bounded_line, RpcResponse};
     use tokio::io::BufReader;
 
     #[tokio::test]
@@ -295,5 +394,28 @@ mod tests {
 
         let error = read_bounded_line(&mut reader, 5).await.unwrap_err();
         assert_eq!(error.kind(), std::io::ErrorKind::InvalidData);
+    }
+
+    #[test]
+    fn parses_a_secure_authorization_frame() {
+        let raw = r#"{"status":"requires_auth","mode":"secure","request_id":"AUTH-1","form":{"question":"¿Seguro que quieres hacer esto?","authorization_code":"123456","fields":[{"name":"target","label":"Objetivo","required":true}]}}"#;
+        let frame: RpcResponse = serde_json::from_str(raw).unwrap();
+
+        assert_eq!(frame.status, "requires_auth");
+        assert_eq!(frame.mode.as_deref(), Some("secure"));
+        assert_eq!(frame.request_id.as_deref(), Some("AUTH-1"));
+        let form = frame.form.expect("form present");
+        assert_eq!(form["authorization_code"], "123456");
+        assert_eq!(form["fields"][0]["name"], "target");
+    }
+
+    #[test]
+    fn parses_a_simple_confirmation_frame_without_fields() {
+        let raw = r#"{"status":"requires_auth","mode":"simple","request_id":"AUTH-2","form":{"question":"¿Seguro que quieres hacer esto? [y/n]"}}"#;
+        let frame: RpcResponse = serde_json::from_str(raw).unwrap();
+        let form = frame.form.expect("form present");
+
+        assert_eq!(frame.mode.as_deref(), Some("simple"));
+        assert!(form.get("fields").is_none());
     }
 }

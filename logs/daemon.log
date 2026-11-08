@@ -1,7 +1,8 @@
-[2m2026-11-08T13:55:38.118468Z[0m [32m INFO[0m Hyory daemon listening [3msocket[0m[2m=[0m/tmp/omni.sock
-🔍 RAG activado: 3 fragmentos
+[2m2026-11-08T14:25:17.054054Z[0m [32m INFO[0m special senses [3mvision[0m[2m=[0mtrue [3mvoice[0m[2m=[0mtrue
+[2m2026-11-08T14:25:17.054386Z[0m [32m INFO[0m Hyory daemon listening [3msocket[0m[2m=[0m/tmp/omni.sock [3msecure_mode[0m[2m=[0mfalse
+👋 Modo charla casual (cero herramientas)
+👋 Modo charla casual (cero herramientas)
 🔧 Modo herramientas (sin RAG)
-[2m2026-11-08T13:57:50.106622Z[0m [31mERROR[0m connection failed [3merr[0m[2m=[0mBroken pipe (os error 32)
 🔧 Modo herramientas (sin RAG)
-🔧 Modo herramientas (sin RAG)
-🔧 Modo herramientas (sin RAG)
+🔍 RAG activado: 8 fragmentos crudos
+🎯 Reranker: 3 fragmentos finales

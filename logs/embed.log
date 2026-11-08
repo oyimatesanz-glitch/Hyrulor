@@ -1,18 +1,57 @@
-0.00.029.177 I srv  llama_server: initializing ...
-0.00.029.193 I cmn  common_param: common_params_print_info: verbosity = 3 (adjust with the `-lv N` CLI arg)
-0.00.029.194 W srv  server_prepa: embeddings enabled with n_batch (2048) > n_ubatch (512)
-0.00.029.194 W srv  server_prepa: setting n_batch = n_ubatch = 512 to avoid assertion failure
-0.00.029.559 W srv  server_setup: security: no API key is set and CORS allows all origins (see https://github.com/ggml-org/llama.cpp/pull/25655)
-0.00.031.019 I srv    load_model: loading model '/home/oyi/Proyectos/hyrulor/models/embeddings/Qwen3-Embedding-0.6B-Q8_0.gguf'
-0.00.324.447 W load: control-looking token: 128247 '</s>' was not control-type; this is probably a bug in the model. its type will be overridden
-0.00.704.814 W resolve_fused_ops: layer 0 is assigned to device Vulkan0 but Flash Attention over K/V rows is assigned to device CPU (usually due to missing support)
-0.00.704.817 W resolve_fused_ops: Flash Attention over K/V rows not supported, set to disabled
-0.00.712.837 I cmn          init: llama threadpool init, n_threads = 6
-0.00.712.957 W init: embeddings required but some input tokens were not marked as outputs -> overriding
-0.00.733.502 W init: embeddings required but some input tokens were not marked as outputs -> overriding
-0.00.747.500 I srv    load_model: initializing, n_slots = 4, n_ctx_slot = 2048, kv_unified = 'true'
-0.00.754.276 I srv  server_run_i: model loaded
-0.00.754.285 I srv  server_on_li: listening on unix:///home/oyi/.hyrulor_run/emb.sock
-0.11.673.834 I slot get_availabl: id  0 | task -1 | selected slot by LRU, n_tokens = 0, t_last = -1
-0.11.673.853 I slot launch_slot_: id  0 | task 0 | processing task, is_child = 0
-0.11.702.458 I slot      release: id  0 | task 0 | stop processing: n_tokens = 11, truncated = 0
+0.00.026.739 I srv  llama_server: initializing ...
+0.00.026.759 I cmn  common_param: common_params_print_info: verbosity = 3 (adjust with the `-lv N` CLI arg)
+0.00.026.760 W srv  server_prepa: embeddings enabled with n_batch (2048) > n_ubatch (512)
+0.00.026.760 W srv  server_prepa: setting n_batch = n_ubatch = 512 to avoid assertion failure
+0.00.027.188 W srv  server_setup: security: no API key is set and CORS allows all origins (see https://github.com/ggml-org/llama.cpp/pull/25655)
+0.00.028.623 I srv    load_model: loading model '/home/oyi/Proyectos/hyrulor/models/embeddings/Qwen3-Embedding-0.6B-Q8_0.gguf'
+0.00.255.174 W load: control-looking token: 128247 '</s>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.00.649.162 W resolve_fused_ops: layer 0 is assigned to device Vulkan0 but Flash Attention over K/V rows is assigned to device CPU (usually due to missing support)
+0.00.649.165 W resolve_fused_ops: Flash Attention over K/V rows not supported, set to disabled
+0.00.654.883 I cmn          init: llama threadpool init, n_threads = 6
+0.00.654.996 W init: embeddings required but some input tokens were not marked as outputs -> overriding
+0.00.701.918 W init: embeddings required but some input tokens were not marked as outputs -> overriding
+0.00.734.197 I srv    load_model: initializing, n_slots = 4, n_ctx_slot = 2048, kv_unified = 'true'
+0.00.740.275 I srv  server_run_i: model loaded
+0.00.740.285 I srv  server_on_li: listening on unix:///home/oyi/.hyrulor_run/emb.sock
+5.34.588.927 I slot get_availabl: id  0 | task -1 | selected slot by LRU, n_tokens = 0, t_last = -1
+5.34.589.256 I slot launch_slot_: id  0 | task 0 | processing task, is_child = 0
+5.35.849.202 I slot      release: id  0 | task 0 | stop processing: n_tokens = 123, truncated = 0
+5.35.865.964 I slot get_availabl: id  1 | task -1 | selected slot by LRU, n_tokens = 0, t_last = -1
+5.35.866.013 I slot launch_slot_: id  1 | task 2 | processing task, is_child = 0
+5.35.997.035 I slot      release: id  1 | task 2 | stop processing: n_tokens = 147, truncated = 0
+5.36.005.817 I slot get_availabl: id  2 | task -1 | selected slot by LRU, n_tokens = 0, t_last = -1
+5.36.005.849 I slot launch_slot_: id  2 | task 4 | processing task, is_child = 0
+5.36.120.680 I slot      release: id  2 | task 4 | stop processing: n_tokens = 132, truncated = 0
+5.36.126.746 I slot get_availabl: id  3 | task -1 | selected slot by LRU, n_tokens = 0, t_last = -1
+5.36.126.797 I slot launch_slot_: id  3 | task 6 | processing task, is_child = 0
+5.36.258.706 I slot      release: id  3 | task 6 | stop processing: n_tokens = 163, truncated = 0
+5.36.264.830 I slot get_availabl: id  0 | task -1 | selected slot by LRU, n_tokens = 0, t_last = 34295610147
+5.36.264.870 I slot launch_slot_: id  0 | task 8 | processing task, is_child = 0
+5.36.352.698 I slot      release: id  0 | task 8 | stop processing: n_tokens = 123, truncated = 0
+5.36.359.973 I slot get_availabl: id  1 | task -1 | selected slot by LRU, n_tokens = 0, t_last = 34295757981
+5.36.360.024 I slot launch_slot_: id  1 | task 10 | processing task, is_child = 0
+5.36.489.532 I slot      release: id  1 | task 10 | stop processing: n_tokens = 163, truncated = 0
+5.36.493.898 I slot get_availabl: id  2 | task -1 | selected slot by LRU, n_tokens = 0, t_last = 34295881626
+5.36.493.968 I slot launch_slot_: id  2 | task 12 | processing task, is_child = 0
+5.36.581.647 I slot      release: id  2 | task 12 | stop processing: n_tokens = 125, truncated = 0
+5.36.586.245 I slot get_availabl: id  3 | task -1 | selected slot by LRU, n_tokens = 0, t_last = 34296019656
+5.36.586.293 I slot launch_slot_: id  3 | task 14 | processing task, is_child = 0
+5.36.697.379 I slot      release: id  3 | task 14 | stop processing: n_tokens = 132, truncated = 0
+5.36.701.666 I slot get_availabl: id  0 | task -1 | selected slot by LRU, n_tokens = 0, t_last = 34296113643
+5.36.701.710 I slot launch_slot_: id  0 | task 16 | processing task, is_child = 0
+5.36.787.477 I slot      release: id  0 | task 16 | stop processing: n_tokens = 120, truncated = 0
+5.36.792.506 I slot get_availabl: id  1 | task -1 | selected slot by LRU, n_tokens = 0, t_last = 34296250478
+5.36.792.554 I slot launch_slot_: id  1 | task 18 | processing task, is_child = 0
+5.36.881.898 I slot      release: id  1 | task 18 | stop processing: n_tokens = 117, truncated = 0
+5.36.886.350 I slot get_availabl: id  2 | task -1 | selected slot by LRU, n_tokens = 0, t_last = 34296342592
+5.36.886.393 I slot launch_slot_: id  2 | task 20 | processing task, is_child = 0
+5.36.972.315 I slot      release: id  2 | task 20 | stop processing: n_tokens = 118, truncated = 0
+5.36.976.511 I slot get_availabl: id  3 | task -1 | selected slot by LRU, n_tokens = 0, t_last = 34296458325
+5.36.976.571 I slot launch_slot_: id  3 | task 22 | processing task, is_child = 0
+5.37.095.163 I slot      release: id  3 | task 22 | stop processing: n_tokens = 137, truncated = 0
+5.37.099.028 I slot get_availabl: id  0 | task -1 | selected slot by LRU, n_tokens = 0, t_last = 34296548421
+5.37.099.081 I slot launch_slot_: id  0 | task 24 | processing task, is_child = 0
+5.37.170.062 I slot      release: id  0 | task 24 | stop processing: n_tokens = 57, truncated = 0
+5.37.548.846 I slot get_availabl: id  1 | task -1 | selected slot by LRU, n_tokens = 0, t_last = 34296642843
+5.37.548.881 I slot launch_slot_: id  1 | task 26 | processing task, is_child = 0
+5.37.632.218 I slot      release: id  1 | task 26 | stop processing: n_tokens = 11, truncated = 0

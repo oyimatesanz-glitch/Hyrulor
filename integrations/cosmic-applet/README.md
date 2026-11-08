@@ -8,6 +8,9 @@ Applet nativa Rust/libcosmic con popup de chat, tema verde bosque/latón y trans
 - Proceso de applet nativo para COSMIC (`cosmic::applet::run`).
 - Botón de panel con icono simbólico, popup fijo de 420 × 620, historial mientras el proceso sigue abierto.
 - Chat multi-turno, entrada por Enter o botón, acciones rápidas de batería/red/sistema y renderizado incremental de mensajes.
+- **Autorización humana integrada:** formulario completo en modo seguro (`target`, `scope`, `justification`, `start_time`, `end_time`, `authorization_code`) y confirmación `SÍ/NO` en modo simple. La applet nunca ejecuta la acción: solo envía la decisión al daemon, que valida el código, aplica el sandbox y audita.
+- **Cambio de modo** desde la cabecera (`🔐 SEGURO` / `🔓 SIMPLE`).
+- **Comandos de sentidos:** `/imagen <ruta> [pregunta]`, `/voz <archivo.wav>`, `/escuchar [segundos]` y `/hablar <texto>`.
 - Socket Unix configurable mediante `HYORY_SOCKET`; por compatibilidad también
   se acepta `HYRULOR_SOCKET`. El valor predeterminado es `/tmp/omni.sock`.
 - Mensaje JSON `{"request":"chat","query":"..."}\n` y recepción de JSON-lines.
@@ -19,8 +22,8 @@ Applet nativa Rust/libcosmic con popup de chat, tema verde bosque/latón y trans
 - Instalador local de usuario y entrada `.desktop` COSMIC.
 
 **Todavía no incluido:**
-- No se puede afirmar que compile en este entorno: aquí no hay toolchain Rust ni COSMIC Desktop para ejecutar `cargo build` o probar la integración real.
-- No se han generado screenshots de panel/popup/error porque no hay un compositor COSMIC disponible en este entorno.
+- No se han generado screenshots de panel/popup/error porque no hay un compositor COSMIC disponible en este entorno. La compilación y las pruebas unitarias sí se ejecutan con el toolchain local.
+- El formulario cubre el ciclo completo de autorización, pero la selección de archivos para visión/voz se hace escribiendo la ruta (no hay diálogo del portal todavía).
 - Los efectos 3D/4D completos (WGSL, partículas, aurora, parallax, anillo rotatorio, shimmer y animación palabra a palabra) no están integrados en esta primera entrega.
 - Las fuentes no se han copiado al proyecto. No se descargan en runtime; la versión actual usa las fuentes disponibles en el sistema. Consulte `fonts/README.md`.
 - No se garantiza binario <2 MB, RAM <15/35 MB, CPU 0% ni cold start <100 ms. Son objetivos que deben medirse en la máquina real; el stack nativo COSMIC tiene dependencias sustanciales.
@@ -108,18 +111,42 @@ Frames opcionales de streaming:
 {"status":"ok","data":{"answer":"Su batería está al 85%."}}
 ```
 
+Autorización requerida (modo simple y modo seguro):
+
+```json
+{"status":"requires_auth","mode":"secure","request_id":"AUTH-123","form":{"question":"…","authorization_code":"123456","fields":[…],"proposed_action":{…}}}
+```
+
+La applet responde con una nueva conexión:
+
+```json
+{"request":"authorize","id":"AUTH-123","approved":true,"form":{"target":"…","scope":"…","justification":"…","start_time":"…","end_time":"…","authorization_code":"123456"}}
+```
+
+Modo y sentidos:
+
+```json
+{"request":"get_mode"}
+{"request":"set_mode","secure":true}
+{"request":"describe_image","path":"/ruta/foto.png","prompt":"Describe la imagen"}
+{"request":"transcribe","path":"/ruta/audio.wav"}
+{"request":"listen","seconds":5}
+{"request":"speak","text":"Hola"}
+```
+
 Error:
 
 ```json
 {"status":"error","message":"No se pudo consultar el sensor."}
 ```
 
-Cada objeto debe terminar en `\n`. En `status=ok`, `data.answer` representa el texto final completo.
+Cada objeto debe terminar en `\n`. En `status=ok`, `data.answer` representa el texto final completo. `data.text` devuelve una transcripción y `data.played`/`data.audio` el resultado de Piper.
 
 ## Seguridad y límites
 
-- El cliente no interpreta texto del modelo como comandos. Solo transmite el mensaje `chat` al daemon.
-- Esta applet no implementa el Safety Gate, sandbox, TPM ni autorización de herramientas: esas funciones pertenecen al daemon Hyrulor en `src/tool_sandbox.rs`. Los prototipos tipados históricos se conservan en `archive/foundation/`.
+- El cliente no interpreta texto del modelo como comandos. Los comandos `/imagen`, `/voz`, `/escuchar` y `/hablar` son locales y se traducen a peticiones explícitas del protocolo.
+- La applet **presenta** la autorización, pero no la concede por sí sola: el código, la validez temporal y la ejecución sandboxed se comprueban en el daemon (`src/protocol.rs`, `src/tool_sandbox.rs`).
+- El Guardián (`Qwen3Guard`), el Reranker y la auditoría cifrada con GPG AES-256 viven en el daemon. La applet solo muestra el resultado.
 - La comprobación de socket reduce el riesgo de conectarse a un endpoint suplantado, pero no reemplaza autenticación de protocolo, autorización por acción ni aislamiento del daemon.
 - No configure el socket con permisos `0666`.
 

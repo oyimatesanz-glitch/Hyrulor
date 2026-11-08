@@ -33,6 +33,11 @@ runtime/*.bin
 runtime/*.gguf
 runtime/goinfer-serve
 runtime/llama.cpp/
+# Runtimes de voz (binarios y modelos descargados)
+/runtime/whisper.cpp/
+/runtime/piper/
+# Auditoría cifrada y clave local: nunca debe entrar en Git
+/audit/
 /runtime/llama.cpp/build/
 /runtime/llama.cpp/models/
 /target/

@@ -9,8 +9,8 @@ el estado y la evolución del sistema, pero no determinan carpetas físicas.
 |---|---|---|
 | 0 | Cimientos seguros | Operativa; gate tipado archivado |
 | 1 | Agente local y tool-calling | Operativa; validación final de build/tests |
-| 2 | Integración de hardware y COSMIC | Núcleo operativo completado; applet en integración |
-| 3 | Actualización, interfaz y escalado | Pendiente |
+| 2 | Integración de hardware y COSMIC | Núcleo operativo completado; visión y voz locales |
+| 3 | Actualización, interfaz y escalado | Applet con autorización y sentidos integrada |
 
 ## Fase 0: cimientos seguros
 
@@ -66,14 +66,15 @@ memoria históricos están archivados.
 
 ## Fase 3: evolución
 
-Pendientes previstos:
+Archivos principales:
 
 ```text
 integrations/cosmic-applet/
 docs/
 ```
 
-Incluye applet completa, actualización de herramientas, hot-reload, métricas,
+Incluye applet completa (chat, modos de seguridad, formulario de autorización y
+comandos de visión/voz), actualización de herramientas, hot-reload, métricas,
 benchmarking y optimización continua.
 
 ## Artefactos fuera del repositorio

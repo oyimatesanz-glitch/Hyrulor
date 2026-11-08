@@ -7,7 +7,7 @@ RUN="$HOME/.hyrulor_run"
 mkdir -p "$LOGS" "$PIDS" "$RUN"
 chmod 700 "$RUN" # Solo el dueño puede entrar
 
-LLM="$ROOT/models/Qwen2.5-3B-Instruct-Q5_K_M.gguf"
+LLM="$ROOT/models/Qwen3.5-4B-Instruct-Q4_K_M.gguf"
 EMB="$ROOT/models/embeddings/Qwen3-Embedding-0.6B-Q8_0.gguf"
 CODER="$ROOT/models/specialists/Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf"
 GUARD="$ROOT/models/specialists/Qwen3Guard-Gen-0.6B-heretic-Q8_0.gguf"
@@ -82,7 +82,7 @@ stop() {
 
 start() {
     stop; sleep 1
-    start_llama "$LLM" "$SOCK_LLM" "llm" 4096 "--jinja"
+    start_llama "$LLM" "$SOCK_LLM" "llm" 8192 "--jinja"
     start_llama "$EMB" "$SOCK_EMB" "embed" 2048 "--embeddings"
     
     if [ -f "$CODER" ]; then
@@ -104,7 +104,7 @@ start() {
         start_llama "$PHI" "$SOCK_PHI" "phi" 4096 "--jinja"
     fi
 
-    echo "  ⏳ Arrancando Daemon (TCP interno privado)..."
+    echo "  ⏳ Arrancando Daemon (Unix Sockets)..."
     cd "$ROOT"
     # El daemon usará Unix Sockets para todo
     HYORY_SOCKET="$SOCK_OMNI" \
@@ -112,7 +112,7 @@ start() {
     HYORY_EMBEDDING_SOCKET="$SOCK_EMB" \
     HYORY_CODER_SOCKET="$SOCK_CODER" \
     HYORY_GUARD_SOCKET="$SOCK_GUARD" \
-    HYORY_LLM_MODEL=Qwen2.5-3B-Instruct-Q5_K_M \
+    HYORY_LLM_MODEL=Qwen3.5-4B-Instruct-Q4_K_M \
     HYORY_DB="$ROOT/hyory.db" \
     HYORY_TOOLS="$ROOT/tools" \
     RUST_LOG=info nohup "$DAEMON" > "$LOGS/daemon.log" 2>&1 &
@@ -130,7 +130,20 @@ chat() {
         echo "❌ Daemon no está corriendo. Usa: ./hyrulor.sh start"
         exit 1
     fi
-    printf '%s\n' "{\"request\":\"chat\",\"query\":\"$1\"}" | nc -U "$SOCK_OMNI"
+
+    # Sin argumentos: cliente interactivo Rust (REPL).
+    if [ -z "$1" ]; then
+        local repl="$ROOT/target/release/hyrulor-chat"
+        if [ ! -x "$repl" ]; then
+            echo "❌ Cliente interactivo no compilado. Ejecuta: cargo build --release"
+            exit 1
+        fi
+        HYORY_SOCKET="$SOCK_OMNI" exec "$repl"
+    fi
+
+    # Con argumentos: consulta única con JSON escapado correctamente.
+    python3 -c 'import json,sys; print(json.dumps({"request":"chat","query":sys.argv[1]}))' "$1" \
+        | nc -U "$SOCK_OMNI"
 }
 
 case "$1" in
@@ -138,6 +151,7 @@ case "$1" in
     stop) stop ;;
     restart) stop; sleep 1; start ;;
     chat) shift; chat "$*" ;;
+    repl) shift; chat ;;
     status)
         echo "Estado de Sockets Privados:"
         for s in llm embed coder guard reranker deepseek phi; do
@@ -146,5 +160,5 @@ case "$1" in
         [ -f "$PIDS/daemon.pid" ] && kill -0 "$(cat "$PIDS/daemon.pid")" 2>/dev/null && echo "  🟢 daemon" || echo "  🔴 daemon"
         ;;
     logs) tail -f "$LOGS/${2:-daemon}.log" ;;
-    *) echo "Uso: ./hyrulor.sh {start|stop|restart|chat|status|logs}" ;;
+    *) echo "Uso: ./hyrulor.sh {start|stop|restart|chat [pregunta]|repl|status|logs}" ;;
 esac

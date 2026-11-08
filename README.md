@@ -13,7 +13,7 @@
 ## ⚠️ Estado del Proyecto
 
 > **Fase Actual: Desarrollo Activo (Fases 1 y 2 en progreso).**  
-> El núcleo del daemon (Fase 0) y la interfaz gráfica base (Fase 3) están operativos. Actualmente, el sistema se encuentra en la fase de expansión de habilidades (50 herramientas) y consolidación de la memoria semántica (RAG).
+> El núcleo del daemon (Fase 0) y la interfaz gráfica base (Fase 3) están operativos. Actualmente el cerebro es **Qwen3.5-4B-Instruct** con 5 herramientas esenciales y memoria semántica (RAG).
 
 ---
 
@@ -23,12 +23,12 @@ Hyrulor opera bajo una **arquitectura de enjambre de modelos** (Mixture of Exper
 
 1. **Router / Orquestador (Rust):** Recibe las peticiones por un *Socket Unix* (`/tmp/omni.sock`), clasifica la intención y decide qué modelo o herramienta invocar.
 2. **Capa de Inferencia (llama.cpp + Vulkan):** 
-   * *Motor Principal:* `Qwen2.5-3B-Instruct` (acelerado por hardware vía Vulkan).
+   * *Motor Principal:* `Qwen3.5-4B-Instruct` (Q4_K_M, contexto 8K, acelerado por hardware vía Vulkan).
    * *Motor de Memoria:* `Qwen3-Embedding-0.6B` (generación de vectores para RAG).
 3. **Arquitectura de Dos Fases:** 
    * *Fase RAG:* Si la pregunta coincide con el código indexado, el modelo responde **sin** acceso a herramientas del sistema (evitando alucinaciones de hardware).
    * *Fase Herramientas:* Si la pregunta es sobre el hardware/sistema, el modelo utiliza el *Tool-Calling* estricto.
-4. **Sandbox de Seguridad:** Toda ejecución de comandos (lectura de batería, GPU, red) se ejecuta aislada mediante `bubblewrap`, con permisos mínimos y sin acceso a la red externa.
+4. **Sandbox de Seguridad:** Toda ejecución de comandos (disco, memoria, procesos, batería y GPU) se ejecuta aislada mediante `bubblewrap`, con permisos mínimos y sin acceso a la red externa.
 5. **Memoria Híbrida (SQLite):** Combinación de `FTS5` (búsqueda por texto exacto en conversaciones) y `sqlite-vec` (búsqueda semántica en archivos locales).
 
 ---
@@ -36,7 +36,7 @@ Hyrulor opera bajo una **arquitectura de enjambre de modelos** (Mixture of Exper
 ## 🚀 Características Principales (Implementadas)
 
 *   **Inferencia 100% Local:** Sin dependencias de la nube ni fuga de datos.
-*   **Control Unificado:** Script `hyrulor.sh` para gestionar el ciclo de vida de los 3 servicios (start/stop/chat/logs) sin necesidad de múltiples terminales.
+*   **Control Unificado:** Script `hyrulor.sh` para gestionar el ciclo de vida de los 8 servicios (start/stop/chat/logs) y cliente interactivo `repl`, sin necesidad de múltiples terminales.
 *   **Indexación RAG (Chunking):** Lectura, fragmentación y almacenamiento de archivos locales en una base de datos vectorial para consultas posteriores.
 *   **Seguridad de Ejecución:** El *Safety Gate* en Rust valida que el LLM solo invoque herramientas permitidas y valida los argumentos JSON antes de tocar el sistema.
 
@@ -45,7 +45,7 @@ Hyrulor opera bajo una **arquitectura de enjambre de modelos** (Mixture of Exper
 ## 📋 Hoja de Ruta (Roadmap)
 
 *   [x] **Fase 0:** Daemon asíncrono, SQLite (WAL), Sandbox y Socket Seguro.
-*   [x] **Fase 1 (Parcial):** Tool-calling nativo (Batería, GPU, Red).
+*   [x] **Fase 1 (Parcial):** Tool-calling nativo (Disco, Memoria, Procesos, Batería, GPU).
 *   [x] **Fase 2 (Parcial):** Memoria Vectorial (`sqlite-vec`) y arquitectura dual-fase.
 *   [x] **Fase 3 (Parcial):** Integración con el escritorio COSMIC (Applet Rust).
 *   [ ] **Fase 1 (Completar):** Despliegue de las **50 herramientas** (Sistema, Red, Código, Productividad, Seguridad).
@@ -72,8 +72,11 @@ Requisitos: `Rust`, `llama.cpp` compilado con Vulkan, modelos GGUF en `/models`.
 # 1. Arrancar todos los servicios (Motor LLM, Embeddings y Daemon)
 ./hyrulor.sh start
 
-# 2. Hablar con el asistente
+# 2. Hablar con el asistente (consulta única)
 ./hyrulor.sh chat "¿Qué hace la función main en mi código?"
+
+# 2b. Cliente interactivo (REPL)
+./hyrulor.sh repl
 
 # 3. Ver estado de los servicios
 ./hyrulor.sh status
@@ -111,19 +114,22 @@ cargo build --release
 ```bash
 cd /home/oyi/Proyectos/hyrulor
 HYORY_SOCKET=/tmp/omni.sock \
-HYORY_LLM_ADDR=127.0.0.1:8082 \
-HYORY_LLM_MODEL=Qwen2.5-3B-Instruct-Q5_K_M \
+HYORY_LLM_SOCKET="$HOME/.hyrulor_run/llm.sock" \
+HYORY_EMBEDDING_SOCKET="$HOME/.hyrulor_run/emb.sock" \
+HYORY_LLM_MODEL=Qwen3.5-4B-Instruct-Q4_K_M \
 HYORY_DB="$PWD/hyory.db" \
 HYORY_TOOLS="$PWD/tools" \
 ./target/release/hyory
 ```
 
-`llama-server` usa HTTP TCP, no sockets Unix:
+`llama-server` escucha HTTP sobre un socket Unix (sin abrir puertos TCP):
 
 ```bash
+mkdir -p "$HOME/.hyrulor_run"
 ./runtime/llama.cpp/build/bin/llama-server \
-  -m "$PWD/models/Qwen2.5-3B-Instruct-Q5_K_M.gguf" \
-  --host 127.0.0.1 --port 8082 --ctx-size 2048 --n-gpu-layers 99 --jinja
+  -m "$PWD/models/Qwen3.5-4B-Instruct-Q4_K_M.gguf" \
+  --host "$HOME/.hyrulor_run/llm.sock" --port 9999 \
+  --ctx-size 8192 --n-gpu-layers 99 --jinja
 ```
 
 ### 💾 Paso 3: Guardar en nano

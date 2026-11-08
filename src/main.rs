@@ -57,7 +57,7 @@ async fn main() -> Result<(), AppError> {
         .or_else(|_| env::var("HYORY_LLM_SOCKET"))
         .unwrap_or_else(|_| "127.0.0.1:8082".to_string());
     let llm_model =
-        env::var("HYORY_LLM_MODEL").unwrap_or_else(|_| "Qwen2.5-3B-Instruct-Q5_K_M".to_string());
+        env::var("HYORY_LLM_MODEL").unwrap_or_else(|_| "Qwen3.5-4B-Instruct-Q4_K_M".to_string());
 
     match tokio::fs::symlink_metadata(&socket_path).await {
         Ok(metadata) if metadata.file_type().is_socket() => {
@@ -71,6 +71,9 @@ async fn main() -> Result<(), AppError> {
     let vault = MemoryVault::open(database_path).await?;
     let sandbox = tool_sandbox::ToolSandbox::new(tools_dir)?;
     let inference = InferenceEngine::new(llm_addr, llm_model);
+    let coder = env::var_os("HYORY_CODER_SOCKET")
+        .and_then(|s| s.into_string().ok())
+        .map(|addr| InferenceEngine::new(addr, "Qwen2.5-Coder-7B".to_string()));
 
     let embedding_addr = env::var("HYORY_EMBEDDING_ADDR")
         .or_else(|_| env::var("HYORY_EMBEDDING_SOCKET"))
@@ -81,6 +84,7 @@ async fn main() -> Result<(), AppError> {
         vault,
         sandbox,
         inference,
+        coder,
         embedding_client,
     });
     let listener = UnixListener::bind(&socket_path)?;

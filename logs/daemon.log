@@ -1,3 +1,7 @@
-[2m2026-11-08T13:02:40.999784Z[0m [32m INFO[0m Hyory daemon listening [3msocket[0m[2m=[0m/tmp/omni.sock
+[2m2026-11-08T13:55:38.118468Z[0m [32m INFO[0m Hyory daemon listening [3msocket[0m[2m=[0m/tmp/omni.sock
+🔍 RAG activado: 3 fragmentos
+🔧 Modo herramientas (sin RAG)
+[2m2026-11-08T13:57:50.106622Z[0m [31mERROR[0m connection failed [3merr[0m[2m=[0mBroken pipe (os error 32)
+🔧 Modo herramientas (sin RAG)
 🔧 Modo herramientas (sin RAG)
 🔧 Modo herramientas (sin RAG)

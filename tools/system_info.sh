@@ -1,2 +1,2 @@
 #!/bin/sh
-uname -a "$@" 2>&1 | head -n 50
+uname -a

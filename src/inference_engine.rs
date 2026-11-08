@@ -96,6 +96,9 @@ impl InferenceEngine {
             "tools": tools,
             "tool_choice": if force_tool { "required" } else { "auto" },
             "temperature": 0.1,
+            // Qwen3.5 razona por defecto y puede gastar cientos de tokens
+            // incluso para un saludo. Para un asistente local conviene desactivarlo.
+            "chat_template_kwargs": { "enable_thinking": false },
         }))?;
 
         let request = format!(
@@ -170,7 +173,7 @@ pub fn tool_definitions() -> Vec<ToolDefinition> {
             kind: "function",
             function: FunctionDefinition {
                 name: "check_disk_space",
-                description: "Get the free and used disk space of the system.",
+                description: "Get free disk space.",
                 parameters: serde_json::json!({"type": "object", "properties": {}}),
             },
         },
@@ -178,7 +181,7 @@ pub fn tool_definitions() -> Vec<ToolDefinition> {
             kind: "function",
             function: FunctionDefinition {
                 name: "check_memory",
-                description: "Get the RAM memory usage of the system.",
+                description: "Get RAM usage.",
                 parameters: serde_json::json!({"type": "object", "properties": {}}),
             },
         },
@@ -186,7 +189,7 @@ pub fn tool_definitions() -> Vec<ToolDefinition> {
             kind: "function",
             function: FunctionDefinition {
                 name: "list_processes",
-                description: "List the top CPU consuming processes.",
+                description: "List top CPU processes.",
                 parameters: serde_json::json!({"type": "object", "properties": {}}),
             },
         },
@@ -194,7 +197,7 @@ pub fn tool_definitions() -> Vec<ToolDefinition> {
             kind: "function",
             function: FunctionDefinition {
                 name: "battery_status",
-                description: "Get the battery level and health.",
+                description: "Get battery level.",
                 parameters: serde_json::json!({"type": "object", "properties": {}}),
             },
         },
@@ -202,8 +205,48 @@ pub fn tool_definitions() -> Vec<ToolDefinition> {
             kind: "function",
             function: FunctionDefinition {
                 name: "gpu_diag",
-                description: "Get GPU information and diagnostics.",
+                description: "Get GPU info.",
                 parameters: serde_json::json!({"type": "object", "properties": {}}),
+            },
+        },
+        ToolDefinition {
+            kind: "function",
+            function: FunctionDefinition {
+                name: "read_file",
+                description: "Read a project file. Args: {\"path\":\"src/main.rs\"}",
+                parameters: serde_json::json!({"type": "object", "properties": {"path": {"type": "string"}}, "required": ["path"]}),
+            },
+        },
+        ToolDefinition {
+            kind: "function",
+            function: FunctionDefinition {
+                name: "search_code",
+                description: "Search a pattern in the project. Args: {\"pattern\":\"fn main\"}",
+                parameters: serde_json::json!({"type": "object", "properties": {"pattern": {"type": "string"}}, "required": ["pattern"]}),
+            },
+        },
+        ToolDefinition {
+            kind: "function",
+            function: FunctionDefinition {
+                name: "system_info",
+                description: "Get kernel and arch info.",
+                parameters: serde_json::json!({"type": "object", "properties": {}}),
+            },
+        },
+        ToolDefinition {
+            kind: "function",
+            function: FunctionDefinition {
+                name: "date_time",
+                description: "Get current date and time.",
+                parameters: serde_json::json!({"type": "object", "properties": {}}),
+            },
+        },
+        ToolDefinition {
+            kind: "function",
+            function: FunctionDefinition {
+                name: "ping_host",
+                description: "Ping a host. Args: {\"host\":\"8.8.8.8\"}",
+                parameters: serde_json::json!({"type": "object", "properties": {"host": {"type": "string"}}, "required": ["host"]}),
             },
         },
     ]

@@ -16,6 +16,7 @@ pub struct AppState {
     pub vault: MemoryVault,
     pub sandbox: ToolSandbox,
     pub inference: InferenceEngine,
+    pub coder: Option<InferenceEngine>,
     pub embedding_client: crate::embedding_client::EmbeddingClient,
 }
 
@@ -206,7 +207,8 @@ async fn run_agent(query: &str, state: &AppState) -> Result<String, AgentError> 
                 tool_call_id: None,
             },
         ];
-        let response = state.inference.chat(&messages, &[], false).await?;
+        let engine = state.coder.as_ref().unwrap_or(&state.inference);
+        let response = engine.chat(&messages, &[], false).await?;
         return Ok(response.content.unwrap_or_default().trim().to_string());
     }
 
@@ -258,7 +260,8 @@ async fn run_agent(query: &str, state: &AppState) -> Result<String, AgentError> 
                     tool_call_id: None,
                 },
             ];
-            let response = state.inference.chat(&messages, &[], false).await?;
+            let engine = state.coder.as_ref().unwrap_or(&state.inference);
+            let response = engine.chat(&messages, &[], false).await?;
             let answer = response.content.unwrap_or_default().trim().to_string();
             if !answer.is_empty() {
                 let _ = state
@@ -355,7 +358,16 @@ async fn run_agent(query: &str, state: &AppState) -> Result<String, AgentError> 
 fn is_allowed_tool(name: &str) -> bool {
     matches!(
         name,
-        "check_disk_space" | "check_memory" | "list_processes" | "battery_status" | "gpu_diag"
+        "check_disk_space"
+            | "check_memory"
+            | "list_processes"
+            | "battery_status"
+            | "gpu_diag"
+            | "read_file"
+            | "search_code"
+            | "system_info"
+            | "date_time"
+            | "ping_host"
     )
 }
 

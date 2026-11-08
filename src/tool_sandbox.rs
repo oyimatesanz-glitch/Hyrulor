@@ -53,12 +53,17 @@ impl ToolSandbox {
         Ok(Self {
             tools_dir,
             tools: HashMap::from([
-                ("check_disk_space", "check_disk_space.sh"),
-                ("check_memory", "check_memory.sh"),
-                ("list_processes", "list_processes.sh"),
                 ("battery_status", "battery_tool.sh"),
                 ("gpu_diag", "gpu_diag.sh"),
                 ("net_privacy", "net_privacy.sh"),
+                ("check_disk_space", "check_disk_space.sh"),
+                ("check_memory", "check_memory.sh"),
+                ("list_processes", "list_processes.sh"),
+                ("read_file", "read_file.sh"),
+                ("search_code", "search_code.sh"),
+                ("system_info", "system_info.sh"),
+                ("date_time", "date_time.sh"),
+                ("ping_host", "ping_host.sh"),
             ]),
         })
     }

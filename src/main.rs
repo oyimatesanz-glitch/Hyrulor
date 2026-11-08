@@ -1,4 +1,5 @@
 mod audit;
+mod db_key;
 mod embedding_client;
 mod guard_client;
 mod inference_engine;

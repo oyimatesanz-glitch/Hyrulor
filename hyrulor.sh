@@ -137,6 +137,7 @@ start() {
     HYORY_SECURE_MODE="${HYORY_SECURE_MODE:-0}" \
     HYORY_LLM_MODEL=Qwen3.5-4B-Instruct-Q4_K_M \
     HYORY_DB="$ROOT/hyory.db" \
+    HYORY_DB_KEY_FILE="$RUN/db.key" \
     HYORY_TOOLS="$ROOT/tools" \
     RUST_LOG=info nohup "$DAEMON" > "$LOGS/daemon.log" 2>&1 &
     echo $! > "$PIDS/daemon.pid"

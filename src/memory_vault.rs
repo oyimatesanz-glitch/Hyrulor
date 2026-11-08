@@ -7,12 +7,16 @@ use rusqlite::{params, Connection};
 use serde::Serialize;
 use tokio::task::JoinError;
 
+use crate::db_key;
+
 pub type Db = Arc<Mutex<Connection>>;
 
 #[derive(Debug, thiserror::Error)]
 pub enum MemoryError {
     #[error("sqlite: {0}")]
     Sqlite(#[from] rusqlite::Error),
+    #[error("clave de base de datos: {0}")]
+    Key(#[from] db_key::KeyError),
     #[error("database mutex is poisoned")]
     Poisoned,
     #[error("serialization: {0}")]
@@ -44,7 +48,10 @@ impl MemoryVault {
         }
 
         let db = tokio::task::spawn_blocking(move || -> Result<Db, MemoryError> {
-            let connection = Connection::open(path)?;
+            let connection = Connection::open(&path)?;
+            // PRAGMA key debe ser lo primero que toca el archivo.
+            let key = db_key::resolve_for_database(&path)?;
+            db_key::apply(&connection, &key)?;
             configure_connection(&connection)?;
             initialize_schema(&connection)?;
             Ok(Arc::new(Mutex::new(connection)))

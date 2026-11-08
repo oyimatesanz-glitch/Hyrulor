@@ -506,6 +506,48 @@ async fn speak(text: String, state: &AppState) -> Response {
     }
 }
 
+fn es_conversacion_casual(query: &str) -> bool {
+    let q = query.to_lowercase();
+    let tarea_keywords = [
+        "batería",
+        "bateria",
+        "gpu",
+        "disco",
+        "memoria",
+        "proceso",
+        "red",
+        "ping",
+        "kernel",
+        "hora",
+        "fecha",
+        "main",
+        "fn ",
+        "código",
+        "codigo",
+        "archivo",
+        "rust",
+        "función",
+        "funcion",
+        "imagen",
+        "voz",
+        "escuchar",
+        "hablar",
+        "index",
+        "search",
+        "busca",
+        "ejecuta",
+        "diagnóstico",
+        "cpu",
+        "ram",
+        "temperatura",
+        "sensor",
+        "puerto",
+        "conexión",
+        "conexion",
+    ];
+    !tarea_keywords.iter().any(|kw| q.contains(kw)) && !q.starts_with('/') && !q.trim().is_empty()
+}
+
 #[derive(Debug, thiserror::Error)]
 enum AgentError {
     #[error("memory: {0}")]
@@ -560,11 +602,7 @@ async fn run_agent(query: &str, state: &AppState) -> Result<AgentOutcome, AgentE
     }
 
     // 1. CLASIFICADOR DE INTENCIÓN
-    let es_charla_casual = q_lower.starts_with("hola")
-        || q_lower.starts_with("buenos")
-        || q_lower.starts_with("qué tal")
-        || q_lower.contains("cómo estás")
-        || q_lower.contains("funcionando bien");
+    let es_charla_casual = es_conversacion_casual(query);
 
     if es_charla_casual {
         eprintln!("👋 Modo charla casual (cero herramientas)");
@@ -572,7 +610,7 @@ async fn run_agent(query: &str, state: &AppState) -> Result<AgentOutcome, AgentE
             ChatMessage {
                 role: "system".to_string(),
                 content: Some(
-                    "Eres Hyrulor, un asistente de IA local. Responde de forma amigable, breve y natural al saludo del usuario."
+                    "Eres Hyrulor, un asistente de IA local. Responde de forma natural, amable y breve a cualquier conversación casual o pregunta general. No uses herramientas."
                         .to_string(),
                 ),
                 tool_calls: Vec::new(),
@@ -585,7 +623,7 @@ async fn run_agent(query: &str, state: &AppState) -> Result<AgentOutcome, AgentE
                 tool_call_id: None,
             },
         ];
-        let engine = state.coder.as_ref().unwrap_or(&state.inference);
+        let engine = &state.inference;
         let response = engine.chat(&messages, &[], false).await?;
         let answer = response.content.unwrap_or_default().trim().to_string();
         return finalize(query, answer, state)
@@ -748,6 +786,7 @@ async fn run_agent(query: &str, state: &AppState) -> Result<AgentOutcome, AgentE
 /// respuesta `Unsafe` se sustituye por un aviso; en modo seguro se permite
 /// pero queda auditada.
 async fn finalize(query: &str, answer: String, state: &AppState) -> Result<String, AgentError> {
+    let es_casual = es_conversacion_casual(query);
     if answer.trim().is_empty() {
         return Err(AgentError::EmptyAnswer);
     }
@@ -766,7 +805,7 @@ async fn finalize(query: &str, answer: String, state: &AppState) -> Result<Strin
                 }))
                 .await;
 
-            if verdict.is_unsafe() && !state.secure_mode() {
+            if verdict.is_unsafe() && !state.secure_mode() && !es_casual {
                 let _ = state
                     .audit
                     .log(json!({

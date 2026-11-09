@@ -50,6 +50,10 @@ herramientas, ejecución sandboxed, persistencia y pruebas de concurrencia.
 
 El fine-tuning es opcional y no forma parte del camino mínimo operativo.
 
+Además, la memoria persistente (`hyory.db`) se cifra en reposo con
+**SQLCipher (AES-256)** vía `rusqlite` `bundled-sqlcipher-vendored-openssl`,
+con migración automatizada (`migrate_db`) y verificación (`migrate_db --verify`).
+
 ## Fase 2: integración
 
 Archivos principales:
@@ -76,6 +80,27 @@ docs/
 Incluye applet completa (chat, modos de seguridad, formulario de autorización y
 comandos de visión/voz), actualización de herramientas, hot-reload, métricas,
 benchmarking y optimización continua.
+
+## Hyrulor Engine (subsistema visual)
+
+El motor gráfico nativo vive en el repositorio hermano `../hyrulor-engine/`
+(100% Rust: `winit` + `wgpu` + `egui` + shaders WGSL, sin WebView) y habla con
+este daemon por el mismo socket Unix (`/tmp/omni.sock`, JSON-Lines).
+
+| Hito | Objetivo | Estado |
+|---|---|---|
+| E1 | Ventana universal (winit) | ✅ |
+| E2 | Pipeline básico (wgpu) | ✅ |
+| E3 | Orbe 3D (esfera + anillo orbital) | ✅ |
+| E4 | Shader holográfico (Fresnel + escaneo + pulso) | ✅ |
+| E5 | Chat nativo (egui) | ✅ |
+| E6 | Conexión con el daemon (socket Unix) | ✅ |
+| E6+ | Autorización humana en la ventana | ✅ |
+| E7-E10 | Post-proceso, WASM, móvil, editor | Pendiente |
+
+El orbe codifica el estado del sistema (en línea, pensando, bloqueado, error,
+sin conexión) y presenta el formulario de autorización humana directamente en
+la ventana nativa.
 
 ## Artefactos fuera del repositorio
 

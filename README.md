@@ -12,8 +12,8 @@
 
 ## ⚠️ Estado del Proyecto
 
-> **Fase Actual: Desarrollo Activo (Fases 1 y 2 en progreso).**  
-> El núcleo del daemon (Fase 0) y la interfaz gráfica base (Fase 3) están operativos. Actualmente el cerebro es **Qwen3.5-4B-Instruct** con 5 herramientas esenciales y memoria semántica (RAG).
+> **Fase Actual: Fases 0–3 completadas; Hyrulor Engine conectado.**  
+> El daemon (núcleo, seguridad, RAG, visión y voz), el applet COSMIC y el motor gráfico nativo (`hyrulor-engine`) están operativos. El cerebro es **Qwen3.5-4B-Instruct** con memoria semántica (RAG) y tool-calling estricto.
 
 ---
 
@@ -195,6 +195,26 @@ del applet y se regenera con el repo, de modo que proyecto y artefacto no se
 desincronizan. El artefacto distribuible se genera con `./tools/package_applet.sh`.
 
 El daemon simulado (`cargo run --release --bin hyrulor-mock-daemon`) permite probar el chat, los modos y el formulario sin arrancar los modelos.
+
+### Hyrulor Engine (subsistema visual)
+
+El motor gráfico nativo vive en el repositorio hermano `../hyrulor-engine/`
+(100% Rust: `winit` + `wgpu` + `egui` + shaders WGSL, sin WebView) y se conecta
+a este daemon por el mismo socket Unix (`/tmp/omni.sock`, JSON-Lines):
+
+*   **Orbe holográfico** cuyo color, pulso y brillo codifican el estado real del
+    sistema (en línea, pensando, autorización requerida, error, sin conexión).
+*   **Chat nativo** que habla con el daemon sin bloquear la interfaz (hilo +
+    canal `mpsc`).
+*   **Autorización humana integrada:** presenta el formulario (modo simple o
+    seguro) directamente en la ventana; el daemon valida, ejecuta en sandbox y
+    audita.
+
+```bash
+cd ../hyrulor-engine
+cargo run --release                     # usa /tmp/omni.sock por defecto
+HYRULOR_DAEMON_SOCKET=/tmp/omni.sock cargo run --release
+```
 
 # Hyrulor
 

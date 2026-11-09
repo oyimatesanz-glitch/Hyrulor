@@ -78,9 +78,17 @@ El modo se controla con `./hyrulor.sh secure on|off` (o `/secure on` dentro del 
 
 > **Importante:** `audit/audit.key` es la única llave para leer la auditoría. Haz copia de seguridad. Si se pierde, los eventos cifrados no se pueden recuperar.
 
-### Limitación conocida
+### Cifrado de la base de datos (SQLCipher)
 
-La base de datos SQLite (`hyory.db`) todavía **no está cifrada en reposo**: `sqlcipher` no está disponible en este sistema. Lo que sí está cifrado es la auditoría y el formulario de autorización. El siguiente paso recomendado es migrar a SQLCipher (o mover `hyory.db` a un volumen LUKS) antes de considerar el almacenamiento «todo cifrado».
+`hyory.db` está **cifrado en reposo con SQLCipher (AES-256)**:
+
+* Motor: `rusqlite` con feature `bundled-sqlcipher-vendored-openssl` (SQLCipher 4.5.7).
+* Clave: variable `HYORY_DB_KEY` o archivo `~/.hyrulor_run/db.key` (permisos `0600`). Si la base ya contiene datos y no hay clave, el daemon se niega a arrancar (no genera claves nuevas sobre datos existentes).
+* Migración: binario `migrate_db` (`cargo run --release --bin migrate_db -- <origen> <destino>`; por defecto `hyory.db` → `hyory.db.enc`). Usa `sqlcipher_export()` para clonar esquema, datos, triggers y tablas virtuales, y verifica integridad, recuentos, FTS5 y vectores.
+* Verificación: `cargo run --release --bin migrate_db -- --verify <ruta>`.
+* Copia de seguridad: `hyory.db.backup_antes_de_cifrar` cifrada con GPG AES-256 (`gpg --symmetric --cipher-algo AES256 --passphrase-file audit/audit.key`).
+
+Con esto, conversaciones, documentos e índices vectoriales quedan cifrados junto con la auditoría GPG.
 
 ---
 
@@ -163,11 +171,28 @@ La applet nativa vive en `integrations/cosmic-applet/` y habla con el mismo sock
 *   Validación del socket (propietario, tipo y permisos `0600`) y límites de 1 MiB por frame / 4 MiB por respuesta.
 
 ```bash
+./tools/applet.sh build        # desde la raíz del repo: build del applet + mock daemon
+./tools/applet.sh test         # tests del applet
+./tools/applet.sh verify       # fmt + tests
+./tools/applet.sh install      # instalación de usuario; luego añade Hyrulor al panel COSMIC
+
 cd integrations/cosmic-applet
 cargo test --all-targets
 cargo build --release --bin hyrulor-cosmic-applet
 ./install.sh   # instalación de usuario; luego añade Hyrulor al panel COSMIC
 ```
+
+### Empaquetado del applet
+
+El artefacto distribuible se genera desde el repo con:
+
+```bash
+./tools/package_applet.sh hyory-applet   # genera dist/hyory-applet.zip + .sha256
+```
+
+El zip resultante (`dist/hyory-applet.zip`) contiene la implementación de diseño
+del applet y se regenera con el repo, de modo que proyecto y artefacto no se
+desincronizan. El artefacto distribuible se genera con `./tools/package_applet.sh`.
 
 El daemon simulado (`cargo run --release --bin hyrulor-mock-daemon`) permite probar el chat, los modos y el formulario sin arrancar los modelos.
 

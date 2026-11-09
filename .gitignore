@@ -38,8 +38,13 @@ runtime/llama.cpp/
 /runtime/piper/
 # Auditoría cifrada y clave local: nunca debe entrar en Git
 /audit/
+# Copias de seguridad de la base de datos (texto plano eliminado; solo .gpg queda)
+/hyory.db.enc
+/hyory.db.backup_antes_de_cifrar.gpg
 /runtime/llama.cpp/build/
 /runtime/llama.cpp/models/
 /target/
 target/
 .toolchain/
+# Paquetes generados del applet COSMIC
+/dist/

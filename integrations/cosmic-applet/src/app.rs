@@ -151,6 +151,7 @@ pub enum Message {
     InputChanged(String),
     QuickQuery(String),
     Send,
+    Clear,
     Retry,
     Pulse,
     AuthFieldChanged(usize, String),
@@ -225,6 +226,7 @@ impl cosmic::Application for AppModel {
                 self.last_query.is_some(),
                 self.pending_auth.as_ref(),
                 self.secure_mode,
+                self.pulse,
             );
             self.core.applet.popup_container(content).into()
         } else {
@@ -282,6 +284,17 @@ impl cosmic::Application for AppModel {
                 {
                     self.input.clear();
                     return self.begin_request(query, true);
+                }
+            }
+            Message::Clear => {
+                // Clear the transcript without cancelling an authorization that
+                // the daemon may still be waiting for.
+                self.messages.clear();
+                self.pending_answer = None;
+                self.socket_error = None;
+                self.tool_label = None;
+                if self.pending_auth.is_none() {
+                    self.status = ChatStatus::Idle;
                 }
             }
             Message::Retry => {

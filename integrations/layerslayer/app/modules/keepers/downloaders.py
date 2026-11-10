@@ -16,14 +16,17 @@ def download_layer_blob(auth: RegistryAuth, image_ref: str, digest: str, size: i
         digest: Layer digest
         size: Layer size (for info only)
     """
-    user, repo, _ = parse_image_ref(image_ref)
+    user, repo, tag = parse_image_ref(image_ref)
     url = f"{registry_base_url(user, repo)}/blobs/{digest}"
 
     resp = auth.request_with_retry("GET", url, stream=True)
     resp.raise_for_status()
 
     user_repo = f"{user}_{repo}"
-    output_dir = os.path.join("downloads", user_repo, "latest")
+    # Keep each tag in its own directory instead of collapsing everything
+    # into "latest"; sanitize the tag so it cannot escape the downloads tree.
+    safe_tag = tag.replace("/", "_").replace("\\", "_")
+    output_dir = os.path.join("downloads", user_repo, safe_tag)
     os.makedirs(output_dir, exist_ok=True)
 
     filename = digest.replace(":", "_") + ".tar.gz"

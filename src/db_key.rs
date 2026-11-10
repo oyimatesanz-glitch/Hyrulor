@@ -33,6 +33,8 @@ pub enum KeyError {
     InvalidEnvKey,
     #[error("el archivo de clave {0} no contiene 64 caracteres hexadecimales válidos")]
     InvalidKeyFile(PathBuf),
+    // Solo lo usa `ensure_key_file`, que comparte el binario `migrate_db`.
+    #[allow(dead_code)]
     #[error("el archivo de clave {0} ya existe con una clave distinta de HYORY_DB_KEY")]
     KeyMismatch(PathBuf),
     #[error(
@@ -99,6 +101,7 @@ pub fn parse_key(raw: &str) -> Option<String> {
 /// Si ya existe, exige que contenga exactamente la misma clave. Se usa al
 /// migrar con `HYORY_DB_KEY` para que el daemon pueda abrir la base después
 /// sin depender de esa variable de entorno.
+#[allow(dead_code)] // Solo lo usa el binario `migrate_db`.
 pub fn ensure_key_file(path: &Path, key: &str) -> Result<(), KeyError> {
     let key = parse_key(key).ok_or(KeyError::InvalidEnvKey)?;
 

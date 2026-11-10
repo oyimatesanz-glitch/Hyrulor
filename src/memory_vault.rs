@@ -67,7 +67,7 @@ impl MemoryVault {
         assistant: String,
     ) -> Result<i64, MemoryError> {
         let db = Arc::clone(&self.db);
-        Ok(tokio::task::spawn_blocking(move || {
+        tokio::task::spawn_blocking(move || {
             let connection = lock_db(&db)?;
             connection.execute(
                 "INSERT INTO convs (user, assistant) VALUES (?1, ?2)",
@@ -75,12 +75,12 @@ impl MemoryVault {
             )?;
             Ok::<i64, MemoryError>(connection.last_insert_rowid())
         })
-        .await??)
+        .await?
     }
 
     pub async fn search(&self, query: String, limit: u32) -> Result<Vec<MemoryHit>, MemoryError> {
         let db = Arc::clone(&self.db);
-        Ok(tokio::task::spawn_blocking(move || {
+        tokio::task::spawn_blocking(move || {
             let match_query = build_fts_query(&query);
             if match_query.is_empty() {
                 return Ok(Vec::new());
@@ -108,7 +108,7 @@ impl MemoryVault {
             rows.collect::<Result<Vec<_>, _>>()
                 .map_err(MemoryError::from)
         })
-        .await??)
+        .await?
     }
 
     // --- NUEVAS FUNCIONES PARA RAG VECTORIAL ---

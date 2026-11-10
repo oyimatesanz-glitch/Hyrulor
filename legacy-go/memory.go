@@ -1,3 +1,8 @@
+//go:build legacy_v1_memory
+
+// Variante alternativa de memoria JSON. `orchestrator.go` ya incluye su propia
+// `saveToMemory`, así que este archivo solo se compila de forma aislada con
+// `-tags legacy_v1_memory` (nunca junto a la variante v1).
 package main
 
 import (

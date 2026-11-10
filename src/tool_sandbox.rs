@@ -154,6 +154,17 @@ impl ToolSandbox {
             "--ro-bind",
         ]);
         command.arg(&self.tools_dir).arg("/tools");
+        // `read_file.sh` y `search_code.sh` operan sobre `/workspace`. Solo esos
+        // dos tools reciben el árbol de trabajo en modo lectura; el resto no ve
+        // ningún archivo del usuario.
+        if matches!(name, "read_file" | "search_code") {
+            if let Some(workspace) = workspace_dir() {
+                command
+                    .args(["--ro-bind"])
+                    .arg(&workspace)
+                    .arg("/workspace");
+            }
+        }
         if Path::new("/usr/lib64").is_dir() {
             command.args(["--symlink", "usr/lib64", "/lib64"]);
         }
@@ -209,6 +220,19 @@ impl ToolSandbox {
         }
         Ok(command)
     }
+}
+
+/// Árbol de trabajo expuesto a `read_file`/`search_code` dentro de bwrap.
+///
+/// Se puede fijar con `HYORY_WORKSPACE`; por defecto se usa el directorio de
+/// trabajo del daemon (el repositorio desde el que lo arranca `hyrulor.sh`).
+fn workspace_dir() -> Option<PathBuf> {
+    std::env::var_os("HYORY_WORKSPACE")
+        .map(PathBuf::from)
+        .or_else(|| std::env::current_dir().ok())
+        // Nunca exponer la raíz del sistema si el daemon arranca desde `/`
+        // (por ejemplo, como servicio del sistema).
+        .filter(|path| path.is_dir() && path != Path::new("/"))
 }
 
 fn ensure_child_path(root: &Path, child: &Path) -> Result<(), ToolError> {

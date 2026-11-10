@@ -1,5 +1,6 @@
 #!/bin/bash
-ROOT="$HOME/Proyectos/hyrulor"
+# Directorio real del repositorio, independiente de $HOME y del cwd.
+ROOT=$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 LOGS="$ROOT/logs"
 PIDS="$ROOT/.pids"
 RUN="$HOME/.hyrulor_run"
@@ -22,6 +23,10 @@ PIPER_BIN="$ROOT/runtime/piper/piper"
 PIPER_VOICE="$ROOT/models/piper/es_ES-davefx-medium.onnx"
 BIN="$ROOT/runtime/llama.cpp/build/bin/llama-server"
 DAEMON="$ROOT/target/release/hyory"
+
+# Las librerías compartidas de llama.cpp viven junto al binario y el build no
+# fija RPATH, así que hay que exponerlas explícitamente.
+export LD_LIBRARY_PATH="$ROOT/runtime/llama.cpp/build/bin${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 
 # Nombres únicos de sockets para evitar colisiones
 SOCK_LLM="$RUN/llm.sock"
@@ -218,8 +223,8 @@ case "$1" in
         done
         [ -f "$PIDS/daemon.pid" ] && kill -0 "$(cat "$PIDS/daemon.pid")" 2>/dev/null && echo "  🟢 daemon" || echo "  🔴 daemon"
         if [ -S "$SOCK_OMNI" ]; then
-            local_mode=$(secure status 2>/dev/null | tail -n 1)
-            echo "  🔐 modo: ${local_mode:-desconocido}"
+            mode_value=$(secure status 2>/dev/null | tail -n 1)
+            echo "  🔐 modo: ${mode_value:-desconocido}"
         fi
         ;;
     logs) tail -f "$LOGS/${2:-daemon}.log" ;;

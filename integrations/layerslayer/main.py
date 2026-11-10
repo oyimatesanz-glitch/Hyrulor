@@ -91,8 +91,17 @@ def main():
                 choice = args.arch
                 print(f"\nUsing platform index {choice} (from --arch)")
             else:
-                choice = int(input("Select a platform [0]: ") or 0)
-            
+                raw_choice = input("Select a platform [0]: ").strip()
+                try:
+                    choice = int(raw_choice or 0)
+                except ValueError:
+                    print(f"\n[!] Error: '{raw_choice}' no es un índice numérico.")
+                    return
+                if choice < 0 or choice >= len(platforms):
+                    print(f"\n[!] Error: platform index {choice} is out of range. "
+                          f"Valid indices: 0-{len(platforms) - 1}")
+                    return
+
             digest = platforms[choice]["digest"]
             # fetch the chosen platform's manifest
             full_manifest = get_manifest(auth, image_ref, specific_digest=digest)
@@ -143,7 +152,12 @@ def main():
                 indices = list(range(len(layers)))
                 print(f"\n[*] Peeking into all {len(layers)} layers (complete enumeration):")
             else:
-                layer_index = int(args.peek_layer)
+                try:
+                    layer_index = int(args.peek_layer)
+                except ValueError:
+                    print(f"\n[!] Error: --peek-layer '{args.peek_layer}' no es un índice "
+                          f"numérico ni 'all'.")
+                    return
                 if layer_index < 0 or layer_index >= len(layers):
                     print(f"\n[!] Error: layer index {layer_index} is out of range. "
                           f"Valid indices: 0-{len(layers) - 1}")
@@ -199,7 +213,17 @@ def main():
         if not sel or sel.upper() == "ALL":
             indices = list(range(len(layers)))
         else:
-            indices = [int(i) for i in sel.split(",")]
+            try:
+                indices = [int(i.strip()) for i in sel.split(",") if i.strip()]
+            except ValueError:
+                print(f"\n[!] Error: '{sel}' contiene índices no numéricos.")
+                return
+            if not indices:
+                print("\n[!] Error: no se indicó ningún índice de capa.")
+                return
+            if any(index < 0 or index >= len(layers) for index in indices):
+                print(f"\n[!] Error: los índices deben estar entre 0 y {len(layers) - 1}.")
+                return
 
         # Initialize database for storage
         conn = storage.init_database()

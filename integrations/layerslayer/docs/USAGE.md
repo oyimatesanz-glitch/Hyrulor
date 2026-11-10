@@ -2,29 +2,39 @@
 
 - Print the basic help screen
 
-`python .\main.py --help`
+`python main.py --help`
 
 ```bash
-usage: main.py [-h] [--target-image IMAGE_REF] [--peek-layer] [--save-all] [--log-file LOG_FILE] [--simple-output] [--bulk-peek] [--carve-file CARVE_FILE]
-                      [--output-dir OUTPUT_DIR] [--quiet]
+usage: main.py [-h] [--target-image IMAGE_REF] [--peek-layer PEEK_LAYER] [--save-all]
+               [--log-file LOG_FILE] [--simple-output] [--bulk-peek] [--carve-file CARVE_FILE]
+               [--carve-layer CARVE_LAYER] [--output-dir OUTPUT_DIR] [--quiet] [--interactive]
+               [--arch ARCH] [--force] [--hide-build] [--api]
 
 Explore and download individual Docker image layers.
 
 options:
   -h, --help            show this help message and exit
-  --target-image, -t IMAGE_REF
+  --target-image IMAGE_REF, -t IMAGE_REF
                         Image (user/repo:tag) to inspect
-  --peek-layer          Peek into all layers and exit (all by default, or index int)
+  --peek-layer PEEK_LAYER
+                        Peek layer(s): 'all' for all layers, or integer index for specific layer
   --save-all            Download all layers and exit (no peek listings)
-  --log-file, -l LOG_FILE
+  --log-file LOG_FILE, -l LOG_FILE
                         Path to save a complete log of output
   --simple-output       Use simple output format instead of ls -la style
   --bulk-peek           Peek all layers in bulk and show combined filesystem
-  --carve-file, -f CARVE_FILE
+  --carve-file CARVE_FILE, -f CARVE_FILE
                         Extract a specific file from the image (e.g., /etc/passwd)
-  --output-dir, -o OUTPUT_DIR
+  --carve-layer CARVE_LAYER
+                        Layer index to extract file from (use with --carve-file)
+  --output-dir OUTPUT_DIR, -o OUTPUT_DIR
                         Output directory for carved files (default: ./carved)
   --quiet, -q           Suppress detailed progress output
+  --interactive, -i     Launch interactive mode with prompts
+  --arch ARCH, -a ARCH  Platform index for multi-arch images (e.g., 0 for first platform).
+  --force, -F           Force overwrite of existing database entries without prompting.
+  --hide-build          Hide build steps output (only show summary line)
+  --api, -A             Start the API server (uvicorn on 127.0.0.1:8000)
 ```
 
 ### Carve
@@ -56,7 +66,7 @@ Stats: Downloaded 65,536 bytes of 29,724,688 byte layer (0.2%) in 1.14s
 List contents of all layers in one go (no download prompts):
 
 ```bash
-python main.py --target-image "moby/buildkit:latest" --peek-all
+python main.py --target-image "moby/buildkit:latest" --peek-layer all
 ```
 
 ### Download All Layers
@@ -79,7 +89,7 @@ python main.py -t "moby/buildkit:latest" -l layers_output.log
 
 - **Peek & log** all layers of `moby/buildkit:latest`:
   ```bash
-  python main.py -t "moby/buildkit:latest" --peek-all -l peek.log
+  python main.py -t "moby/buildkit:latest" --peek-layer all -l peek.log
   ```
 
 - **Interactive** inspection of `nginx:alpine`:
@@ -106,15 +116,21 @@ python main.py -t nginx:alpine -f /etc/nginx/nginx.conf -o ./output
 # Quiet mode (suppress progress)
 python main.py -t alpine:latest -f /etc/os-release -q
 
-# Custom chunk size (128KB)
-python main.py -t ubuntu:24.04 -f /etc/passwd -c 128
+# Restrict the search to a specific layer index
+python main.py -t ubuntu:24.04 -f /etc/passwd --carve-layer 0
 ```
 
-You can also use the carver module directly:
+You can also use the carver module directly (it requires `--layer-index`):
 
 ```bash
-python carver.py ubuntu:24.04 /etc/passwd
-python carver.py nginx:alpine /etc/nginx/nginx.conf -o ./output
+python -m app.modules.keepers.carver ubuntu:24.04 /etc/passwd -l 0
+python -m app.modules.keepers.carver nginx:alpine /etc/nginx/nginx.conf -l 0 -o ./output
+```
+
+The `-c/--chunk-size` option (in KB) exists only in the standalone carver:
+
+```bash
+python -m app.modules.keepers.carver ubuntu:24.04 /etc/passwd -l 0 -c 128
 ```
 
 
@@ -154,7 +170,7 @@ Examples:
 ### Example with overrides and symbolic links
 
 ```bash
-python fs-log-sqlite.py --merged msmengr/disney:latest "/"
+python app/modules/fs-log-sqlite.py msmengr/disney:latest "/"
 lrwxrwxrwx       0.0 B  2024-04-22 06:08  bin -> usr/bin                                     [L0]
 drwxr-xr-x       0.0 B  2024-04-22 06:08  boot/                                              [L0]
 -rw-r--r--      25.0 B  2025-03-23 23:49  deo                                                [L1]
@@ -180,7 +196,7 @@ drwxrwxrwx       0.0 B  2025-03-23 23:46  tmp/                                  
 ### Show output of a single later, the image layer index 0 "/"
 
 ```bash
-python fs-log-sqlite.py msmengr/disney:latest 0 "/" --single-layer
+python app/modules/fs-log-sqlite.py msmengr/disney:latest 0 "/" --single-layer
 
 lrwxrwxrwx       0.0 B  2024-04-22 06:08  bin -> usr/bin
 drwxr-xr-x       0.0 B  2024-04-22 06:08  boot/

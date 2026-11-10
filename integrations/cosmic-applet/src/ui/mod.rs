@@ -59,6 +59,7 @@ pub fn view<'a>(
     can_retry: bool,
     auth: Option<&'a crate::app::AuthPrompt>,
     secure_mode: Option<bool>,
+    pulse: bool,
 ) -> Element<'a, crate::app::Message> {
     let mode_label = match secure_mode {
         Some(true) => "🔐 SEGURO",
@@ -67,34 +68,100 @@ pub fn view<'a>(
     };
     let mode_button = cosmic::iced::widget::button(widget::text(mode_label).size(10))
         .on_press(crate::app::Message::ToggleMode)
-        .padding([4, 6]);
+        .padding([7, 13])
+        .class(theme::outline_button());
+
+    let (status_color, status_label) = if auth.is_some() {
+        (theme::gold(), "AUTORIZACIÓN PENDIENTE")
+    } else {
+        match status {
+            ChatStatus::Idle => (theme::success(), "LOCAL · LISTO"),
+            ChatStatus::Thinking => (
+                if pulse {
+                    theme::gold_light()
+                } else {
+                    theme::gold()
+                },
+                "RAZONANDO",
+            ),
+            ChatStatus::Tool => (theme::cyan(), "HERRAMIENTA"),
+            ChatStatus::Error => (theme::danger(), "SIN CONEXIÓN"),
+        }
+    };
+
+    let avatar = widget::container(
+        widget::text("H")
+            .size(16)
+            .class(theme::text_color(theme::background())),
+    )
+    .width(40)
+    .height(40)
+    .center_x(Length::Fill)
+    .center_y(Length::Fill)
+    .style(theme::surface_framed(
+        theme::gold(),
+        theme::gold_light(),
+        20.0,
+    ));
+
+    let title = widget::column![
+        widget::text("HYRULOR")
+            .size(15)
+            .class(theme::text_color(theme::gold())),
+        widget::row![
+            widget::text("●")
+                .size(8)
+                .class(theme::text_color(status_color)),
+            widget::text(status_label)
+                .size(10)
+                .class(theme::text_color(theme::text_muted())),
+        ]
+        .spacing(6)
+        .align_y(Alignment::Center),
+    ]
+    .spacing(3);
+
+    let clear_button = cosmic::iced::widget::button(widget::text("LIMPIAR").size(10))
+        .on_press(crate::app::Message::Clear)
+        .padding([7, 11])
+        .class(theme::ghost_button());
 
     let header = widget::row![
-        widget::text("HYRULOR").size(20),
+        avatar,
+        title,
         Space::new().width(Length::Fill),
-        widget::text("●").size(10),
+        clear_button,
         mode_button,
     ]
-    .align_y(Alignment::Center)
-    .spacing(8);
+    .spacing(8)
+    .align_y(Alignment::Center);
 
-    let mut conversation = widget::column![].spacing(12).width(Length::Fill);
+    let mut conversation = widget::column![].spacing(14).width(Length::Fill);
 
     if entries.is_empty() {
         conversation = conversation.push(
             widget::container(
                 widget::column![
-                    widget::text("A su servicio.").size(18),
-                    widget::text("¿En qué puedo asistirle?").size(14),
-                    widget::text("La conexión local se establece al enviar su primera consulta.")
-                        .size(11),
-                    widget::text("Comandos: /imagen, /voz, /escuchar, /hablar").size(10),
+                    widget::text("A su servicio.")
+                        .size(19)
+                        .class(theme::text_color(theme::gold())),
+                    widget::text("¿En qué puedo asistirle?")
+                        .size(14)
+                        .class(theme::text_color(theme::text_primary())),
+                    widget::text(
+                        "Conexión local cifrada · sin nube · cada acción sensible requiere su autorización."
+                    )
+                    .size(11)
+                    .class(theme::text_color(theme::text_secondary())),
+                    widget::text("Comandos: /imagen · /voz · /escuchar · /hablar")
+                        .size(10)
+                        .class(theme::text_color(theme::cyan())),
                 ]
-                .spacing(7),
+                .spacing(8),
             )
-            .padding(18)
+            .padding(20)
             .width(Length::Fill)
-            .style(theme::container_style(theme::card())),
+            .style(theme::surface_radius(theme::card(), 20.0)),
         );
     }
 
@@ -103,54 +170,63 @@ pub fn view<'a>(
             .on_press(crate::app::Message::QuickQuery(
                 "¿Cuál es el estado de la batería?".to_owned()
             ))
-            .padding([6, 8]),
+            .padding([7, 12])
+            .class(theme::outline_button()),
         cosmic::iced::widget::button(widget::text("RED").size(10))
             .on_press(crate::app::Message::QuickQuery(
                 "Realice un diagnóstico de la conexión de red.".to_owned()
             ))
-            .padding([6, 8]),
+            .padding([7, 12])
+            .class(theme::outline_button()),
         cosmic::iced::widget::button(widget::text("SISTEMA").size(10))
             .on_press(crate::app::Message::QuickQuery(
                 "Resuma el estado general del sistema.".to_owned()
             ))
-            .padding([6, 8]),
+            .padding([7, 12])
+            .class(theme::outline_button()),
     ]
-    .spacing(6)
+    .spacing(8)
     .width(Length::Fill);
 
     for entry in entries {
-        let (label, bg, border, align_right) = match entry.role {
-            ChatRole::Assistant => ("HYRULOR", theme::assistant_bubble(), theme::brass(), false),
-            ChatRole::User => ("USTED", theme::user_bubble(), theme::sage(), true),
+        let (label, bg, border, label_color, align_right) = match entry.role {
+            ChatRole::Assistant => (
+                "HYRULOR",
+                theme::assistant_bubble(),
+                theme::border_subtle(),
+                theme::gold(),
+                false,
+            ),
+            ChatRole::User => (
+                "USTED",
+                theme::user_bubble(),
+                theme::border_gold(),
+                theme::gold_light(),
+                true,
+            ),
             ChatRole::Tool => (
                 "REGISTRO DE HERRAMIENTA",
                 theme::tool_bubble(),
-                theme::brass_dim(),
+                theme::border_cyan(),
+                theme::cyan(),
                 false,
             ),
         };
 
         let bubble_content = widget::column![
-            widget::text(label).size(10),
-            widget::text(entry.body.as_str()).size(if entry.role == ChatRole::Tool {
-                12
-            } else {
-                14
-            }),
+            widget::text(label)
+                .size(9)
+                .class(theme::text_color(label_color)),
+            widget::text(entry.body.as_str())
+                .size(if entry.role == ChatRole::Tool { 12 } else { 14 })
+                .class(theme::text_color(theme::text_primary())),
         ]
-        .spacing(5);
+        .spacing(6);
 
-        // The outer one-pixel brass layer acts as a restrained frame. The inner
-        // surface stays square, in keeping with the design brief.
-        let bubble = widget::container(
-            widget::container(bubble_content)
-                .padding([10, 12])
-                .width(Length::Fill)
-                .style(theme::container_style(bg)),
-        )
-        .padding(1)
-        .max_width(372.0)
-        .style(theme::container_style(border));
+        let bubble = widget::container(bubble_content)
+            .padding([12, 16])
+            .max_width(348.0)
+            .style(theme::surface_framed(bg, border, 20.0));
 
         if align_right {
             conversation = conversation
@@ -166,36 +242,46 @@ pub fn view<'a>(
         .width(Length::Fill)
         .anchor_bottom();
 
-    let status_text = if auth.is_some() {
-        "Revise y confirme la acción antes de continuar."
+    let status_line = if auth.is_some() {
+        (
+            "Revise y confirme la acción antes de continuar.",
+            theme::gold(),
+        )
     } else {
         match status {
-            ChatStatus::Idle => "",
-            ChatStatus::Thinking => "Razonando…",
-            ChatStatus::Tool => tool_label.unwrap_or("Consultando herramientas…"),
-            ChatStatus::Error => "El daemon de Hyrulor no responde.",
+            ChatStatus::Idle => ("", theme::text_muted()),
+            ChatStatus::Thinking => ("Razonando…", theme::gold()),
+            ChatStatus::Tool => (
+                tool_label.unwrap_or("Consultando herramientas…"),
+                theme::cyan(),
+            ),
+            ChatStatus::Error => ("El daemon de Hyrulor no responde.", theme::danger()),
         }
     };
-
-    let status_line = widget::text(status_text).size(12);
 
     let input = widget::text_input("Escriba su consulta…", input_value)
         .on_input(crate::app::Message::InputChanged)
         .on_submit(|_| crate::app::Message::Send)
-        .size(14)
-        .padding([12, 10])
+        .size(13)
+        .padding([13, 18])
         .width(Length::Fill);
 
     let send_button = cosmic::iced::widget::button(widget::text("↑").size(18))
         .on_press(crate::app::Message::Send)
-        .padding([8, 13]);
+        .padding([9, 14])
+        .class(theme::primary_button());
 
     let composer = widget::row![input, send_button]
-        .spacing(8)
+        .spacing(10)
         .align_y(Alignment::Center)
         .width(Length::Fill);
 
-    let mut footer = widget::column![status_line].spacing(8).width(Length::Fill);
+    let mut footer = widget::column![widget::text(status_line.0)
+        .size(11)
+        .class(theme::text_color(status_line.1))]
+    .spacing(10)
+    .width(Length::Fill);
+
     if auth.is_none() {
         footer = footer.push(composer);
     }
@@ -203,18 +289,23 @@ pub fn view<'a>(
     if let Some(error) = socket_error {
         footer = footer.push(
             widget::row![
-                widget::text(error).size(10),
+                widget::text(error)
+                    .size(10)
+                    .class(theme::text_color(theme::danger())),
                 Space::new().width(Length::Fill),
-                cosmic::iced::widget::button(widget::text("Reintentar").size(12))
+                cosmic::iced::widget::button(widget::text("REINTENTAR").size(10))
                     .on_press(crate::app::Message::Retry)
-                    .padding([6, 10]),
+                    .padding([6, 11])
+                    .class(theme::outline_button()),
             ]
             .align_y(Alignment::Center),
         );
     } else if can_retry && status == ChatStatus::Error {
         footer = footer.push(
-            cosmic::iced::widget::button(widget::text("Reintentar"))
-                .on_press(crate::app::Message::Retry),
+            cosmic::iced::widget::button(widget::text("REINTENTAR").size(11))
+                .on_press(crate::app::Message::Retry)
+                .padding([7, 12])
+                .class(theme::outline_button()),
         );
     }
 
@@ -223,56 +314,54 @@ pub fn view<'a>(
         None => conversation_scroll.into(),
     };
 
-    let mut body = widget::column![widget::container(header)
-        .padding([4, 10])
-        .width(Length::Fill)]
-    .spacing(4)
-    .width(Length::Fill)
-    .height(Length::Fill);
+    let divider = || {
+        widget::container(Space::new().height(1))
+            .width(Length::Fill)
+            .style(theme::surface_radius(theme::border_subtle(), 0.0))
+    };
+
+    let mut body = widget::column![]
+        .spacing(0)
+        .width(Length::Fill)
+        .height(Length::Fill);
+
+    body = body.push(
+        widget::container(header)
+            .padding([16, 20])
+            .width(Length::Fill),
+    );
 
     if auth.is_none() {
-        body = body
-            .push(
-                widget::container(quick_actions)
-                    .padding([4, 10])
-                    .width(Length::Fill),
-            )
-            .push(
-                widget::container(widget::text("────────────────────────────────────────").size(8))
-                    .padding([0, 10]),
-            );
+        body = body.push(divider()).push(
+            widget::container(quick_actions)
+                .padding([10, 20])
+                .width(Length::Fill),
+        );
     }
 
     body = body
+        .push(divider())
         .push(
             widget::container(main_area)
-                .padding([10, 12])
+                .padding([16, 18])
                 .width(Length::Fill)
                 .height(Length::Fill),
         )
         .push(
             widget::container(footer)
-                .padding([12, 12])
-                .width(Length::Fill),
+                .padding([14, 18])
+                .width(Length::Fill)
+                .style(theme::surface_radius(theme::glass(), 0.0)),
         );
 
-    let body_surface = widget::container(body)
-        .padding(2)
-        .width(Length::Fill)
-        .height(Length::Fill)
-        .style(theme::container_style(theme::forest()));
-
-    let inner_frame = widget::container(body_surface)
-        .padding(1)
-        .width(Length::Fill)
-        .height(Length::Fill)
-        .style(theme::container_style(theme::cream()));
-
-    widget::container(inner_frame)
-        .padding(1)
+    widget::container(body)
         .width(420.0)
         .height(620.0)
-        .style(theme::container_style(theme::brass()))
+        .style(theme::surface_framed(
+            theme::glass(),
+            theme::border_subtle(),
+            28.0,
+        ))
         .into()
 }
 
@@ -286,30 +375,39 @@ fn auth_panel<'a>(auth: &'a crate::app::AuthPrompt) -> Element<'a, crate::app::M
     };
 
     let mut content = widget::column![
-        widget::text(title).size(13),
+        widget::text(title)
+            .size(13)
+            .class(theme::text_color(theme::gold())),
         widget::text(if secure {
             "Modo seguro · formulario completo"
         } else {
             "Modo simple · confirmación y/n"
         })
-        .size(10),
-        widget::text(auth.question.as_str()).size(14),
+        .size(10)
+        .class(theme::text_color(theme::text_muted())),
+        widget::text(auth.question.as_str())
+            .size(14)
+            .class(theme::text_color(theme::text_primary())),
     ]
-    .spacing(8)
+    .spacing(9)
     .width(Length::Fill);
 
     if !auth.proposed_action.is_empty() {
         content = content.push(
             widget::container(
                 widget::column![
-                    widget::text("ACCIÓN PROPUESTA").size(9),
-                    widget::text(auth.proposed_action.as_str()).size(11),
+                    widget::text("ACCIÓN PROPUESTA")
+                        .size(9)
+                        .class(theme::text_color(theme::cyan())),
+                    widget::text(auth.proposed_action.as_str())
+                        .size(11)
+                        .class(theme::text_color(theme::text_secondary())),
                 ]
-                .spacing(4),
+                .spacing(5),
             )
-            .padding(10)
+            .padding(12)
             .width(Length::Fill)
-            .style(theme::container_style(theme::tool_bubble())),
+            .style(theme::surface_radius(theme::tool_bubble(), 14.0)),
         );
     }
 
@@ -318,24 +416,28 @@ fn auth_panel<'a>(auth: &'a crate::app::AuthPrompt) -> Element<'a, crate::app::M
             content = content.push(
                 widget::container(
                     widget::row![
-                        widget::text("CÓDIGO").size(10),
-                        widget::text(code.as_str()).size(16),
+                        widget::text("CÓDIGO")
+                            .size(10)
+                            .class(theme::text_color(theme::text_muted())),
+                        Space::new().width(Length::Fill),
+                        widget::text(code.as_str())
+                            .size(16)
+                            .class(theme::text_color(theme::gold())),
                     ]
-                    .spacing(10)
                     .align_y(Alignment::Center),
                 )
-                .padding([8, 10])
+                .padding([9, 12])
                 .width(Length::Fill)
-                .style(theme::container_style(theme::card())),
+                .style(theme::surface_radius(theme::card(), 12.0)),
             );
         }
 
-        let mut fields = widget::column![].spacing(8);
+        let mut fields = widget::column![].spacing(9);
         for (index, field) in auth.fields.iter().enumerate() {
             let input = widget::text_input("", field.value.as_str())
                 .on_input(move |value| crate::app::Message::AuthFieldChanged(index, value))
                 .size(12)
-                .padding([8, 8])
+                .padding([9, 10])
                 .width(Length::Fill);
             fields = fields.push(
                 widget::column![
@@ -344,26 +446,33 @@ fn auth_panel<'a>(auth: &'a crate::app::AuthPrompt) -> Element<'a, crate::app::M
                         field.label,
                         if field.required { " *" } else { "" }
                     ))
-                    .size(10),
+                    .size(10)
+                    .class(theme::text_color(theme::text_secondary())),
                     input,
                 ]
-                .spacing(3),
+                .spacing(4),
             );
         }
         content = content.push(fields);
     }
 
     if let Some(error) = &auth.error {
-        content = content.push(widget::text(error.as_str()).size(11));
+        content = content.push(
+            widget::text(error.as_str())
+                .size(11)
+                .class(theme::text_color(theme::danger())),
+        );
     }
 
     let cancel = cosmic::iced::widget::button(widget::text("CANCELAR").size(11))
         .on_press(crate::app::Message::AuthCancel)
-        .padding([8, 12]);
+        .padding([9, 14])
+        .class(theme::ghost_button());
     let approve_label = if secure { "AUTORIZAR" } else { "SÍ (y)" };
     let approve = cosmic::iced::widget::button(widget::text(approve_label).size(11))
         .on_press(crate::app::Message::AuthSubmit)
-        .padding([8, 12]);
+        .padding([9, 14])
+        .class(theme::primary_button());
 
     content = content.push(
         widget::row![cancel, Space::new().width(Length::Fill), approve]
@@ -373,9 +482,9 @@ fn auth_panel<'a>(auth: &'a crate::app::AuthPrompt) -> Element<'a, crate::app::M
 
     widget::scrollable(
         widget::container(content)
-            .padding(14)
+            .padding(18)
             .width(Length::Fill)
-            .style(theme::container_style(theme::card())),
+            .style(theme::surface_radius(theme::card(), 20.0)),
     )
     .height(Length::Fill)
     .width(Length::Fill)

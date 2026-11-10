@@ -10,7 +10,15 @@ Provides RegistryAuth class for all registry API calls with:
 import requests
 from typing import Optional
 
-from app.config import DOCKERHUB_IDENTIFIER, DOCKERHUB_SECRET
+try:
+    from app.config import DOCKERHUB_IDENTIFIER, DOCKERHUB_SECRET
+except ModuleNotFoundError as exc:
+    # `app/config.py` is intentionally git-ignored (it may hold credentials).
+    # Fall back to anonymous access when it has not been created yet.
+    if exc.name != "app.config":
+        raise
+    DOCKERHUB_IDENTIFIER = ""
+    DOCKERHUB_SECRET = ""
 
 
 class RegistryAuth:

@@ -27,8 +27,11 @@ fn main() {
 fn run() -> Result<(), Box<dyn std::error::Error>> {
     // sqlite-vec debe estar registrado para poder copiar y verificar docs_vec.
     unsafe {
-        rusqlite::ffi::sqlite3_auto_extension(Some(std::mem::transmute(
-            sqlite_vec::sqlite3_vec_init as *const (),
+        rusqlite::ffi::sqlite3_auto_extension(Some(std::mem::transmute::<
+            *const (),
+            rusqlite::auto_extension::RawAutoExtension,
+        >(
+            sqlite_vec::sqlite3_vec_init as *const ()
         )));
     }
 

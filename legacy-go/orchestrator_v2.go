@@ -1,3 +1,7 @@
+//go:build legacy_v2
+
+// Prototipo histórico incompleto: referencia globals `messages`/`tools` que no
+// define. Se conserva solo como referencia; no se compila por defecto.
 package main
 
 import (
@@ -60,31 +64,44 @@ func executeTool(name string) string {
 
 func main() {
 	fmt.Println("🤖 Asistente V2 Seguro Iniciado...")
-	
-	// ... (definición de tools y messages igual que antes) ...
-	
+
+	tools := []ToolDef{
+		{
+			Type: "function",
+			Function: FunctionDefinition{
+				Name:        "battery_status",
+				Description: "Obtiene el estado actual y el porcentaje de la batería del sistema.",
+				Parameters:  map[string]interface{}{"type": "object", "properties": map[string]interface{}{}, "required": []string{}},
+			},
+		},
+	}
+	messages := []Message{
+		{Role: "system", Content: "Eres un asistente útil. Usa las herramientas cuando sea necesario."},
+		{Role: "user", Content: "¿Cómo está la batería de mi laptop?"},
+	}
+
 	resp, err := callLLM(messages, tools)
 	if err != nil {
 		fmt.Printf("❌ Error primera llamada: %v\n", err)
 		return
 	}
-	
+
 	msg := resp.Choices[0].Message
 	if len(msg.ToolCalls) > 0 {
 		tc := msg.ToolCalls[0]
 		if tc.ID == "" {
 			tc.ID = fmt.Sprintf("call_%d", time.Now().UnixNano())
 		}
-		
+
 		fmt.Printf("🔧 Herramienta: %s\n", tc.Function.Name)
 		result := executeTool(tc.Function.Name)
 		fmt.Printf("⚙️ Resultado: %s\n", result)
-		
+
 		messages = append(messages,
 			Message{Role: "assistant", ToolCalls: []ToolCall{tc}},
 			Message{Role: "tool", Content: result, ToolCallID: tc.ID},
 		)
-		
+
 		finalResp, err := callLLM(messages, nil)
 		if err != nil {
 			fmt.Printf("❌ Segunda llamada: %v\n", err)

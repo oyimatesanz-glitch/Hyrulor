@@ -7,10 +7,13 @@
 
 
 TL;DR - 
-1. venv, pip requirements, yada yada
-2. Start the API first (in a .venv) `python main.py -A`
-3. in a seperate terminal launch the TUI: `python /app/tui/app.py`
-4. ctrl+q to quit, or upper left corner menu.
+1. Create a venv, install `requirements.txt`, and optionally copy
+   `app/config.py.example` to `app/config.py` (Docker Hub credentials; the file
+   is git-ignored and the app falls back to anonymous access without it).
+2. Start the API first (in the venv) with `python main.py -A`.
+3. In a separate terminal launch the TUI with `python -m app.tui.app`
+   (run it from the repository root so the `app` package is importable).
+4. ctrl+q to quit, or use the upper-left menu.
 
 
 

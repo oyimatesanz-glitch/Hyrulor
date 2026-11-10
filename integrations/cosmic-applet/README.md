@@ -1,6 +1,6 @@
 # Hyrulor COSMIC Applet — Fase 3
 
-Applet nativa Rust/libcosmic con popup de chat, tema verde bosque/latón y transporte JSON por líneas hacia el daemon local.
+Applet nativa Rust/libcosmic con popup de chat, tema obsidiana/oro con acentos cian (según `designs/index.html`) y transporte JSON por líneas hacia el daemon local.
 
 ## Estado de esta entrega
 

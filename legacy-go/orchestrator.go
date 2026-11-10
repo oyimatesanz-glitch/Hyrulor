@@ -1,3 +1,6 @@
+//go:build legacy_v1
+
+// Prototipo histórico. Compílalo con `go build -tags legacy_v1 ./...`.
 package main
 
 import (
@@ -11,48 +14,6 @@ import (
 	"strings"
 	"time"
 )
-
-type Message struct {
-	Role       string     `json:"role"`
-	Content    string     `json:"content,omitempty"`
-	ToolCalls  []ToolCall `json:"tool_calls,omitempty"`
-	ToolCallID string     `json:"tool_call_id,omitempty"`
-}
-
-type ToolCall struct {
-	ID       string         `json:"id"`
-	Type     string         `json:"type"`
-	Function ToolFunction   `json:"function"`
-}
-
-type ToolFunction struct {
-	Name      string `json:"name"`
-	Arguments string `json:"arguments"`
-}
-
-type ToolDef struct {
-	Type     string             `json:"type"`
-	Function FunctionDefinition `json:"function"`
-}
-
-type FunctionDefinition struct {
-	Name        string                 `json:"name"`
-	Description string                 `json:"description"`
-	Parameters  map[string]interface{} `json:"parameters"`
-}
-
-type ChatRequest struct {
-	Model       string    `json:"model"`
-	Messages    []Message `json:"messages"`
-	Tools       []ToolDef `json:"tools,omitempty"`
-	Temperature float64   `json:"temperature"`
-}
-
-type ChatResponse struct {
-	Choices []struct {
-		Message Message `json:"message"`
-	} `json:"choices"`
-}
 
 func saveToMemory(userMsg, assistantMsg string) {
 	memFile := "memory.json"
@@ -179,13 +140,13 @@ func main() {
 		finalResp := callLLM(messages, nil)
 		finalContent := finalResp.Choices[0].Message.Content
 		fmt.Printf("💬 Respuesta Final: %s\n", finalContent)
-		
+
 		// INTEGRACIÓN DE MEMORIA AQUÍ
 		saveToMemory(msg.Content, finalContent)
 	} else {
 		directContent := msg.Content
 		fmt.Printf("💬 Respuesta Directa: %s\n", directContent)
-		
+
 		// INTEGRACIÓN DE MEMORIA PARA RESPUESTAS DIRECTAS
 		saveToMemory(messages[len(messages)-1].Content, directContent)
 	}

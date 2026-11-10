@@ -40,8 +40,11 @@ enum AppError {
 async fn main() -> Result<(), AppError> {
     // Registrar sqlite-vec globalmente (una sola vez al inicio)
     unsafe {
-        rusqlite::ffi::sqlite3_auto_extension(Some(std::mem::transmute(
-            sqlite_vec::sqlite3_vec_init as *const (),
+        rusqlite::ffi::sqlite3_auto_extension(Some(std::mem::transmute::<
+            *const (),
+            rusqlite::auto_extension::RawAutoExtension,
+        >(
+            sqlite_vec::sqlite3_vec_init as *const ()
         )));
     }
 

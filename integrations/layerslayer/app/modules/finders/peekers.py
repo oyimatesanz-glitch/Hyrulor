@@ -181,8 +181,9 @@ def peek_layer_streaming(
     archive_complete = False
     
     while not reader.exhausted and not archive_complete:
-        # Early termination based on byte budget (the "tar.gz hack")
-        if reader.bytes_downloaded >= max_bytes:
+        # Early termination based on byte budget (the "tar.gz hack").
+        # A budget of 0 (or less) means "no limit / complete enumeration".
+        if max_bytes > 0 and reader.bytes_downloaded >= max_bytes:
             break
         
         compressed = reader.fetch_chunk()
@@ -236,7 +237,10 @@ def peek_layer_streaming(
     
     return LayerPeekResult(
         digest=digest,
-        partial=False,
+        # The archive is complete only when the terminating null block was
+        # reached; hitting the byte budget or the end of a truncated stream
+        # leaves a partial listing.
+        partial=not archive_complete,
         bytes_downloaded=reader.bytes_downloaded,
         bytes_decompressed=decompressor.bytes_decompressed,
         entries_found=len(entries),

@@ -48,3 +48,5 @@ target/
 .toolchain/
 # Paquetes generados del applet COSMIC
 /dist/
+# Binarios de los prototipos Go
+/legacy-go/orchestrator

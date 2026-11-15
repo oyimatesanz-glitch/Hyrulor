@@ -1,0 +1,56 @@
+# =====================================================
+# Hyrulor Engine — .gitignore
+# =====================================================
+
+# ---- Rust / Cargo: Artefactos de compilación ----
+/target/
+**/target/
+Cargo.lock.tmp
+**/*.rs.bk
+*.pdb
+*.exe
+
+# ---- Builds, distribución y binarios generados ----
+/dist/
+/out/
+/build/
+*.AppImage
+*.deb
+*.rpm
+
+# ---- Entorno y secretos (NUNCA subir claves) ----
+.env
+.env.local
+.env.*
+!.env.example
+*.key
+*.pem
+
+# ---- Qwen Code / Agentes ----
+# Mantenemos los agentes y settings (para que funcionen en equipo)
+# pero ignoramos el historial local y la memoria pesada
+.qwen/memory/
+.qwen/sessions/
+.qwen/cache/
+.qwen/history/
+.qwen/tmp/
+
+# ---- Logs y temporales ----
+logs/
+*.log
+tmp/
+*.tmp
+core
+*.core
+
+# ---- Editores e IDEs ----
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ---- Sistema Operativo ----
+.DS_Store
+Thumbs.db
+.directory

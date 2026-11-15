@@ -1,0 +1,4 @@
+Lee .qwen/agents y monta el equipo. 
+Objetivo Fase A0: 
+El testeador debe ejecutar `cargo fmt --check`, `cargo clippy --all-targets -- -D warnings`, `cargo test` y `cargo build --release` en `hyrulor/` y `hyrulor-engine/`. 
+El programador arregla lo que falle. Tú coordinas. No divagues.

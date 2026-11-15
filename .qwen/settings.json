@@ -1,0 +1,82 @@
+{
+  "$version": 4,
+  "modelProviders": {
+    "openai": [
+      {
+        "id": "Qwen3.8-27B",
+        "name": "Estratega Maestro Cloud (AMD Radeon / Cloud NPU)",
+        "baseUrl": "https://developer.amd.com.cn/radeon/api/v1",
+        "envKey": "RADEON_API_KEY",
+        "generationConfig": {
+          "contextWindowSize": 24576,
+          "samplingParams": {
+            "temperature": 0.10,
+            "max_tokens": 8192,
+            "top_p": 0.94,
+            "top_k": 35,
+            "repetition_penalty": 1.03,
+            "presence_penalty": 0.02,
+            "reasoning_effort": "low",
+            "enable_thinking": true,
+            "stream": true
+          }
+        }
+      },
+      {
+        "id": "qwen2.5-coder-7b-instruct",
+        "name": "Motor Local de Arquitectura e Implementación (7B)",
+        "baseUrl": "http://127.0.0.1:1234/v1",
+        "envKey": "LMSTUDIO_API_KEY",
+        "generationConfig": {
+          "contextWindowSize": 16384,
+          "samplingParams": {
+            "temperature": 0.01,
+            "max_tokens": 4096,
+            "top_p": 0.90,
+            "top_k": 18,
+            "repetition_penalty": 1.00,
+            "stream": true
+          }
+        }
+      },
+      {
+        "id": "phi-4-mini-instruct",
+        "name": "Router Neutrónico & Linter de Baja Latencia (3B)",
+        "baseUrl": "http://127.0.0.1:1234/v1",
+        "envKey": "LMSTUDIO_API_KEY",
+        "generationConfig": {
+          "contextWindowSize": 4096,
+          "samplingParams": {
+            "temperature": 0.0,
+            "max_tokens": 1024,
+            "top_p": 1.0,
+            "stream": false
+          }
+        }
+      }
+    ]
+  },
+  "env": {
+    "LMSTUDIO_API_KEY": "lm-studio",
+    "RADEON_API_KEY": ""
+  },
+  "security": {
+    "auth": { "selectedType": "openai" },
+    "approvalMode": "auto-edit"
+  },
+  "model": {
+    "name": "qwen2.5-coder-7b-instruct",
+    "fallbackModel": "qwen2.5-coder-7b-instruct",
+    "reasoningEffort": "low",
+    "baseUrl": "http://127.0.0.1:1234/v1"
+  },
+  "fastModel": "phi-4-mini-instruct",
+  "instructions": "Eres el núcleo coordinador de ingeniería. CERO relleno. Ve directo al código y a las herramientas.",
+  "context": {
+    "autoCompactThreshold": 0.70,
+    "clearContextOnIdle": { "toolResultsThresholdMinutes": 2, "toolResultsNumToKeep": 2 },
+    "maxContextTokens": 16000
+  },
+  "enableFuzzySearch": false,
+  "enableRecursiveFileSearch": false
+}

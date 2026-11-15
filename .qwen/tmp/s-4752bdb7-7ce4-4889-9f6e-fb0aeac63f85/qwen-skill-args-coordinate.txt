@@ -1,0 +1,5 @@
+Monta el equipo con estos 4 agentes y sus modelos. NO uses Glob, NO leas archivos, NO pienses de más. Solo créalos y confirma:
+- pensador → modelo: qwen2.5-coder-7b-instruct
+- programador → modelo: qwen2.5-coder-7b-instruct
+- testeador → modelo: phi-4-mini-instruct
+- revisor → modelo: qwen2.5-coder-7b-instruct

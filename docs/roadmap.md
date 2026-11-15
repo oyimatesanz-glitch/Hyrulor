@@ -3,6 +3,24 @@
 La estructura del código se organiza por responsabilidad. Las fases describen
 el estado y la evolución del sistema, pero no determinan carpetas físicas.
 
+## Correspondencia con el whitepaper (`Hyrulor.md`)
+
+El whitepaper numera las fases 0–6; este mapa agrupa el estado interno en 4
+etapas. Correlación para no confundirse:
+
+| Whitepaper (`Hyrulor.md`) | Este mapa |
+|---|---|
+| F0 — Cimientos inmutables y entorno | F0 — cimientos seguros |
+| F1 — Seguridad inmutable y detección de hardware | F1 — agente local y tool-calling |
+| F2 — Memoria jerárquica, RAG y búsqueda vectorial | F2 — núcleo operativo (memoria + sentidos) |
+| F3 — Interfaz COSMIC nativa | F2/F3 — integración COSMIC y escalado |
+| F4 — Especialización, entrenamiento y agentes | Motor de Omnisciencia (post-F3, plan A3) |
+| F5 — Universalidad, energía y despliegue | Plan A4 (post-Omnisciencia) |
+| F6 — Release, documentación y CI/CD | v1.0.0 Genesis (plan A5) |
+
+La planificación detallada por bloques (A0–A5, B0–B1) con criterios de
+aceptación vive en `PLAN-MAESTRO.md` (raíz de `Proyectos/HYRULOR/`).
+
 ## Estado
 
 | Fase | Objetivo | Estado |

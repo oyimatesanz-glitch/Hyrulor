@@ -1,0 +1,1 @@
+Monta el equipo con los 4 agentes que están en .qwen/agents. Solo confírmame los nombres.

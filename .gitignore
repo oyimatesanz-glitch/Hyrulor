@@ -50,3 +50,8 @@ target/
 /dist/
 # Binarios de los prototipos Go
 /legacy-go/orchestrator
+
+# === Engine build artifacts ===
+/engine/target/
+/engine/Cargo.lock.tmp
+/engine/*.log

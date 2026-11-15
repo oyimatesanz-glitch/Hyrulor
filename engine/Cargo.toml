@@ -1,0 +1,28 @@
+[package]
+name = "hyrulor-engine"
+version = "0.9.0"
+edition = "2021"
+description = "Motor gráfico nativo de Hyrulor: orbe holográfico + interfaz de chat conectada al daemon."
+license = "MIT"
+
+[dependencies]
+winit = "0.30"
+wgpu = "22.0"
+pollster = "0.3"
+log = "0.4"
+env_logger = "0.11"
+bytemuck = { version = "1", features = ["derive"] }
+glam = "0.27"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# La interfaz de usuario
+egui = "0.29"
+egui-wgpu = "0.29"
+egui-winit = "0.29"
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 1
+strip = true

@@ -1,0 +1,5 @@
+Monta el equipo con estos agentes. No uses Glob, no leas archivos, solo créalos:
+- pensador
+- programador
+- testeador
+- revisor

@@ -1,0 +1,1 @@
+Lee .qwen/agents y monta el equipo. No ejecutes tareas aún, solo confirma que los teammates están creados y dime sus nombres. No pienses demasiado, responde directamente.

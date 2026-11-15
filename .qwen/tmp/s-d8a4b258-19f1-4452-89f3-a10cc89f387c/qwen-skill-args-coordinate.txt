@@ -1,0 +1,9 @@
+Lee .qwen/agents y monta el equipo (pensador, programador, testeador).
+Objetivo Fase A0: Puerta de verificación.
+El testeador debe ejecutar en `hyrulor/` y `hyrulor-engine/`:
+1. cargo fmt --check
+2. cargo clippy --all-targets -- -D warnings
+3. cargo test
+4. cargo build --release
+
+El programador arreglará lo que falle. Tú (Jefe), coordina el flujo. No divagues. Si el programador falla 3 veces en el mismo error, detente y avísame.
